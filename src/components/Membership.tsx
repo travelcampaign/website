@@ -166,21 +166,17 @@ export default function Membership() {
           </motion.p>
         </div>
 
-        {/* Row 1: FREE, BASIC+ */}
-        <div className="mt-16 lg:mt-20 grid gap-6 sm:grid-cols-2 max-w-2xl mx-auto">
-          {plans.slice(0, 2).map((plan, i) => (
+        {/* Top row: FREE, BASIC+, PRO */}
+        <div className="mt-16 lg:mt-20 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {plans.slice(0, 3).map((plan, i) => (
             <PlanCard key={plan.name} plan={plan} index={i} />
           ))}
         </div>
-        {/* Row 2: PRO (199), TRAVEL+ (299) */}
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 max-w-2xl mx-auto">
-          {plans.slice(2, 4).map((plan, i) => (
-            <PlanCard key={plan.name} plan={plan} index={i + 2} />
+        {/* Bottom row: TRAVEL+, MAX centered */}
+        <div className="mt-6 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 max-w-[calc(66.666%+0.75rem)] mx-auto">
+          {plans.slice(3).map((plan, i) => (
+            <PlanCard key={plan.name} plan={plan} index={i + 3} />
           ))}
-        </div>
-        {/* Row 3: MAX (499) centered */}
-        <div className="mt-6 flex justify-center max-w-sm mx-auto">
-          <PlanCard plan={plans[4]} index={4} />
         </div>
 
       </div>

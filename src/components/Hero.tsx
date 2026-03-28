@@ -111,9 +111,9 @@ function AnimatedRouteLine() {
 }
 
 const stats = [
-  { value: 0, suffix: "%", label: "Commission — Ever" },
-  { value: 5, suffix: "", label: "Membership Plans" },
-  { value: 100, suffix: "%", label: "Safety — Free" },
+  { display: "0%", label: "Commission — Ever" },
+  { display: "5", label: "Membership Plans" },
+  { display: "100%", label: "Safety — Free" },
 ];
 
 export default function Hero() {
@@ -210,8 +210,7 @@ export default function Hero() {
           {stats.map((stat, i) => (
             <div key={i} className="flex flex-col rounded-[18px] border border-primary/5 bg-white/60 backdrop-blur-sm px-8 py-6">
               <span className="font-[family-name:var(--font-bricolage)] text-4xl sm:text-5xl font-extrabold text-primary">
-                <AnimatedCounter target={stat.value} suffix="" />
-                <span className="text-trust-green">{stat.suffix}</span>
+                {stat.display}
               </span>
               <span className="mt-1 text-sm font-medium text-muted uppercase tracking-wider">
                 {stat.label}
