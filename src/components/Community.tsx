@@ -8,26 +8,26 @@ const SURVEY_URL =
 
 const testimonials = [
   {
-    quote: "I save \u20B93,000/month on my HITEC City commute. The matching is eerily good.",
-    name: "Priya S.",
+    quote: "I spend over \u20B95,000/month just on my office commute. A safe carpooling option with verified people would be a game-changer.",
+    name: "Survey Respondent",
     location: "HITEC City, Hyderabad",
-    initials: "PS",
+    initials: "TC",
     color: "#568F7A",
   },
   {
     quote:
-      "The safety features give my family peace of mind. My parents actually encourage me to use it.",
-    name: "Rajesh K.",
+      "My parents won't let me share rides because of safety concerns. If there was real-time tracking and emergency alerts, they'd feel much better.",
+    name: "Survey Respondent",
     location: "Gachibowli, Hyderabad",
-    initials: "RK",
+    initials: "TC",
     color: "#F97316",
   },
   {
     quote:
-      "It's not just a ride, it's my morning community. I've made real friends through Travel Campaign.",
-    name: "Arun M.",
+      "I drive alone to office every day on the same route. Would love to share the ride and split fuel costs with someone going my way.",
+    name: "Survey Respondent",
     location: "Kondapur, Hyderabad",
-    initials: "AM",
+    initials: "TC",
     color: "#2C3A3A",
   },
 ];
@@ -158,7 +158,7 @@ export default function Community() {
             className="relative mt-3 font-[family-name:var(--font-bricolage)] text-4xl md:text-5xl font-extrabold text-primary"
           >
             <span className="absolute -top-8 -left-4 text-8xl font-serif text-primary/5 select-none">&ldquo;</span>
-            What Our Early Community Says
+            What Commuters Are Saying
           </motion.h2>
         </div>
 
