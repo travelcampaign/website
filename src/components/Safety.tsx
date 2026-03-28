@@ -115,7 +115,7 @@ export default function Safety() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="safety" className="py-24 lg:py-32 bg-white">
+    <section id="safety" className="py-24 lg:py-32 bg-background border-t border-primary/5">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
         <div ref={ref} className="text-center max-w-3xl mx-auto">
@@ -162,12 +162,12 @@ export default function Safety() {
           transition={{ duration: 0.6 }}
           className="mt-12 flex justify-center"
         >
-          <div className="inline-flex items-center gap-3 rounded-full bg-trust-green/10 px-6 py-3">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#568F7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <div className="inline-flex items-center gap-3 rounded-full bg-trust-green text-white px-6 py-3 shadow-lg shadow-trust-green/20">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               <path d="M9 12l2 2 4-4" />
             </svg>
-            <span className="text-sm font-semibold text-trust-green">
+            <span className="text-sm font-semibold text-white">
               All safety features FREE on every plan
             </span>
           </div>

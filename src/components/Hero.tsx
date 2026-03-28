@@ -155,7 +155,7 @@ export default function Hero() {
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 0.8, delay: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute bottom-2 left-0 right-0 h-3 bg-trust-green/15 origin-left -z-0 rounded-sm"
+              className="absolute bottom-2 left-0 right-0 h-4 bg-trust-green/20 origin-left -z-0 rounded-sm"
             />
           </span>
         </motion.h1>
@@ -205,10 +205,10 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 1 }}
-          className="mt-20 flex flex-col sm:flex-row gap-8 sm:gap-16"
+          className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4"
         >
           {stats.map((stat, i) => (
-            <div key={i} className="flex flex-col">
+            <div key={i} className="flex flex-col rounded-[18px] border border-primary/5 bg-white/60 backdrop-blur-sm px-8 py-6">
               <span className="font-[family-name:var(--font-bricolage)] text-4xl sm:text-5xl font-extrabold text-primary">
                 <AnimatedCounter target={stat.value} suffix="" />
                 <span className="text-trust-green">{stat.suffix}</span>
@@ -223,6 +223,9 @@ export default function Hero() {
         {/* Animated Route Line */}
         <AnimatedRouteLine />
       </div>
+
+      {/* Bottom gradient overlay for smooth transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 }

@@ -23,12 +23,6 @@ export default function SurveyCTA() {
             backgroundSize: "60px 60px",
           }}
         />
-        {/* Floating shapes */}
-        <motion.div
-          animate={{ y: [-20, 20, -20], rotate: [0, 5, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-20 left-[10%] h-32 w-32 rounded-full bg-trust-green/10 blur-2xl"
-        />
       </div>
 
       <div ref={ref} className="relative z-10 mx-auto max-w-3xl px-6 lg:px-8 text-center">
@@ -81,7 +75,7 @@ export default function SurveyCTA() {
             href={SURVEY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 rounded-[14px] bg-trust-green px-8 py-4 text-lg font-semibold text-white transition-all duration-200 hover:bg-trust-green/90 hover:shadow-2xl hover:shadow-trust-green/30 hover:-translate-y-0.5"
+            className="group inline-flex items-center gap-3 rounded-[14px] bg-trust-green px-8 py-4 text-lg font-semibold text-white ring-2 ring-trust-green/30 ring-offset-2 ring-offset-primary transition-all duration-200 hover:bg-trust-green/90 hover:shadow-2xl hover:shadow-trust-green/30 hover:-translate-y-0.5"
           >
             Take the Survey
             <svg

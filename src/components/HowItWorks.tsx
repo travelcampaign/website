@@ -93,21 +93,23 @@ function StepCard({
           {step.icon}
         </div>
         {index < steps.length - 1 && (
-          <div className="mt-4 w-px flex-1 bg-gradient-to-b from-primary/15 to-transparent" />
+          <div className="mt-4 w-px flex-1 bg-gradient-to-b from-primary/25 to-transparent" />
         )}
       </div>
 
       {/* Content */}
       <div className="pb-14">
-        <span className="font-[family-name:var(--font-bricolage)] text-sm font-bold text-trust-green">
-          STEP {step.number}
-        </span>
-        <h3 className="mt-2 font-[family-name:var(--font-bricolage)] text-2xl font-bold text-primary">
-          {step.title}
-        </h3>
-        <p className="mt-3 max-w-md text-base text-muted leading-relaxed">
-          {step.description}
-        </p>
+        <div className="rounded-[18px] bg-white/60 p-6 border border-primary/5">
+          <span className="font-[family-name:var(--font-bricolage)] text-sm font-bold text-trust-green">
+            STEP {step.number}
+          </span>
+          <h3 className="mt-2 font-[family-name:var(--font-bricolage)] text-2xl font-bold text-primary">
+            {step.title}
+          </h3>
+          <p className="mt-3 max-w-md text-base text-muted leading-relaxed">
+            {step.description}
+          </p>
+        </div>
       </div>
     </motion.div>
   );
@@ -149,7 +151,7 @@ export default function HowItWorks() {
         </div>
 
         {/* Steps */}
-        <div className="mt-16 lg:mt-20 max-w-2xl">
+        <div className="mt-16 lg:mt-20 max-w-3xl mx-auto">
           {steps.map((step, i) => (
             <StepCard key={step.number} step={step} index={i} />
           ))}

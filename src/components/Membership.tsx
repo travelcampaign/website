@@ -122,7 +122,7 @@ function PlanCard({
         className={`mt-8 w-full rounded-[14px] py-3 text-sm font-semibold transition-all duration-200 ${
           plan.highlighted
             ? "bg-trust-green text-white hover:bg-trust-green/90 hover:shadow-lg hover:shadow-trust-green/20"
-            : "bg-primary/5 text-primary hover:bg-primary/10"
+            : "bg-primary/[0.08] text-primary border border-primary/10 hover:bg-primary/10"
         }`}
       >
         Coming Soon
@@ -136,7 +136,7 @@ export default function Membership() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="membership" className="py-24 lg:py-32">
+    <section id="membership" className="py-24 lg:py-32 bg-white">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         {/* Header */}
         <div ref={ref} className="text-center max-w-2xl mx-auto">
@@ -166,11 +166,21 @@ export default function Membership() {
           </motion.p>
         </div>
 
-        {/* Plans grid — 3 on top, 2 centered on bottom */}
-        <div className="mt-16 lg:mt-20 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
-          {plans.map((plan, i) => (
+        {/* Row 1: FREE, BASIC+ */}
+        <div className="mt-16 lg:mt-20 grid gap-6 sm:grid-cols-2 max-w-2xl mx-auto">
+          {plans.slice(0, 2).map((plan, i) => (
             <PlanCard key={plan.name} plan={plan} index={i} />
           ))}
+        </div>
+        {/* Row 2: PRO (199), TRAVEL+ (299) */}
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 max-w-2xl mx-auto">
+          {plans.slice(2, 4).map((plan, i) => (
+            <PlanCard key={plan.name} plan={plan} index={i + 2} />
+          ))}
+        </div>
+        {/* Row 3: MAX (499) centered */}
+        <div className="mt-6 flex justify-center max-w-sm mx-auto">
+          <PlanCard plan={plans[4]} index={4} />
         </div>
 
       </div>

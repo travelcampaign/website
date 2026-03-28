@@ -42,6 +42,7 @@ const communityStats = [
     ),
     value: "3+",
     label: "Vehicle Types Supported",
+    color: "#568F7A",
   },
   {
     icon: (
@@ -52,6 +53,7 @@ const communityStats = [
     ),
     value: "5",
     label: "Membership Tiers",
+    color: "#F97316",
   },
   {
     icon: (
@@ -62,6 +64,7 @@ const communityStats = [
     ),
     value: "100%",
     label: "Safety Features Free",
+    color: "#568F7A",
   },
   {
     icon: (
@@ -71,12 +74,13 @@ const communityStats = [
     ),
     value: "\u20B90",
     label: "Commission Forever",
+    color: "#2C3A3A",
   },
 ];
 
 function TestimonialCard({ testimonial }: { testimonial: (typeof testimonials)[0] }) {
   return (
-    <div className="min-w-[320px] max-w-[380px] shrink-0 rounded-[18px] border border-primary/5 bg-white p-8 shadow-sm">
+    <div className="min-w-[320px] max-w-[380px] shrink-0 rounded-[18px] border border-primary/5 border-l-4 border-l-trust-green/30 bg-white p-8 shadow-sm">
       {/* Stars */}
       <div className="flex gap-1 text-emergency">
         {Array.from({ length: 5 }).map((_, i) => (
@@ -151,8 +155,9 @@ export default function Community() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-3 font-[family-name:var(--font-bricolage)] text-4xl md:text-5xl font-extrabold text-primary"
+            className="relative mt-3 font-[family-name:var(--font-bricolage)] text-4xl md:text-5xl font-extrabold text-primary"
           >
+            <span className="absolute -top-8 -left-4 text-8xl font-serif text-primary/5 select-none">&ldquo;</span>
             What Our Early Community Says
           </motion.h2>
         </div>
@@ -183,7 +188,7 @@ export default function Community() {
               key={stat.label}
               className="flex flex-col items-center text-center rounded-[18px] border border-primary/5 bg-background p-6"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-trust-green/10 text-trust-green">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl" style={{ backgroundColor: stat.color + '15', color: stat.color }}>
                 {stat.icon}
               </div>
               <span className="mt-4 font-[family-name:var(--font-bricolage)] text-2xl font-extrabold text-primary">
