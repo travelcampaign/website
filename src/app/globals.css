@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: #2C3A3A;
+  --color-background: #F7F6F4;
+  --color-trust-green: #568F7A;
+  --color-emergency: #F97316;
+  --color-surface: #FFFFFF;
+  --color-text: #2C3A3A;
+  --color-muted: #7A8A85;
+  --color-trust-green-light: #568F7A1A;
+  --color-emergency-light: #F973161A;
+
+  --font-display: var(--font-bricolage);
+  --font-body: var(--font-dm-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base styles */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+/* Noise texture overlay */
+.noise-bg {
+  position: relative;
+}
+.noise-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Grid pattern */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(44, 58, 58, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(44, 58, 58, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Route animation */
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.animate-dash {
+  animation: dash-flow 1s linear infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { r: 6; opacity: 1; }
+  50% { r: 10; opacity: 0.6; }
+}
+
+/* Card tilt effect */
+.card-tilt {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted);
+  border-radius: 4px;
+}
+
+/* Selection */
+::selection {
+  background-color: #568F7A40;
+  color: var(--color-primary);
 }
