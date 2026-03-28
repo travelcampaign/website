@@ -34,12 +34,12 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-[0_1px_3px_rgba(44,58,58,0.08)]"
+          ? "bg-white/95 backdrop-blur-md shadow-[0_1px_3px_rgba(44,58,58,0.08)] border-b border-primary/5"
           : "bg-transparent"
       }`}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="flex h-18 items-center justify-between">
+        <div className="flex h-[72px] items-center justify-between">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">

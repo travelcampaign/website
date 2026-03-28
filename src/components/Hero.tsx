@@ -111,9 +111,9 @@ function AnimatedRouteLine() {
 }
 
 const stats = [
-  { value: 2100, suffix: "+", label: "Active Riders" },
-  { value: 847, suffix: "", label: "Verified Users" },
-  { value: 4.3, suffix: " Tons", label: "CO\u2082 Saved", isDecimal: true },
+  { value: 0, suffix: "%", label: "Commission — Ever" },
+  { value: 5, suffix: "", label: "Membership Plans" },
+  { value: 100, suffix: "%", label: "Safety — Free" },
 ];
 
 export default function Hero() {
@@ -167,7 +167,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="mt-6 max-w-2xl text-lg sm:text-xl text-muted leading-relaxed font-[family-name:var(--font-dm-sans)]"
         >
-          India&apos;s community-driven ride sharing built around trust, safety,
+          India&apos;s first community-driven ride sharing platform. Built around trust, safety,
           and real human connections.
         </motion.p>
 
@@ -210,14 +210,8 @@ export default function Hero() {
           {stats.map((stat, i) => (
             <div key={i} className="flex flex-col">
               <span className="font-[family-name:var(--font-bricolage)] text-4xl sm:text-5xl font-extrabold text-primary">
-                {stat.isDecimal ? (
-                  <>4.3<span className="text-trust-green">{stat.suffix}</span></>
-                ) : (
-                  <>
-                    <AnimatedCounter target={stat.value} suffix="" />
-                    <span className="text-trust-green">{stat.suffix}</span>
-                  </>
-                )}
+                <AnimatedCounter target={stat.value} suffix="" />
+                <span className="text-trust-green">{stat.suffix}</span>
               </span>
               <span className="mt-1 text-sm font-medium text-muted uppercase tracking-wider">
                 {stat.label}

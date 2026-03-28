@@ -2,7 +2,7 @@ const footerLinks = [
   { label: "About", href: "#" },
   { label: "Safety", href: "#safety" },
   { label: "Membership", href: "#membership" },
-  { label: "Contact", href: "mailto:hello@travelcampaign.in" },
+  { label: "Contact", href: "mailto:travelcampaign.info@gmail.com" },
 ];
 
 const socialLinks = [
@@ -92,9 +92,6 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/5 pt-8">
-          <p className="text-sm text-white/30">
-            Made with <span className="text-emergency">&hearts;</span> in Hyderabad
-          </p>
           <p className="text-sm text-white/30">
             &copy; 2026 Travel Campaign. All rights reserved.
           </p>

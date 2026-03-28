@@ -17,14 +17,14 @@ const features = [
     accent: "#568F7A",
   },
   {
-    title: "Auto Police Station Alert",
+    title: "Emergency SOS Button",
     description:
-      "60 seconds of no response triggers an automatic alert to the nearest police station — complete with your full profile and live GPS location.",
+      "One tap sends your live location to all emergency contacts instantly. Help is always one touch away.",
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        <path d="M12 8v4" />
-        <path d="M12 16h.01" />
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        <line x1="12" y1="2" x2="12" y2="5" />
       </svg>
     ),
     accent: "#F97316",

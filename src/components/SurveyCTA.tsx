@@ -29,11 +29,6 @@ export default function SurveyCTA() {
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-20 left-[10%] h-32 w-32 rounded-full bg-trust-green/10 blur-2xl"
         />
-        <motion.div
-          animate={{ y: [20, -20, 20], rotate: [0, -5, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-20 right-[15%] h-40 w-40 rounded-full bg-emergency/10 blur-2xl"
-        />
       </div>
 
       <div ref={ref} className="relative z-10 mx-auto max-w-3xl px-6 lg:px-8 text-center">
@@ -71,8 +66,8 @@ export default function SurveyCTA() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-6 text-lg sm:text-xl text-white/70 leading-relaxed"
         >
-          Take our 2-minute survey and help us build the ride-sharing platform
-          India deserves.
+          Your feedback shapes our product. Take our quick survey and help build
+          the ride-sharing platform India truly deserves.
         </motion.p>
 
         {/* CTA Button */}

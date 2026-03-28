@@ -66,7 +66,7 @@ function PlanCard({
         delay: index * 0.1,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`relative flex flex-col rounded-[18px] border p-6 lg:p-8 transition-all duration-300 hover:shadow-xl ${
+      className={`relative flex flex-col rounded-[18px] border p-6 lg:p-8 transition-all duration-300 hover:shadow-xl w-full max-w-sm ${
         plan.highlighted
           ? "border-trust-green bg-white shadow-lg shadow-trust-green/10 scale-[1.02] z-10"
           : "border-primary/5 bg-white hover:shadow-primary/5"
@@ -166,23 +166,13 @@ export default function Membership() {
           </motion.p>
         </div>
 
-        {/* Plans grid */}
-        <div className="mt-16 lg:mt-20 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+        {/* Plans grid — 3 on top, 2 centered on bottom */}
+        <div className="mt-16 lg:mt-20 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
           {plans.map((plan, i) => (
             <PlanCard key={plan.name} plan={plan} index={i} />
           ))}
         </div>
 
-        {/* Bottom note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-12 text-center text-sm text-muted"
-        >
-          Zero commission. Zero per-ride charges. Revenue from memberships only.
-        </motion.p>
       </div>
     </section>
   );

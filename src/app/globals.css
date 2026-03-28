@@ -20,10 +20,16 @@ html {
   scroll-behavior: smooth;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-text);
   font-family: var(--font-body), system-ui, sans-serif;
+  animation: fadeIn 0.5s ease-out;
 }
 
 /* Noise texture overlay */

@@ -10,7 +10,7 @@ const testimonials = [
   {
     quote: "I save \u20B93,000/month on my HITEC City commute. The matching is eerily good.",
     name: "Priya S.",
-    location: "Hyderabad",
+    location: "HITEC City, Hyderabad",
     initials: "PS",
     color: "#568F7A",
   },
@@ -18,7 +18,7 @@ const testimonials = [
     quote:
       "The safety features give my family peace of mind. My parents actually encourage me to use it.",
     name: "Rajesh K.",
-    location: "Hyderabad",
+    location: "Gachibowli, Hyderabad",
     initials: "RK",
     color: "#F97316",
   },
@@ -26,7 +26,7 @@ const testimonials = [
     quote:
       "It's not just a ride, it's my morning community. I've made real friends through Travel Campaign.",
     name: "Arun M.",
-    location: "Hyderabad",
+    location: "Kondapur, Hyderabad",
     initials: "AM",
     color: "#2C3A3A",
   },
@@ -36,14 +36,22 @@ const communityStats = [
   {
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+        <line x1="12" y1="18" x2="12.01" y2="18" />
       </svg>
     ),
-    value: "2,100+",
-    label: "Community Members",
+    value: "3+",
+    label: "Vehicle Types Supported",
+  },
+  {
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 4l3 12h14l3-12-5.5 3L12 2l-4.5 5L2 4z" />
+        <path d="M5 16l-2 6h18l-2-6" />
+      </svg>
+    ),
+    value: "5",
+    label: "Membership Tiers",
   },
   {
     icon: (
@@ -52,28 +60,17 @@ const communityStats = [
         <path d="M9 12l2 2 4-4" />
       </svg>
     ),
-    value: "847",
-    label: "Verified Profiles",
+    value: "100%",
+    label: "Safety Features Free",
   },
   {
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-        <circle cx="12" cy="10" r="3" />
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
       </svg>
     ),
-    value: "15+",
-    label: "Routes Active",
-  },
-  {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M2 22l1-1h3l9-9" />
-        <path d="M12.414 2.586a2 2 0 0 1 2.828 0l2.172 2.172a2 2 0 0 1 0 2.828l-9.9 9.9-4.242-4.242 9.142-9.142z" />
-      </svg>
-    ),
-    value: "\u20B94.2L+",
-    label: "Saved Monthly",
+    value: "\u20B90",
+    label: "Commission Forever",
   },
 ];
 
@@ -156,7 +153,7 @@ export default function Community() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-3 font-[family-name:var(--font-bricolage)] text-4xl md:text-5xl font-extrabold text-primary"
           >
-            Join 2,000+ Indians Reimagining Their Commute
+            What Our Early Community Says
           </motion.h2>
         </div>
 
