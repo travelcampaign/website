@@ -8,25 +8,25 @@ const SURVEY_URL =
 
 const testimonials = [
   {
-    quote: "I spend over \u20B95,000/month just on my office commute. A safe carpooling option with verified people would be a game-changer.",
-    name: "Survey Respondent",
-    location: "HITEC City, Hyderabad",
+    quote: "I drive 1\u20132 hours alone daily with empty seats. Would love to share the ride with someone going my way \u2014 save fuel and have company.",
+    name: "From Our Survey",
+    location: "Own vehicle commuter, Hyderabad",
     initials: "TC",
     color: "#568F7A",
   },
   {
     quote:
-      "My parents won't let me share rides because of safety concerns. If there was real-time tracking and emergency alerts, they'd feel much better.",
-    name: "Survey Respondent",
-    location: "Gachibowli, Hyderabad",
+      "Safety concerns stop me from trying shared rides. Real-time tracking and verified profiles would change everything for my family\u2019s peace of mind.",
+    name: "From Our Survey",
+    location: "Public transport commuter, Hyderabad",
     initials: "TC",
     color: "#F97316",
   },
   {
     quote:
-      "I drive alone to office every day on the same route. Would love to share the ride and split fuel costs with someone going my way.",
-    name: "Survey Respondent",
-    location: "Kondapur, Hyderabad",
+      "I often cancel weekend plans because I have no one to go with. A platform to find people heading to the same places would be amazing.",
+    name: "From Our Survey",
+    location: "Weekend traveler, Hyderabad",
     initials: "TC",
     color: "#2C3A3A",
   },
@@ -40,8 +40,8 @@ const communityStats = [
         <line x1="12" y1="18" x2="12.01" y2="18" />
       </svg>
     ),
-    value: "3+",
-    label: "Vehicle Types Supported",
+    value: "95+",
+    label: "Survey Responses",
     color: "#568F7A",
   },
   {
@@ -51,8 +51,8 @@ const communityStats = [
         <path d="M5 16l-2 6h18l-2-6" />
       </svg>
     ),
-    value: "5",
-    label: "Membership Tiers",
+    value: "70%+",
+    label: "Open to Ride Sharing",
     color: "#F97316",
   },
   {
@@ -62,8 +62,8 @@ const communityStats = [
         <path d="M9 12l2 2 4-4" />
       </svg>
     ),
-    value: "100%",
-    label: "Safety Features Free",
+    value: "#1",
+    label: "Pain Point: Traffic & Cost",
     color: "#568F7A",
   },
   {
@@ -72,8 +72,8 @@ const communityStats = [
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
       </svg>
     ),
-    value: "\u20B90",
-    label: "Commission Forever",
+    value: "60%+",
+    label: "Travel Alone Daily",
     color: "#2C3A3A",
   },
 ];
@@ -149,7 +149,7 @@ export default function Community() {
             transition={{ duration: 0.5 }}
             className="inline-block text-sm font-semibold text-trust-green uppercase tracking-wider"
           >
-            Real Stories
+            From Our Survey
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
