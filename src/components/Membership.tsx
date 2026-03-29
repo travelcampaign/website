@@ -173,7 +173,7 @@ export default function Membership() {
           ))}
         </div>
         {/* Bottom row: TRAVEL+, MAX centered */}
-        <div className="mt-6 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 max-w-[calc(66.666%+0.75rem)] mx-auto">
+        <div className="mt-6 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 lg:max-w-[calc(66.666%+0.75rem)] mx-auto">
           {plans.slice(3).map((plan, i) => (
             <PlanCard key={plan.name} plan={plan} index={i + 3} />
           ))}
