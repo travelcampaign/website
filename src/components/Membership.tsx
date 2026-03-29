@@ -66,7 +66,7 @@ function PlanCard({
         delay: index * 0.1,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`relative flex flex-col rounded-[18px] border p-6 lg:p-8 transition-all duration-300 hover:shadow-xl w-full max-w-sm ${
+      className={`relative flex flex-col rounded-[18px] border p-6 lg:p-8 transition-all duration-300 hover:shadow-xl w-full ${
         plan.highlighted
           ? "border-trust-green bg-white shadow-lg shadow-trust-green/10 scale-[1.02] z-10"
           : "border-primary/5 bg-white hover:shadow-primary/5"
