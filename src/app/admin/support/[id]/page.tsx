@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, use, FormEvent } from 'react'
+import { useEffect, useState, use, useRef, FormEvent } from 'react'
 
 interface Ticket {
   id: string
@@ -11,15 +11,19 @@ interface Ticket {
   status?: string
   priority?: string
   assignee?: string
+  assignedTo?: string
   reporterName?: string
   reporterPhone?: string
+  adminNote?: string
   createdAt?: string
 }
 
 interface Message {
   id: string
   content?: string
+  message?: string
   senderType?: 'ADMIN' | 'USER'
+  senderRole?: 'ADMIN' | 'VISITOR' | 'SYSTEM'
   senderName?: string
   sentAt?: string
   createdAt?: string
@@ -49,6 +53,30 @@ function StatusBadge({ status }: { status?: string }) {
   )
 }
 
+function isWebsiteChat(ticket: Ticket | null): boolean {
+  if (!ticket) return false
+  const note = ticket.adminNote ?? ''
+  return note.startsWith('Website visitor:') || note.toLowerCase().includes('website visitor')
+}
+
+function getMessageText(msg: Message): string {
+  return msg.content ?? msg.message ?? ''
+}
+
+function getMessageTime(msg: Message): string {
+  const iso = msg.sentAt ?? msg.createdAt
+  if (!iso) return ''
+  try {
+    return new Date(iso).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
+  } catch {
+    return ''
+  }
+}
+
+function isAdminMessage(msg: Message): boolean {
+  return msg.senderType === 'ADMIN' || msg.senderRole === 'ADMIN'
+}
+
 export default function TicketDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
   const [ticket, setTicket] = useState<Ticket | null>(null)
@@ -58,31 +86,82 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
   const [sending, setSending] = useState(false)
   const [noteText, setNoteText] = useState('')
   const [savingNote, setSavingNote] = useState(false)
+  const [liveActive, setLiveActive] = useState(false)
+  const [claiming, setClaiming] = useState(false)
+  const [claimed, setClaimed] = useState(false)
 
   // Ticket meta edits
   const [status, setStatus] = useState('')
   const [priority, setPriority] = useState('')
   const [assignee, setAssignee] = useState('')
 
+  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Load ticket + messages
+  async function loadData() {
+    try {
+      const [tRes, mRes] = await Promise.all([
+        fetch(`${BASE}/api/admin/support/tickets/${id}`, { cache: 'no-store' }),
+        fetch(`${BASE}/api/admin/support/tickets/${id}/messages`, { cache: 'no-store' }),
+      ])
+      const t = tRes.ok ? await tRes.json() : null
+      const mRaw = mRes.ok ? await mRes.json() : []
+      const msgs: Message[] = Array.isArray(mRaw) ? mRaw : (mRaw?.content ?? [])
+      return { t, msgs }
+    } catch {
+      return { t: null, msgs: [] }
+    }
+  }
+
   useEffect(() => {
-    Promise.all([
-      fetch(`${BASE}/api/admin/support/tickets/${id}`, { cache: 'no-store' })
-        .then((r) => (r.ok ? r.json() : null))
-        .catch(() => null),
-      fetch(`${BASE}/api/admin/support/tickets/${id}/messages`, { cache: 'no-store' })
-        .then((r) => (r.ok ? r.json() : []))
-        .catch(() => []),
-    ]).then(([t, m]) => {
+    loadData().then(({ t, msgs }) => {
       setTicket(t)
-      setMessages(Array.isArray(m) ? m : m?.content ?? [])
+      setMessages(msgs)
       if (t) {
         setStatus(t.status ?? '')
         setPriority(t.priority ?? '')
-        setAssignee(t.assignee ?? '')
+        setAssignee(t.assignee ?? t.assignedTo ?? '')
+        if (t.status === 'IN_PROGRESS' && (t.assignee || t.assignedTo)) {
+          setClaimed(true)
+        }
       }
       setLoading(false)
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
+  // Auto-refresh messages every 5 seconds
+  useEffect(() => {
+    if (loading) return
+    setLiveActive(true)
+    pollingRef.current = setInterval(async () => {
+      try {
+        const mRes = await fetch(`${BASE}/api/admin/support/tickets/${id}/messages`, {
+          cache: 'no-store',
+        })
+        if (!mRes.ok) return
+        const mRaw = await mRes.json()
+        const msgs: Message[] = Array.isArray(mRaw) ? mRaw : (mRaw?.content ?? [])
+        setMessages(msgs)
+      } catch {
+        // Silent — don't disrupt UI
+      }
+    }, 5000)
+
+    return () => {
+      if (pollingRef.current) {
+        clearInterval(pollingRef.current)
+        pollingRef.current = null
+      }
+      setLiveActive(false)
+    }
+  }, [id, loading])
+
+  // Auto-scroll to bottom when messages update
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
 
   async function sendReply(e: FormEvent) {
     e.preventDefault()
@@ -120,6 +199,50 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
     }
   }
 
+  async function claimTicket() {
+    setClaiming(true)
+    try {
+      const res = await fetch(`${BASE}/api/admin/support/tickets/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'IN_PROGRESS', assignedTo: 'Support Agent' }),
+      })
+      if (res.ok) {
+        const updated = await res.json()
+        setTicket(updated)
+        setStatus('IN_PROGRESS')
+        setAssignee('Support Agent')
+        setClaimed(true)
+      }
+    } catch {
+      // silent
+    } finally {
+      setClaiming(false)
+    }
+  }
+
+  async function releaseTicket() {
+    setClaiming(true)
+    try {
+      const res = await fetch(`${BASE}/api/admin/support/tickets/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'OPEN', assignedTo: '' }),
+      })
+      if (res.ok) {
+        const updated = await res.json()
+        setTicket(updated)
+        setStatus('OPEN')
+        setAssignee('')
+        setClaimed(false)
+      }
+    } catch {
+      // silent
+    } finally {
+      setClaiming(false)
+    }
+  }
+
   async function addNote(e: FormEvent) {
     e.preventDefault()
     if (!noteText.trim()) return
@@ -152,6 +275,8 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
     )
   }
 
+  const websiteChat = isWebsiteChat(ticket)
+
   return (
     <div className="space-y-6 max-w-3xl">
       <a href="/admin/support" className="text-sm hover:underline" style={{ color: '#568F7A' }}>
@@ -165,11 +290,38 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
       >
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
               <span className="font-mono text-xs" style={{ color: '#568F7A' }}>
                 {ticket.ticketNumber ?? ticket.id?.slice(0, 8)}
               </span>
+              {/* Live indicator */}
+              {liveActive && (
+                <span
+                  className="inline-flex items-center gap-1 text-xs font-medium"
+                  style={{ color: '#22c55e' }}
+                >
+                  <span
+                    style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '50%',
+                      background: '#22c55e',
+                      display: 'inline-block',
+                      animation: 'tc-live-pulse 1.5s ease-in-out infinite',
+                    }}
+                  />
+                  Live
+                </span>
+              )}
               <StatusBadge status={ticket.status} />
+              {websiteChat && (
+                <span
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium"
+                  style={{ background: '#568F7A1a', color: '#568F7A' }}
+                >
+                  🌐 Website Chat
+                </span>
+              )}
             </div>
             <h2 className="text-lg font-semibold" style={{ color: '#2C3A3A' }}>
               {ticket.subject ?? 'No subject'}
@@ -178,6 +330,29 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
               {ticket.category} · {ticket.reporterName} ·{' '}
               {ticket.createdAt ? new Date(ticket.createdAt).toLocaleDateString('en-IN') : ''}
             </p>
+          </div>
+
+          {/* Claim / Release button */}
+          <div className="shrink-0">
+            {claimed ? (
+              <button
+                onClick={releaseTicket}
+                disabled={claiming}
+                className="px-4 py-2 rounded-xl text-sm font-semibold transition-opacity hover:opacity-80 disabled:opacity-40"
+                style={{ background: '#F973161a', color: '#F97316', border: '1px solid #F9731640' }}
+              >
+                {claiming ? '…' : 'Release'}
+              </button>
+            ) : (
+              <button
+                onClick={claimTicket}
+                disabled={claiming}
+                className="px-4 py-2 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+                style={{ background: '#568F7A' }}
+              >
+                {claiming ? '…' : 'Claim Ticket'}
+              </button>
+            )}
           </div>
         </div>
         {ticket.description && (
@@ -195,12 +370,17 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
             style={{ background: '#ffffff', borderColor: '#e5e7eb' }}
           >
             <div
-              className="px-5 py-4 border-b"
+              className="px-5 py-4 border-b flex items-center justify-between"
               style={{ borderColor: '#e5e7eb' }}
             >
               <h3 className="text-sm font-semibold" style={{ color: '#2C3A3A' }}>
                 Message Thread
               </h3>
+              {liveActive && (
+                <span className="text-xs" style={{ color: '#22c55e' }}>
+                  Auto-refreshing
+                </span>
+              )}
             </div>
 
             {/* Messages */}
@@ -211,7 +391,21 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
                 </p>
               ) : (
                 messages.map((msg) => {
-                  const isAdmin = msg.senderType === 'ADMIN'
+                  const isAdmin = isAdminMessage(msg)
+                  const isSystem =
+                    msg.senderRole === 'SYSTEM' || (!msg.senderType && !msg.senderRole)
+                  if (isSystem && !isAdmin) {
+                    return (
+                      <div key={msg.id} className="flex justify-center">
+                        <div
+                          className="px-4 py-2 rounded-xl text-xs text-center max-w-[80%]"
+                          style={{ background: '#F7F6F4', color: '#7A8A85' }}
+                        >
+                          {getMessageText(msg)}
+                        </div>
+                      </div>
+                    )
+                  }
                   return (
                     <div
                       key={msg.id}
@@ -227,24 +421,20 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
                             : '18px 18px 18px 4px',
                         }}
                       >
-                        <p>{msg.content}</p>
+                        <p>{getMessageText(msg)}</p>
                         <p
                           className="text-xs mt-1"
                           style={{ color: isAdmin ? '#a0b0ad' : '#7A8A85' }}
                         >
-                          {msg.senderName ?? (isAdmin ? 'Admin' : 'User')} ·{' '}
-                          {(msg.sentAt ?? msg.createdAt)
-                            ? new Date(msg.sentAt ?? msg.createdAt ?? '').toLocaleTimeString('en-IN', {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                              })
-                            : ''}
+                          {msg.senderName ?? (isAdmin ? 'Admin' : 'Visitor')} ·{' '}
+                          {getMessageTime(msg)}
                         </p>
                       </div>
                     </div>
                   )
                 })
               )}
+              <div ref={messagesEndRef} />
             </div>
 
             {/* Reply form */}
@@ -376,6 +566,14 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
           </div>
         </div>
       </div>
+
+      {/* Live pulse keyframe */}
+      <style>{`
+        @keyframes tc-live-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      `}</style>
     </div>
   )
 }
