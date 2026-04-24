@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 const SURVEY_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSeIWEF6riJ2RKzNJh97PS_8yAYgfS0nkLyI7UBq6WfV2bqm6g/viewform?usp=sharing";
@@ -115,28 +115,50 @@ function TestimonialCard({ testimonial }: { testimonial: (typeof testimonials)[0
 export default function Community() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [scrollX, setScrollX] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const paused = useRef(false);
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragScrollLeft = useRef(0);
 
-  // Auto-scroll carousel
+  // Auto-scroll — directly drives scrollLeft; pauses when hovered or dragging
   useEffect(() => {
     const interval = setInterval(() => {
-      setScrollX((prev) => {
-        const maxScroll = containerRef.current
-          ? containerRef.current.scrollWidth - containerRef.current.clientWidth
-          : 0;
-        if (prev >= maxScroll) return 0;
-        return prev + 1;
-      });
-    }, 30);
+      if (paused.current || isDragging.current || !containerRef.current) return;
+      const el = containerRef.current;
+      if (el.scrollLeft >= el.scrollWidth - el.clientWidth) {
+        el.scrollLeft = 0;
+      } else {
+        el.scrollLeft += 1;
+      }
+    }, 20);
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
+  function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+    if (!containerRef.current) return;
+    isDragging.current = true;
+    dragStartX.current = e.pageX - containerRef.current.offsetLeft;
+    dragScrollLeft.current = containerRef.current.scrollLeft;
+    containerRef.current.style.cursor = "grabbing";
+    containerRef.current.style.userSelect = "none";
+  }
+
+  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (!isDragging.current || !containerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - containerRef.current.offsetLeft;
+    const dist = (x - dragStartX.current) * 1.5;
+    containerRef.current.scrollLeft = dragScrollLeft.current - dist;
+  }
+
+  function onMouseUp() {
+    isDragging.current = false;
     if (containerRef.current) {
-      containerRef.current.scrollLeft = scrollX;
+      containerRef.current.style.cursor = "grab";
+      containerRef.current.style.userSelect = "";
     }
-  }, [scrollX]);
+  }
 
   return (
     <section id="community" className="py-24 lg:py-32 bg-white overflow-hidden">
@@ -165,9 +187,13 @@ export default function Community() {
         {/* Testimonials carousel */}
         <div
           ref={containerRef}
-          className="mt-16 flex gap-6 overflow-x-auto scrollbar-hide pb-4"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          onMouseEnter={() => setScrollX((prev) => prev)}
+          className="mt-16 flex gap-6 overflow-x-auto pb-4 select-none"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none", cursor: "grab" }}
+          onMouseEnter={() => { paused.current = true; }}
+          onMouseLeave={() => { paused.current = false; isDragging.current = false; if (containerRef.current) { containerRef.current.style.cursor = "grab"; containerRef.current.style.userSelect = ""; } }}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
         >
           {/* Duplicate for infinite feel */}
           {[...testimonials, ...testimonials].map((t, i) => (
