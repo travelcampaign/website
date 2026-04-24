@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import { authHeaders } from '@/lib/adminApi'
 
 type StatusFilter = 'ALL' | 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED'
 
@@ -52,9 +53,11 @@ export default function SupportPage() {
         tab === 'ALL'
           ? `${BASE}/api/admin/support/tickets?page=0&size=50`
           : `${BASE}/api/admin/support/tickets?page=0&size=50&status=${tab}`
-      const res = await fetch(url, { cache: 'no-store' })
+      const res = await fetch(url, { cache: 'no-store', headers: authHeaders() })
       if (!res.ok) throw new Error('fetch failed')
-      const data = await res.json()
+      const json = await res.json()
+      // Unwrap ApiResponse envelope: { success, data: [...] }
+      const data = json?.data ?? json
       setTickets(Array.isArray(data) ? data : data?.content ?? [])
     } catch {
       setError('Could not load tickets — backend may be offline.')

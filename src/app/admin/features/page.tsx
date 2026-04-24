@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { authHeaders } from '@/lib/adminApi'
 
 interface FeatureFlag {
   key: string
@@ -10,8 +11,8 @@ interface FeatureFlag {
 
 interface RolloutConfig {
   strategy?: string
-  activeCities?: string
-  activePincodes?: string
+  activeCities?: string | string[]
+  activePincodes?: string | string[]
   maxUsersPerCity?: number
   maxCampaignsPerUser?: number
 }
@@ -58,7 +59,13 @@ export default function FeaturesPage() {
     fetch(`${BASE}/api/config`, { cache: 'no-store' })
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
-        setConfig(data)
+        // /api/config returns { features: { KEY: boolean }, rollout: { ... } }
+        // features is a plain object — convert to array for rendering
+        const rawFeatures = data?.features ?? {}
+        const features: FeatureFlag[] = Object.entries(rawFeatures).map(
+          ([key, enabled]) => ({ key, enabled: Boolean(enabled) })
+        )
+        setConfig({ features, rollout: data?.rollout })
         setLoading(false)
       })
       .catch(() => {
@@ -72,7 +79,7 @@ export default function FeaturesPage() {
     try {
       const res = await fetch(`${BASE}/api/admin/config/features/${key}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
         body: JSON.stringify({ enabled: !current }),
       })
       if (res.ok) {
@@ -169,25 +176,71 @@ export default function FeaturesPage() {
           {/* Rollout config */}
           {rollout && (
             <div
-              className="rounded-2xl border p-5 space-y-4"
+              className="rounded-2xl border p-5 space-y-5"
               style={{ background: '#ffffff', borderColor: '#e5e7eb' }}
             >
               <h3 className="text-sm font-semibold" style={{ color: '#2C3A3A' }}>
                 Rollout Configuration
               </h3>
-              <div className="grid grid-cols-2 gap-x-8 gap-y-3">
+
+              {/* Strategy */}
+              <div>
+                <div className="text-xs font-medium mb-1" style={{ color: '#7A8A85' }}>Strategy</div>
+                <span
+                  className="inline-block px-2.5 py-1 rounded-lg text-xs font-semibold font-mono"
+                  style={{ background: 'rgba(86,143,122,0.12)', color: '#568F7A' }}
+                >
+                  {rollout.strategy ?? '—'}
+                </span>
+              </div>
+
+              {/* Cities */}
+              <div>
+                <div className="text-xs font-medium mb-2" style={{ color: '#7A8A85' }}>Active Cities</div>
+                <div className="flex flex-wrap gap-2">
+                  {(Array.isArray(rollout.activeCities)
+                    ? rollout.activeCities
+                    : rollout.activeCities?.split(',') ?? []
+                  ).map((city) => (
+                    <span
+                      key={city}
+                      className="px-2.5 py-1 rounded-lg text-xs font-medium"
+                      style={{ background: '#F7F6F4', color: '#2C3A3A', border: '1px solid #e5e7eb' }}
+                    >
+                      {city.trim()}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Pincodes */}
+              <div>
+                <div className="text-xs font-medium mb-2" style={{ color: '#7A8A85' }}>Active Pincodes</div>
+                <div className="flex flex-wrap gap-2">
+                  {(Array.isArray(rollout.activePincodes)
+                    ? rollout.activePincodes
+                    : rollout.activePincodes?.split(',') ?? []
+                  ).map((pin) => (
+                    <span
+                      key={pin}
+                      className="px-2 py-0.5 rounded-md text-xs font-mono"
+                      style={{ background: '#F7F6F4', color: '#2C3A3A', border: '1px solid #e5e7eb' }}
+                    >
+                      {pin.trim()}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Limits */}
+              <div className="grid grid-cols-2 gap-4 pt-1">
                 {[
-                  ['Strategy', rollout.strategy],
-                  ['Active Cities', rollout.activeCities],
-                  ['Active Pincodes', rollout.activePincodes],
-                  ['Max Users / City', rollout.maxUsersPerCity?.toString()],
-                  ['Max Campaigns / User', rollout.maxCampaignsPerUser?.toString()],
+                  ['Max Users / City', rollout.maxUsersPerCity],
+                  ['Max Campaigns / User', rollout.maxCampaignsPerUser],
                 ].map(([label, value]) => (
-                  <div key={label}>
-                    <div className="text-xs font-medium" style={{ color: '#7A8A85' }}>
-                      {label}
-                    </div>
-                    <div className="text-sm mt-0.5 font-mono" style={{ color: '#2C3A3A' }}>
+                  <div key={String(label)}>
+                    <div className="text-xs font-medium" style={{ color: '#7A8A85' }}>{label}</div>
+                    <div className="text-sm font-semibold mt-0.5" style={{ color: '#2C3A3A' }}>
                       {value ?? '—'}
                     </div>
                   </div>

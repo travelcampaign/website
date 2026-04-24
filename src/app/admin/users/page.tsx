@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import { authHeaders } from '@/lib/adminApi'
 
 interface User {
   id: string
@@ -23,17 +24,23 @@ interface PageData {
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
 
 async function fetchUsers(page: number): Promise<PageData> {
-  const res = await fetch(`${BASE}/api/admin/users?page=${page}&size=20`, { cache: 'no-store' })
+  const res = await fetch(`${BASE}/api/admin/users?page=${page}&size=20`, {
+    cache: 'no-store',
+    headers: authHeaders(),
+  })
   if (!res.ok) return {}
-  return res.json()
+  const json = await res.json()
+  return json?.data ?? json
 }
 
 async function searchUsers(q: string): Promise<User[]> {
   const res = await fetch(`${BASE}/api/admin/users/search?q=${encodeURIComponent(q)}`, {
     cache: 'no-store',
+    headers: authHeaders(),
   })
   if (!res.ok) return []
-  const data = await res.json()
+  const json = await res.json()
+  const data = json?.data ?? json
   return Array.isArray(data) ? data : data?.content ?? []
 }
 

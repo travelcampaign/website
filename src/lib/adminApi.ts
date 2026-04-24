@@ -1,9 +1,13 @@
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
 
-function getAdminToken(): string {
+export function getAdminToken(): string {
   if (typeof document === 'undefined') return ''
   const match = document.cookie.match(/adminToken=([^;]+)/)
   return match ? match[1] : ''
+}
+
+export function authHeaders(): Record<string, string> {
+  return { Authorization: `Bearer ${getAdminToken()}` }
 }
 
 export async function adminGet(path: string) {
