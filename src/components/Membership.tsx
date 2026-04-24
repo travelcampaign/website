@@ -102,7 +102,7 @@ function PlanCard({ plan, index }: { plan: typeof plans[0]; index: number }) {
       <div className="flex items-baseline gap-1 mb-6">
         <span className="text-sm font-medium" style={{ color: plan.highlighted ? "rgba(247,246,244,0.5)" : "#7A8A85" }}>₹</span>
         <span
-          className="font-[family-name:var(--font-bricolage)] font-extrabold leading-none tracking-tight"
+          className="font-[family-name:var(--font-syne)] font-extrabold leading-none tracking-tight"
           style={{ fontSize: "clamp(38px, 4vw, 50px)", color: plan.highlighted ? "#F7F6F4" : "#2C3A3A" }}
         >
           {plan.price}
@@ -194,8 +194,8 @@ export default function Membership() {
             ))}
           </div>
 
-          {/* Bottom 2 */}
-          <div className="mt-5 grid gap-5 grid-cols-1 sm:grid-cols-2 lg:max-w-[calc(66.666%+10px)] mx-auto">
+          {/* Bottom 2 — centered, matching card width of top row */}
+          <div className="mt-5 grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 lg:w-2/3 lg:mx-auto">
             {plans.slice(3).map((p, i) => (
               <PlanCard key={p.name} plan={p} index={i + 3} />
             ))}

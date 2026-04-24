@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const SURVEY_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSeIWEF6riJ2RKzNJh97PS_8yAYgfS0nkLyI7UBq6WfV2bqm6g/viewform?usp=sharing";
@@ -77,6 +77,20 @@ export default function Community() {
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
   const dragScrollLeft = useRef(0);
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  // Track active dot from scroll position
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const cardWidth = 380 + 20; // card + gap approx
+      const idx = Math.round(el.scrollLeft / cardWidth) % testimonials.length;
+      setActiveIdx(idx);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -141,27 +155,62 @@ export default function Community() {
             </motion.h2>
           </div>
 
-          {/* Carousel */}
-          <div
-            ref={containerRef}
-            className="flex gap-5 overflow-x-auto pb-4 select-none"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none", cursor: "grab" }}
-            onMouseEnter={() => { paused.current = true; }}
-            onMouseLeave={() => {
-              paused.current = false;
-              isDragging.current = false;
-              if (containerRef.current) {
-                containerRef.current.style.cursor = "grab";
-                containerRef.current.style.userSelect = "";
-              }
-            }}
-            onMouseDown={onMouseDown}
-            onMouseMove={onMouseMove}
-            onMouseUp={onMouseUp}
-          >
-            {[...testimonials, ...testimonials].map((t, i) => (
-              <TestimonialCard key={i} t={t} />
-            ))}
+          {/* Carousel with drag hint */}
+          <div className="relative">
+            {/* Drag hint */}
+            <div className="flex items-center gap-2 mb-4 justify-end">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7A8A85" strokeWidth="1.8" strokeLinecap="round">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+              <span className="text-[11px] text-[#7A8A85]">Drag to explore</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7A8A85" strokeWidth="1.8" strokeLinecap="round">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </div>
+
+            <div
+              ref={containerRef}
+              className="flex gap-5 overflow-x-auto pb-4 select-none"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none", cursor: "grab" }}
+              onMouseEnter={() => { paused.current = true; }}
+              onMouseLeave={() => {
+                paused.current = false;
+                isDragging.current = false;
+                if (containerRef.current) {
+                  containerRef.current.style.cursor = "grab";
+                  containerRef.current.style.userSelect = "";
+                }
+              }}
+              onMouseDown={onMouseDown}
+              onMouseMove={onMouseMove}
+              onMouseUp={onMouseUp}
+            >
+              {[...testimonials, ...testimonials].map((t, i) => (
+                <TestimonialCard key={i} t={t} />
+              ))}
+            </div>
+
+            {/* Scroll progress dots */}
+            <div className="flex justify-center gap-2 mt-5">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    const el = containerRef.current;
+                    if (!el) return;
+                    el.scrollTo({ left: i * (380 + 20), behavior: "smooth" });
+                    setActiveIdx(i);
+                  }}
+                  className="rounded-full transition-all duration-300"
+                  style={{
+                    width: i === activeIdx ? 22 : 6,
+                    height: 6,
+                    background: i === activeIdx ? "#568F7A" : "rgba(44,58,58,0.15)",
+                  }}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Stats grid */}

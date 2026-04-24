@@ -12,7 +12,7 @@ export default function SurveyCTA() {
 
   return (
     <section
-      className="grain relative overflow-hidden clip-top-diagonal-dark"
+      className="grain relative clip-top-diagonal-dark"
       style={{ background: "#0A1515" }}
     >
       <div

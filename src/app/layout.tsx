@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, DM_Sans } from "next/font/google";
+import { Bricolage_Grotesque, DM_Sans, Syne } from "next/font/google";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -14,6 +14,14 @@ const dmSans = DM_Sans({
   display: "swap",
   variable: "--font-dm-sans",
   weight: ["400", "500", "600", "700"],
+});
+
+// Funky geometric display font — used for dramatic headings + stats
+const syne = Syne({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-syne",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -45,7 +53,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bricolage.variable} ${dmSans.variable} antialiased`}
+      className={`${bricolage.variable} ${dmSans.variable} ${syne.variable} antialiased`}
     >
       <body className="min-h-screen">
         {children}

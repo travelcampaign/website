@@ -42,14 +42,16 @@ export default function Navbar() {
         <div className="flex h-[72px] items-center justify-between">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3 group">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#568F7A]/15 border border-[#568F7A]/25 group-hover:bg-[#568F7A]/25 transition-colors duration-200">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#568F7A]/20 border border-[#568F7A]/35 group-hover:bg-[#568F7A]/30 transition-colors duration-200">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#568F7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2L2 7l10 5 10-5-10-5z" />
                 <path d="M2 17l10 5 10-5" />
                 <path d="M2 12l10 5 10-5" />
               </svg>
             </div>
-            <span className="font-[family-name:var(--font-bricolage)] text-lg font-bold text-[#2C3A3A] tracking-tight">
+            <span className={`font-[family-name:var(--font-bricolage)] text-lg font-bold tracking-tight transition-colors duration-300 ${
+              scrolled ? "text-[#2C3A3A]" : "text-[#F7F6F4]"
+            }`}>
               Travel Campaign
             </span>
           </a>
@@ -61,7 +63,11 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleClick(e, link.href)}
-                className="text-sm font-medium text-[#2C3A3A]/50 hover:text-[#2C3A3A] transition-colors duration-200"
+                className={`text-sm font-medium transition-colors duration-200 ${
+                  scrolled
+                    ? "text-[#2C3A3A]/55 hover:text-[#2C3A3A]"
+                    : "text-[#F7F6F4]/65 hover:text-[#F7F6F4]"
+                }`}
               >
                 {link.label}
               </a>
@@ -73,7 +79,11 @@ export default function Navbar() {
             <a
               href="#survey"
               onClick={(e) => handleClick(e, "#community")}
-              className="inline-flex items-center gap-2 rounded-full border border-[#568F7A]/30 bg-[#568F7A]/8 px-5 py-2 text-sm font-semibold text-[#568F7A] transition-all duration-200 hover:bg-[#568F7A]/15 hover:border-[#568F7A]/45"
+              className={`inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold transition-all duration-200 ${
+                scrolled
+                  ? "border-[#568F7A]/40 bg-[#568F7A]/8 text-[#568F7A] hover:bg-[#568F7A]/15 hover:border-[#568F7A]/55"
+                  : "border-[#568F7A]/60 bg-[#568F7A]/15 text-[#F7F6F4] hover:bg-[#568F7A]/25 hover:border-[#568F7A]/80"
+              }`}
             >
               Join Waitlist
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -91,17 +101,17 @@ export default function Navbar() {
             <motion.span
               animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.25 }}
-              className="block h-0.5 w-5 bg-[#2C3A3A]/70 origin-center"
+              className={`block h-0.5 w-5 origin-center transition-colors duration-300 ${scrolled ? "bg-[#2C3A3A]/70" : "bg-[#F7F6F4]/80"}`}
             />
             <motion.span
               animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
               transition={{ duration: 0.2 }}
-              className="block h-0.5 w-5 bg-[#2C3A3A]/70"
+              className={`block h-0.5 w-5 transition-colors duration-300 ${scrolled ? "bg-[#2C3A3A]/70" : "bg-[#F7F6F4]/80"}`}
             />
             <motion.span
               animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.25 }}
-              className="block h-0.5 w-5 bg-[#2C3A3A]/70 origin-center"
+              className={`block h-0.5 w-5 origin-center transition-colors duration-300 ${scrolled ? "bg-[#2C3A3A]/70" : "bg-[#F7F6F4]/80"}`}
             />
           </button>
         </div>

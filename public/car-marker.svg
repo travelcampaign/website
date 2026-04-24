@@ -1,0 +1,84 @@
+<svg width="44" height="78" viewBox="0 0 44 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bodyGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#F0EDE7"/>
+      <stop offset="100%" stop-color="#D8D5CF"/>
+    </radialGradient>
+    <radialGradient id="roofGrad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#CFCDC7"/>
+      <stop offset="100%" stop-color="#BCBAB4"/>
+    </radialGradient>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(160,220,210,0.90)"/>
+      <stop offset="100%" stop-color="rgba(120,190,180,0.55)"/>
+    </linearGradient>
+    <linearGradient id="rearGlassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(120,190,180,0.60)"/>
+      <stop offset="100%" stop-color="rgba(90,160,150,0.40)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ground shadow -->
+  <ellipse cx="22" cy="75" rx="14" ry="3" fill="rgba(0,0,0,0.30)"/>
+
+  <!-- Hood -->
+  <path d="M13 6 C13 4 16 2 22 2 C28 2 31 4 31 6 L32 18 L12 18 Z" fill="#E2DFD9"/>
+  <!-- Main body -->
+  <path d="M10 18 L10 56 C10 64 14 70 22 70 C30 70 34 64 34 56 L34 18 Z" fill="url(#bodyGrad)"/>
+  <!-- Trunk -->
+  <path d="M12 56 C12 62 16 68 22 68 C28 68 32 62 32 56 L34 56 C34 64 30 72 22 72 C14 72 10 64 10 56 Z" fill="#D0CEC8"/>
+
+  <!-- Cabin / Roof -->
+  <path d="M13 26 C13 21 17 18 22 18 C27 18 31 21 31 26 L31 52 C31 57 27 60 22 60 C17 60 13 57 13 52 Z" fill="url(#roofGrad)"/>
+
+  <!-- Front windshield -->
+  <path d="M14 22 C14 17 17 13 22 13 C27 13 30 17 30 22 L29 27 C25 25 19 25 15 27 Z" fill="url(#glassGrad)" stroke="rgba(255,255,255,0.30)" stroke-width="0.5"/>
+  <!-- Rear window -->
+  <path d="M15 52 L15 56 C15 60 18 63 22 63 C26 63 29 60 29 56 L29 52 C25 54 19 54 15 52 Z" fill="url(#rearGlassGrad)" stroke="rgba(255,255,255,0.18)" stroke-width="0.5"/>
+  <!-- Side windows -->
+  <path d="M12 30 L11 30 L11 48 L12 49 L13 48 L13 30 Z" fill="rgba(140,200,190,0.45)"/>
+  <path d="M32 30 L33 30 L33 48 L32 49 L31 48 L31 30 Z" fill="rgba(140,200,190,0.45)"/>
+
+  <!-- Door seams -->
+  <line x1="13" y1="40" x2="31" y2="40" stroke="rgba(0,0,0,0.12)" stroke-width="0.7"/>
+  <line x1="12.5" y1="27" x2="12.5" y2="54" stroke="rgba(0,0,0,0.10)" stroke-width="0.5"/>
+  <line x1="31.5" y1="27" x2="31.5" y2="54" stroke="rgba(0,0,0,0.10)" stroke-width="0.5"/>
+
+  <!-- Brand accent stripe -->
+  <rect x="20.5" y="4" width="3" height="66" rx="1.5" fill="rgba(86,143,122,0.22)"/>
+
+  <!-- Headlights -->
+  <path d="M12 5 L18 5 L19 9 L12 9 Z" fill="#FFF9D6" opacity="0.95"/>
+  <path d="M12.5 5.5 L17.5 5.5 L18.2 8 L12.5 8 Z" fill="#FFFDE0" opacity="0.8"/>
+  <path d="M26 5 L32 5 L32 9 L25 9 Z" fill="#FFF9D6" opacity="0.95"/>
+  <path d="M25.8 5.5 L31.5 5.5 L31.5 8 L26.5 8 Z" fill="#FFFDE0" opacity="0.8"/>
+
+  <!-- Tail lights -->
+  <path d="M12 66 L19 66 L19 70 L12 68 Z" fill="#F97316" opacity="0.88"/>
+  <path d="M25 66 L32 66 L32 68 L25 70 Z" fill="#F97316" opacity="0.88"/>
+
+  <!-- Side mirrors -->
+  <path d="M8 28 C7 28 6.5 29 6.5 30 C6.5 31 7 32 8 32 L10 32 L10 28 Z" fill="#C8C6C0"/>
+  <path d="M36 28 C37 28 37.5 29 37.5 30 C37.5 31 37 32 36 32 L34 32 L34 28 Z" fill="#C8C6C0"/>
+
+  <!-- Left front wheel -->
+  <ellipse cx="9" cy="25" rx="4.5" ry="5.5" fill="#3A3835"/>
+  <ellipse cx="9" cy="25" rx="3" ry="4" fill="#555350"/>
+  <ellipse cx="9" cy="25" rx="1.2" ry="1.6" fill="#777572"/>
+  <!-- Left rear wheel -->
+  <ellipse cx="9" cy="50" rx="4.5" ry="5.5" fill="#3A3835"/>
+  <ellipse cx="9" cy="50" rx="3" ry="4" fill="#555350"/>
+  <ellipse cx="9" cy="50" rx="1.2" ry="1.6" fill="#777572"/>
+  <!-- Right front wheel -->
+  <ellipse cx="35" cy="25" rx="4.5" ry="5.5" fill="#3A3835"/>
+  <ellipse cx="35" cy="25" rx="3" ry="4" fill="#555350"/>
+  <ellipse cx="35" cy="25" rx="1.2" ry="1.6" fill="#777572"/>
+  <!-- Right rear wheel -->
+  <ellipse cx="35" cy="50" rx="4.5" ry="5.5" fill="#3A3835"/>
+  <ellipse cx="35" cy="50" rx="3" ry="4" fill="#555350"/>
+  <ellipse cx="35" cy="50" rx="1.2" ry="1.6" fill="#777572"/>
+
+  <!-- Roof highlight sheen -->
+  <path d="M16 28 C16 24 18.5 22 22 22 C25.5 22 28 24 28 28 L28 48 C28 52 25.5 54 22 54 C18.5 54 16 52 16 48 Z" fill="rgba(255,255,255,0.06)"/>
+  <path d="M17 29 C18 26 20 25 22 25 L20 28 Z" fill="rgba(255,255,255,0.18)"/>
+</svg>

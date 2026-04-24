@@ -79,7 +79,7 @@ function FeatureCard({ f, i }: { f: typeof features[0]; i: number }) {
       <h3 className="font-[family-name:var(--font-bricolage)] text-[17px] font-bold mb-2.5 leading-snug" style={{ color: "#F7F6F4" }}>
         {f.title}
       </h3>
-      <p className="text-[13px] leading-relaxed" style={{ color: "rgba(247,246,244,0.42)" }}>
+      <p className="text-[13px] leading-relaxed" style={{ color: "rgba(247,246,244,0.62)" }}>
         {f.body}
       </p>
     </motion.div>
@@ -97,7 +97,7 @@ export default function Safety() {
     <section
       id="safety"
       ref={sectionRef}
-      className="grain relative overflow-hidden clip-top-diagonal"
+      className="grain relative clip-top-diagonal"
       style={{ background: "#0D1A14" }}
     >
       {/* Ambient glow */}
@@ -140,7 +140,7 @@ export default function Safety() {
                 animate={headInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-[15px] leading-relaxed mb-8"
-                style={{ color: "rgba(247,246,244,0.45)" }}
+                style={{ color: "rgba(247,246,244,0.65)" }}
               >
                 Every plan includes the complete guardian system at no extra cost.
                 No tiered safety. No upsells. Everyone rides with full protection.

@@ -39,7 +39,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-primary border-t border-white/5">
+    <footer style={{ background: "#0A1515" }} className="border-t border-white/5">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
           {/* Brand */}
