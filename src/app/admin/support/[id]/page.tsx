@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState, use, useRef, FormEvent } from 'react'
+import { Client } from '@stomp/stompjs'
+import { createSupportStompClient, type SupportMessage } from '@/lib/stompClient'
 
 interface Ticket {
   id: string
@@ -95,7 +97,7 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
   const [priority, setPriority] = useState('')
   const [assignee, setAssignee] = useState('')
 
-  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const stompRef = useRef<Client | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Load ticket + messages
@@ -131,31 +133,47 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
-  // Auto-refresh messages every 5 seconds
+  // Real-time message updates via STOMP WebSocket
   useEffect(() => {
     if (loading) return
-    setLiveActive(true)
-    pollingRef.current = setInterval(async () => {
-      try {
-        const mRes = await fetch(`${BASE}/api/admin/support/tickets/${id}/messages`, {
-          cache: 'no-store',
+
+    const client = createSupportStompClient(
+      id,
+      (msg: SupportMessage) => {
+        // Normalise incoming STOMP message into the local Message shape
+        const incoming: Message = {
+          id: msg.id,
+          message: msg.message,
+          senderRole: msg.senderRole as Message['senderRole'],
+          createdAt: msg.createdAt,
+        }
+        setMessages((prev) => {
+          // Dedup: skip if we already have this message ID
+          if (prev.some((m) => m.id === incoming.id)) return prev
+          return [...prev, incoming]
         })
-        if (!mRes.ok) return
-        const mRaw = await mRes.json()
-        const msgs: Message[] = Array.isArray(mRaw) ? mRaw : (mRaw?.content ?? [])
-        setMessages(msgs)
-      } catch {
-        // Silent — don't disrupt UI
-      }
-    }, 5000)
+        // Auto-scroll to bottom
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+        }, 50)
+      },
+      (newStatus: string) => {
+        setTicket((prev) => (prev ? { ...prev, status: newStatus } : prev))
+        setStatus(newStatus)
+      },
+      () => setLiveActive(true),
+      () => setLiveActive(false),
+    )
+
+    client.activate()
+    stompRef.current = client
 
     return () => {
-      if (pollingRef.current) {
-        clearInterval(pollingRef.current)
-        pollingRef.current = null
-      }
+      client.deactivate()
+      stompRef.current = null
       setLiveActive(false)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, loading])
 
   // Auto-scroll to bottom when messages update
@@ -174,8 +192,16 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
         body: JSON.stringify({ content: reply.trim(), senderType: 'ADMIN' }),
       })
       if (res.ok) {
-        const msg = await res.json()
-        setMessages((prev) => [...prev, msg])
+        // Clear input immediately; the backend will broadcast this message via STOMP
+        // and the subscription above will append it (with dedup guard).
+        // If STOMP is not connected, fall back to appending from REST response directly.
+        if (!stompRef.current?.connected) {
+          const msg: Message = await res.json()
+          setMessages((prev) => {
+            if (prev.some((m) => m.id === msg.id)) return prev
+            return [...prev, msg]
+          })
+        }
         setReply('')
       }
     } finally {
@@ -294,8 +320,8 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
               <span className="font-mono text-xs" style={{ color: '#568F7A' }}>
                 {ticket.ticketNumber ?? ticket.id?.slice(0, 8)}
               </span>
-              {/* Live indicator */}
-              {liveActive && (
+              {/* Live indicator — shows real STOMP connection state */}
+              {liveActive ? (
                 <span
                   className="inline-flex items-center gap-1 text-xs font-medium"
                   style={{ color: '#22c55e' }}
@@ -311,6 +337,22 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
                     }}
                   />
                   Live
+                </span>
+              ) : (
+                <span
+                  className="inline-flex items-center gap-1 text-xs font-medium"
+                  style={{ color: '#9ca3af' }}
+                >
+                  <span
+                    style={{
+                      width: '7px',
+                      height: '7px',
+                      borderRadius: '50%',
+                      border: '1.5px solid #9ca3af',
+                      display: 'inline-block',
+                    }}
+                  />
+                  Connecting…
                 </span>
               )}
               <StatusBadge status={ticket.status} />
@@ -378,7 +420,7 @@ export default function TicketDetailPage({ params }: { params: Promise<{ id: str
               </h3>
               {liveActive && (
                 <span className="text-xs" style={{ color: '#22c55e' }}>
-                  Auto-refreshing
+                  Real-time
                 </span>
               )}
             </div>
