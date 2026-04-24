@@ -1,12 +1,10 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
-import { useRouter } from 'next/navigation'
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
 
 export default function AdminLoginPage() {
-  const router = useRouter()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -30,7 +28,8 @@ export default function AdminLoginPage() {
       const data = json.data
       document.cookie = `adminToken=${data.token}; path=/; max-age=86400`
       document.cookie = `adminRole=${data.role}; path=/; max-age=86400`
-      router.push('/admin')
+      // Full reload so the middleware reads the cookie from the actual HTTP request
+      window.location.href = '/admin'
     } catch {
       setError('Invalid username or password')
     } finally {
