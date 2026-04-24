@@ -3,19 +3,38 @@
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 
+const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
+
 export default function AdminLoginPage() {
   const router = useRouter()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    if (username === 'admin' && password === 'tc-admin-2026') {
-      document.cookie = 'adminToken=tc-admin-2026; path=/; max-age=86400'
+    setError('')
+    setLoading(true)
+    try {
+      const res = await fetch(`${BASE}/api/admin/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      })
+      if (!res.ok) {
+        setError('Invalid username or password')
+        return
+      }
+      const json = await res.json()
+      const data = json.data
+      document.cookie = `adminToken=${data.token}; path=/; max-age=86400`
+      document.cookie = `adminRole=${data.role}; path=/; max-age=86400`
       router.push('/admin')
-    } else {
-      setError('Invalid credentials')
+    } catch {
+      setError('Invalid username or password')
+    } finally {
+      setLoading(false)
     }
   }
 

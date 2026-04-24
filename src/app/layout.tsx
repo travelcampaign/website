@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, DM_Sans } from "next/font/google";
 import "./globals.css";
-import SupportChatWidget from "@/components/SupportChatWidget";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -50,7 +49,6 @@ export default function RootLayout({
     >
       <body className="min-h-screen">
         {children}
-        <SupportChatWidget />
       </body>
     </html>
   );

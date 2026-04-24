@@ -1,7 +1,18 @@
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
 
+function getAdminToken(): string {
+  if (typeof document === 'undefined') return ''
+  const match = document.cookie.match(/adminToken=([^;]+)/)
+  return match ? match[1] : ''
+}
+
 export async function adminGet(path: string) {
-  const res = await fetch(`${BASE}${path}`, { cache: 'no-store' })
+  const res = await fetch(`${BASE}${path}`, {
+    cache: 'no-store',
+    headers: {
+      'Authorization': `Bearer ${getAdminToken()}`,
+    },
+  })
   if (!res.ok) throw new Error(`API error ${res.status}`)
   return res.json()
 }
@@ -9,7 +20,10 @@ export async function adminGet(path: string) {
 export async function adminPost(path: string, body: unknown) {
   const res = await fetch(`${BASE}${path}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${getAdminToken()}`,
+    },
     body: JSON.stringify(body),
     cache: 'no-store',
   })
@@ -20,7 +34,10 @@ export async function adminPost(path: string, body: unknown) {
 export async function adminPut(path: string, body: unknown) {
   const res = await fetch(`${BASE}${path}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${getAdminToken()}`,
+    },
     body: JSON.stringify(body),
     cache: 'no-store',
   })
