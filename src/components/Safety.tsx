@@ -54,28 +54,55 @@ const features = [
   },
 ];
 
+function SafetyCard({ feature, index }: { feature: typeof features[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 32 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
+      className="rounded-2xl bg-white border border-[#2C3A3A]/6 p-6 shadow-[0_2px_16px_rgba(44,58,58,0.06)]"
+    >
+      <div
+        className="flex h-11 w-11 items-center justify-center rounded-xl mb-4"
+        style={{
+          backgroundColor: `${feature.accent}14`,
+          color: feature.accent,
+          border: `1px solid ${feature.accent}25`,
+        }}
+      >
+        {feature.icon}
+      </div>
+      <h3 className="font-[family-name:var(--font-bricolage)] text-base font-bold text-[#2C3A3A] mb-2 leading-snug">
+        {feature.title}
+      </h3>
+      <p className="text-[13px] text-[#7A8A85] leading-relaxed">
+        {feature.description}
+      </p>
+    </motion.div>
+  );
+}
+
 export default function Safety() {
   const headRef = useRef<HTMLDivElement>(null);
   const headInView = useInView(headRef, { once: true, margin: "-80px" });
 
   return (
-    <section
-      id="safety"
-      className="noise-bg relative overflow-hidden bg-[#0D1A1A] clip-top-diagonal-dark"
-    >
-      {/* Radial glow */}
+    <section id="safety" className="relative overflow-hidden bg-[#F7F6F4] clip-top-diagonal">
+      {/* Subtle ambient glow */}
       <div
-        className="pointer-events-none absolute top-0 right-0 h-[500px] w-[500px] opacity-20"
-        style={{ background: "radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%)" }}
+        className="pointer-events-none absolute top-0 right-0 h-[500px] w-[500px] opacity-30"
+        style={{ background: "radial-gradient(circle, rgba(249,115,22,0.07) 0%, transparent 70%)" }}
       />
       <div
-        className="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] opacity-15"
-        style={{ background: "radial-gradient(circle, rgba(86,143,122,0.3) 0%, transparent 70%)" }}
+        className="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] opacity-25"
+        style={{ background: "radial-gradient(circle, rgba(86,143,122,0.08) 0%, transparent 70%)" }}
       />
 
       <div className="relative z-10 py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          {/* Asymmetric layout */}
           <div className="flex flex-col lg:flex-row gap-16 lg:gap-20">
 
             {/* Left — Heading */}
@@ -93,7 +120,7 @@ export default function Safety() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={headInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-                className="font-[family-name:var(--font-bricolage)] font-extrabold text-[#F0EDE6] leading-[1.08] tracking-[-0.02em]"
+                className="font-[family-name:var(--font-bricolage)] font-extrabold text-[#2C3A3A] leading-[1.08] tracking-[-0.02em]"
                 style={{ fontSize: "clamp(36px, 4vw, 56px)" }}
               >
                 Safety isn&apos;t a feature.{" "}
@@ -104,7 +131,7 @@ export default function Safety() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={headInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="mt-6 text-[15px] text-[#F0EDE6]/50 leading-relaxed"
+                className="mt-6 text-[15px] text-[#2C3A3A]/55 leading-relaxed"
               >
                 Every plan includes the full guardian system at no extra cost. No tiered safety — everyone gets full protection.
               </motion.p>
@@ -115,7 +142,7 @@ export default function Safety() {
                 transition={{ duration: 0.6, delay: 0.32 }}
                 className="mt-8"
               >
-                <div className="inline-flex items-center gap-2.5 rounded-full border border-[#568F7A]/30 bg-[#568F7A]/10 px-4 py-2">
+                <div className="inline-flex items-center gap-2.5 rounded-full border border-[#568F7A]/25 bg-[#568F7A]/8 px-4 py-2">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#568F7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     <path d="M9 12l2 2 4-4" />
@@ -127,44 +154,9 @@ export default function Safety() {
 
             {/* Right — 2×2 cards grid */}
             <div className="lg:w-[62%] grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {features.map((feature, i) => {
-                const cardRef = useRef<HTMLDivElement>(null);
-                const inView = useInView(cardRef, { once: true, margin: "-60px" });
-
-                return (
-                  <motion.div
-                    key={feature.title}
-                    ref={cardRef}
-                    initial={{ opacity: 0, y: 32 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{
-                      duration: 0.6,
-                      delay: i * 0.12,
-                      ease: [0.25, 0.1, 0.25, 1],
-                    }}
-                    className="safety-card rounded-2xl border border-white/8 bg-white/5 p-6"
-                  >
-                    {/* Icon */}
-                    <div
-                      className="flex h-11 w-11 items-center justify-center rounded-xl mb-4"
-                      style={{
-                        backgroundColor: `${feature.accent}18`,
-                        color: feature.accent,
-                        border: `1px solid ${feature.accent}30`,
-                      }}
-                    >
-                      {feature.icon}
-                    </div>
-
-                    <h3 className="font-[family-name:var(--font-bricolage)] text-base font-bold text-[#F0EDE6] mb-2 leading-snug">
-                      {feature.title}
-                    </h3>
-                    <p className="text-[13px] text-[#F0EDE6]/45 leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </motion.div>
-                );
-              })}
+              {features.map((feature, i) => (
+                <SafetyCard key={feature.title} feature={feature} index={i} />
+              ))}
             </div>
           </div>
         </div>
