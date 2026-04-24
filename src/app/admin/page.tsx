@@ -95,7 +95,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-4 gap-4">
         <SummaryCard label="Total Users" value={summary.totalUsers} />
         <SummaryCard label="Active Campaigns" value={summary.activeCampaigns} accent="#568F7A" />
         <SummaryCard label="Open Tickets" value={summary.openTickets} accent="#F97316" />
