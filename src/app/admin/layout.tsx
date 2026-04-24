@@ -14,6 +14,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname()
   const router = useRouter()
 
+  // Login page gets no chrome — just render children
+  if (pathname === '/admin/login') {
+    return <>{children}</>
+  }
+
   function handleLogout() {
     document.cookie = 'adminToken=; path=/; max-age=0'
     router.push('/admin/login')
