@@ -8,96 +8,94 @@ const SURVEY_URL =
 
 export default function SurveyCTA() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <section
-      id="survey"
-      className="noise-bg relative overflow-hidden bg-[#0D1A1A] clip-top-diagonal-dark"
+      className="grain relative overflow-hidden clip-top-diagonal-dark"
+      style={{ background: "#0A1515" }}
     >
-      {/* Glow */}
       <div
-        className="pointer-events-none absolute inset-0 flex items-center justify-center"
-        aria-hidden
-      >
-        <div
-          className="h-[600px] w-[600px] rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, rgba(86,143,122,0.5) 0%, transparent 70%)" }}
-        />
-      </div>
+        className="pointer-events-none absolute inset-0"
+        style={{ background: "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(86,143,122,0.12) 0%, transparent 70%)" }}
+      />
 
-      <div ref={ref} className="relative z-10 py-28 lg:py-36 mx-auto max-w-3xl px-6 lg:px-8 text-center">
-        {/* Eyebrow */}
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="inline-block text-[10px] font-bold text-[#568F7A] uppercase tracking-[0.2em] mb-6"
-        >
-          Shape the Product
-        </motion.span>
-
-        {/* Headline */}
-        <motion.h2
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-          className="font-[family-name:var(--font-bricolage)] font-extrabold text-[#F0EDE6] leading-[1.06] tracking-[-0.025em]"
-          style={{ fontSize: "clamp(36px, 5vw, 64px)" }}
-        >
-          Shape the Future of{" "}
-          <span className="text-[#568F7A]">Travel Campaign</span>
-        </motion.h2>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.22 }}
-          className="mt-6 text-lg text-[#F0EDE6]/55 leading-relaxed font-[family-name:var(--font-dm-sans)]"
-        >
-          Your feedback shapes our product. Take our quick survey and help build
-          the ride-sharing platform India truly deserves.
-        </motion.p>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.36 }}
-          className="mt-10"
-        >
-          <a
-            href={SURVEY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 rounded-[14px] bg-[#568F7A] px-8 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-[#4a7d6a] hover:shadow-2xl hover:shadow-[#568F7A]/30 hover:-translate-y-0.5"
-          >
-            Take the Survey
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="transition-transform group-hover:translate-x-1"
+      <div className="relative z-10 py-32 lg:py-40">
+        <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
+          <div ref={ref}>
+            <motion.span
+              initial={{ opacity: 0, y: 12 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] mb-8"
+              style={{ color: "#568F7A" }}
             >
-              <path d="M3 8h10M9 4l4 4-4 4" />
-            </svg>
-          </a>
-        </motion.div>
+              Shape the Platform
+            </motion.span>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-5 text-sm text-[#F0EDE6]/30"
-        >
-          No sign-up required. Takes less than 2 minutes.
-        </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 36 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="font-[family-name:var(--font-bricolage)] font-extrabold leading-[1.02] tracking-[-0.04em] mb-8"
+              style={{ fontSize: "clamp(48px, 7vw, 96px)", color: "#F7F6F4" }}
+            >
+              Your voice{" "}
+              <span style={{ color: "#568F7A" }}>builds</span>{" "}
+              Travel Campaign.
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.25 }}
+              className="text-lg leading-relaxed mb-12 mx-auto max-w-2xl"
+              style={{ color: "rgba(247,246,244,0.5)" }}
+            >
+              Every response directly shapes features, safety systems, and pricing.
+              Three minutes. Real impact.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <a
+                href={SURVEY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 rounded-[14px] text-base font-bold text-white transition-all duration-300"
+                style={{ background: "#568F7A", padding: "18px 40px" }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 50px rgba(86,143,122,0.45)";
+                  (e.currentTarget as HTMLAnchorElement).style.background = "#4a7d6a";
+                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
+                  (e.currentTarget as HTMLAnchorElement).style.background = "#568F7A";
+                  (e.currentTarget as HTMLAnchorElement).style.transform = "none";
+                }}
+              >
+                Take the Survey
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 8h10M9 4l4 4-4 4" />
+                </svg>
+              </a>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.6 }}
+              className="mt-6 text-[12px]"
+              style={{ color: "rgba(247,246,244,0.22)" }}
+            >
+              Anonymous · 3 minutes · No sign-up required
+            </motion.p>
+          </div>
+        </div>
       </div>
     </section>
   );

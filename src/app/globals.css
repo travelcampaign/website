@@ -1,124 +1,132 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-ink: #0D1A1A;
-  --color-cream: #F0EDE6;
-  --color-primary: #2C3A3A;
-  --color-trust: #568F7A;
-  --color-ember: #F97316;
-  --color-surface: #F7F6F4;
-  --color-background: #F7F6F4;
+  --color-ink:         #0A1515;
+  --color-cream:       #F7F6F4;
+  --color-primary:     #2C3A3A;
+  --color-trust:       #568F7A;
+  --color-ember:       #F97316;
+  --color-surface:     #F7F6F4;
+  --color-background:  #F7F6F4;
   --color-trust-green: #568F7A;
-  --color-emergency: #F97316;
-  --color-text: #2C3A3A;
-  --color-muted: #7A8A85;
-  --color-trust-green-light: #568F7A1A;
-  --color-emergency-light: #F973161A;
+  --color-emergency:   #F97316;
+  --color-text:        #2C3A3A;
+  --color-muted:       #7A8A85;
 
   --font-display: var(--font-bricolage);
-  --font-body: var(--font-dm-sans);
+  --font-body:    var(--font-dm-sans);
 }
 
-/* Base */
-html {
-  scroll-behavior: smooth;
-}
-
+/* ── Base ─────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
 body {
-  background-color: var(--color-surface);
+  background-color: var(--color-cream);
   color: var(--color-text);
   font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ─── Noise / grain texture ─────────────────────────────── */
-.noise-bg::after {
+/* ── Grain overlay for dark sections ─────────────────────── */
+.grain::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
-  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.04;
   pointer-events: none;
   z-index: 1;
+  mix-blend-mode: overlay;
 }
 
-/* ─── Route dashes ────────────────────────────────────────── */
+/* ── Animated city-grid background (hero) ─────────────────── */
+@keyframes city-pulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 0.7; }
+}
+@keyframes city-scroll {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+.city-grid {
+  background-image:
+    linear-gradient(rgba(86,143,122,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(86,143,122,0.12) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: city-scroll 40s linear infinite;
+}
+@keyframes float-dot {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+  50%       { transform: translateY(-12px) scale(1.2); opacity: 1; }
+}
+
+/* ── Route dashes ────────────────────────────────────────── */
 @keyframes dash-march {
   to { stroke-dashoffset: -200; }
 }
-.animate-dash-march {
-  animation: dash-march 3s linear infinite;
-}
+.animate-dash-march { animation: dash-march 3s linear infinite; }
 
-/* Car travels along SVG path */
-@keyframes car-drive {
-  0%   { offset-distance: 0%; }
-  100% { offset-distance: 100%; }
-}
-.car-on-path {
-  animation: car-drive 4s ease-in-out infinite;
-  offset-path: path("M 40 140 C 90 140, 100 70, 160 80 S 220 130, 280 100 S 340 40, 390 60");
-  offset-rotate: auto;
-}
-
-/* ─── Pulsing dot ──────────────────────────────────────────── */
 @keyframes pulse-ring {
   0%   { transform: scale(0.8); opacity: 1; }
   100% { transform: scale(2.2); opacity: 0; }
 }
-.pulse-ring {
-  animation: pulse-ring 1.8s ease-out infinite;
-}
+.pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
 
-/* ─── Marching dashes (old) ────────────────────────────────── */
-@keyframes dash-flow {
-  to { stroke-dashoffset: -24; }
+/* ── Section dividers ─────────────────────────────────────── */
+.clip-dark-to-cream {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 60px), 0 100%);
 }
-.animate-dash {
-  animation: dash-flow 1s linear infinite;
+.clip-cream-to-dark {
+  clip-path: polygon(0 0, 100% 60px, 100% 100%, 0 100%);
+  margin-top: -60px;
+  padding-top: 120px;
 }
-
-/* ─── Scrollbar ────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--color-surface); }
-::-webkit-scrollbar-thumb { background: #C0C8C5; border-radius: 3px; }
-
-/* ─── Selection ────────────────────────────────────────────── */
-::selection {
-  background-color: #568F7A40;
-  color: var(--color-primary);
-}
-
-/* ─── Diagonal clip helpers ─────────────────────────────────── */
 .clip-top-diagonal {
-  clip-path: polygon(0 48px, 100% 0, 100% 100%, 0 100%);
-  margin-top: -48px;
-  padding-top: 96px;
+  clip-path: polygon(0 60px, 100% 0, 100% 100%, 0 100%);
+  margin-top: -60px;
+  padding-top: 120px;
 }
 .clip-top-diagonal-dark {
-  clip-path: polygon(0 0, 100% 48px, 100% 100%, 0 100%);
-  margin-top: -48px;
-  padding-top: 96px;
+  clip-path: polygon(0 0, 100% 60px, 100% 100%, 0 100%);
+  margin-top: -60px;
+  padding-top: 120px;
 }
 
-/* ─── Membership card hover ─────────────────────────────────── */
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0A1515; }
+::-webkit-scrollbar-thumb { background: #568F7A; border-radius: 2px; }
+
+/* ── Selection ─────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(86,143,122,0.35);
+  color: #0A1515;
+}
+
+/* ── Plan card hover ─────────────────────────────────────── */
 .plan-card {
-  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
-              box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: transform 0.3s cubic-bezier(0.25,0.1,0.25,1),
+              box-shadow 0.3s cubic-bezier(0.25,0.1,0.25,1);
 }
 .plan-card:hover {
-  transform: translateY(-6px) rotate(-0.4deg);
-  box-shadow: 0 28px 48px -12px rgba(44, 58, 58, 0.18);
+  transform: translateY(-6px);
+  box-shadow: 0 32px 56px -12px rgba(44,58,58,0.2);
 }
 
-/* ─── Feature card hover (dark section) ─────────────────────── */
-.safety-card {
-  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
-              border-color 0.3s ease,
-              background-color 0.3s ease;
+/* ── Number reveal ──────────────────────────────────────────── */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.safety-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255,255,255,0.15) !important;
-  background-color: rgba(255,255,255,0.08) !important;
+.stat-reveal { animation: count-up 0.7s cubic-bezier(0.25,0.1,0.25,1) forwards; }
+
+/* ── Video shimmer ──────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.video-shimmer {
+  background: linear-gradient(90deg, #1a2828 25%, #243232 50%, #1a2828 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease infinite;
 }

@@ -1,163 +1,181 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const features = [
   {
     title: "Live GPS Tracking",
-    description:
-      "Every active ride is tracked in real-time. Your guardians see your exact position throughout the journey.",
+    body: "Every active ride is broadcast in real-time. Your emergency contacts see your exact position — not a last-known location.",
+    accent: "#568F7A",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+        <circle cx="12" cy="12" r="10" /><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
       </svg>
     ),
-    accent: "#568F7A",
   },
   {
-    title: "60-Second SOS Alert",
-    description:
-      "No response in 60 seconds? Your full profile and GPS coordinates are automatically sent to nearest contacts.",
+    title: "60-Second SOS",
+    body: "No response in 60 seconds? Full rider profile, GPS, and ride details go directly to the nearest emergency contact.",
+    accent: "#F97316",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-        <line x1="12" y1="9" x2="12" y2="13" />
-        <line x1="12" y1="17" x2="12.01" y2="17" />
+        <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
       </svg>
     ),
-    accent: "#F97316",
   },
   {
     title: "Route Deviation Alert",
-    description:
-      "Stray more than 2km off your planned route? Guardians are notified instantly and the app prompts you to confirm safety.",
+    body: "Stray more than 2km off route and guardians are notified instantly. You're prompted to confirm you're safe.",
+    accent: "#568F7A",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
       </svg>
     ),
-    accent: "#568F7A",
   },
   {
-    title: "Post-Ride Check-In",
-    description:
-      "Safety monitoring continues 30 minutes after drop-off. Guardians know you've arrived safely — not just that you left.",
+    title: "30-Min Post-Ride Window",
+    body: "Safety doesn't end at drop-off. Monitoring continues for 30 minutes after arrival. Your family knows you made it.",
+    accent: "#568F7A",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
+        <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
       </svg>
     ),
-    accent: "#568F7A",
   },
 ];
 
-function SafetyCard({ feature, index }: { feature: typeof features[0]; index: number }) {
+function FeatureCard({ f, i }: { f: typeof features[0]; i: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-50px" });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
-      className="rounded-2xl bg-white border border-[#2C3A3A]/6 p-6 shadow-[0_2px_16px_rgba(44,58,58,0.06)]"
+      transition={{ duration: 0.7, delay: i * 0.13, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative rounded-2xl p-6 transition-all duration-300 cursor-default"
+      style={{
+        background: "rgba(247,246,244,0.04)",
+        border: "1px solid rgba(247,246,244,0.08)",
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLDivElement).style.background = `rgba(${f.accent === "#F97316" ? "249,115,22" : "86,143,122"},0.06)`;
+        (e.currentTarget as HTMLDivElement).style.borderColor = `${f.accent}30`;
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLDivElement).style.background = "rgba(247,246,244,0.04)";
+        (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(247,246,244,0.08)";
+      }}
     >
       <div
-        className="flex h-11 w-11 items-center justify-center rounded-xl mb-4"
-        style={{
-          backgroundColor: `${feature.accent}14`,
-          color: feature.accent,
-          border: `1px solid ${feature.accent}25`,
-        }}
+        className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
+        style={{ background: `${f.accent}18`, color: f.accent, border: `1px solid ${f.accent}28` }}
       >
-        {feature.icon}
+        {f.icon}
       </div>
-      <h3 className="font-[family-name:var(--font-bricolage)] text-base font-bold text-[#2C3A3A] mb-2 leading-snug">
-        {feature.title}
+      <h3 className="font-[family-name:var(--font-bricolage)] text-[17px] font-bold mb-2.5 leading-snug" style={{ color: "#F7F6F4" }}>
+        {f.title}
       </h3>
-      <p className="text-[13px] text-[#7A8A85] leading-relaxed">
-        {feature.description}
+      <p className="text-[13px] leading-relaxed" style={{ color: "rgba(247,246,244,0.42)" }}>
+        {f.body}
       </p>
     </motion.div>
   );
 }
 
 export default function Safety() {
+  const sectionRef = useRef<HTMLElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
   const headInView = useInView(headRef, { once: true, margin: "-80px" });
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const shield = useTransform(scrollYProgress, [0.2, 0.6], [0.05, 1]);
 
   return (
-    <section id="safety" className="relative overflow-hidden bg-[#F7F6F4] clip-top-diagonal">
-      {/* Subtle ambient glow */}
-      <div
-        className="pointer-events-none absolute top-0 right-0 h-[500px] w-[500px] opacity-30"
-        style={{ background: "radial-gradient(circle, rgba(249,115,22,0.07) 0%, transparent 70%)" }}
-      />
-      <div
-        className="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] opacity-25"
-        style={{ background: "radial-gradient(circle, rgba(86,143,122,0.08) 0%, transparent 70%)" }}
-      />
+    <section
+      id="safety"
+      ref={sectionRef}
+      className="grain relative overflow-hidden clip-top-diagonal"
+      style={{ background: "#0D1A14" }}
+    >
+      {/* Ambient glow */}
+      <div className="pointer-events-none absolute top-0 right-0 w-[60vw] h-[60vw] rounded-full opacity-15"
+        style={{ background: "radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%)" }} />
+      <div className="pointer-events-none absolute bottom-0 left-0 w-[50vw] h-[50vw] rounded-full opacity-12"
+        style={{ background: "radial-gradient(circle, rgba(86,143,122,0.3) 0%, transparent 70%)" }} />
 
-      <div className="relative z-10 py-24 lg:py-32">
+      <div className="relative z-10 py-28 lg:py-36">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-20">
 
-            {/* Left — Heading */}
-            <div ref={headRef} className="lg:w-[38%] flex flex-col justify-center">
+          {/* Asymmetric layout */}
+          <div className="flex flex-col lg:flex-row gap-20 lg:gap-24">
+
+            {/* Left: manifesto */}
+            <div ref={headRef} className="lg:w-[40%] flex flex-col justify-center lg:sticky lg:top-28 lg:self-start">
               <motion.span
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={headInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5 }}
-                className="inline-block text-[10px] font-bold text-[#568F7A] uppercase tracking-[0.2em] mb-6"
+                className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] mb-6"
+                style={{ color: "#568F7A" }}
               >
                 Safety System
               </motion.span>
 
               <motion.h2
-                initial={{ opacity: 0, y: 28 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={headInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-                className="font-[family-name:var(--font-bricolage)] font-extrabold text-[#2C3A3A] leading-[1.08] tracking-[-0.02em]"
-                style={{ fontSize: "clamp(36px, 4vw, 56px)" }}
+                transition={{ duration: 0.8, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="font-[family-name:var(--font-bricolage)] font-extrabold leading-[1.05] tracking-[-0.03em] mb-6"
+                style={{ fontSize: "clamp(34px, 4.5vw, 60px)", color: "#F7F6F4" }}
               >
                 Safety isn&apos;t a feature.{" "}
-                <span className="text-[#568F7A]">It&apos;s the foundation.</span>
+                <em className="not-italic" style={{ color: "#568F7A" }}>It&apos;s the foundation.</em>
               </motion.h2>
 
               <motion.p
                 initial={{ opacity: 0, y: 16 }}
                 animate={headInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="mt-6 text-[15px] text-[#2C3A3A]/55 leading-relaxed"
+                className="text-[15px] leading-relaxed mb-8"
+                style={{ color: "rgba(247,246,244,0.45)" }}
               >
-                Every plan includes the full guardian system at no extra cost. No tiered safety — everyone gets full protection.
+                Every plan includes the complete guardian system at no extra cost.
+                No tiered safety. No upsells. Everyone rides with full protection.
               </motion.p>
 
+              {/* Animated shield */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={headInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.32 }}
-                className="mt-8"
+                initial={{ opacity: 0 }}
+                animate={headInView ? { opacity: 1 } : {}}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="flex items-center gap-3 p-4 rounded-2xl w-fit"
+                style={{ background: "rgba(86,143,122,0.1)", border: "1px solid rgba(86,143,122,0.2)" }}
               >
-                <div className="inline-flex items-center gap-2.5 rounded-full border border-[#568F7A]/25 bg-[#568F7A]/8 px-4 py-2">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#568F7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                    <path d="M9 12l2 2 4-4" />
-                  </svg>
-                  <span className="text-xs font-semibold text-[#568F7A]">FREE on all plans</span>
+                <motion.svg
+                  width="36" height="36" viewBox="0 0 24 24" fill="none"
+                  stroke="#568F7A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                  style={{ opacity: shield }}
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  <path d="M9 12l2 2 4-4" />
+                </motion.svg>
+                <div>
+                  <div className="text-[12px] font-bold" style={{ color: "#568F7A" }}>FREE on all plans</div>
+                  <div className="text-[11px]" style={{ color: "rgba(247,246,244,0.35)" }}>No exceptions</div>
                 </div>
               </motion.div>
             </div>
 
-            {/* Right — 2×2 cards grid */}
-            <div className="lg:w-[62%] grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {features.map((feature, i) => (
-                <SafetyCard key={feature.title} feature={feature} index={i} />
+            {/* Right: 2×2 cards */}
+            <div className="lg:w-[60%] grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {features.map((f, i) => (
+                <FeatureCard key={f.title} f={f} i={i} />
               ))}
             </div>
+
           </div>
         </div>
       </div>

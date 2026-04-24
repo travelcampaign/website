@@ -1,284 +1,217 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const SURVEY_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSeIWEF6riJ2RKzNJh97PS_8yAYgfS0nkLyI7UBq6WfV2bqm6g/viewform?usp=sharing";
 
-const ROUTE_PATH = "M 40 130 C 90 130, 100 65, 170 75 S 250 125, 310 95 S 360 45, 400 58";
-
-function RouteCard() {
+/** Animated city-grid hero background */
+function CityBackground() {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 40, y: 20 }}
-      animate={{ opacity: 1, x: 0, y: 0 }}
-      transition={{ duration: 0.9, delay: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-      className="relative rounded-2xl bg-white border border-[#2C3A3A]/8 p-6 shadow-[0_8px_40px_rgba(44,58,58,0.12)]"
-    >
-      {/* Header row */}
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-2">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-[#568F7A] opacity-75 animate-ping" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#568F7A]" />
-          </span>
-          <span className="text-xs font-semibold text-[#568F7A] uppercase tracking-widest">Live Route</span>
-        </div>
-        <span className="rounded-full bg-[#568F7A]/12 px-2.5 py-1 text-[11px] font-semibold text-[#568F7A]">ACTIVE</span>
-      </div>
+    <div className="absolute inset-0 overflow-hidden">
+      {/* Scrolling grid */}
+      <div className="city-grid absolute inset-0 opacity-40" style={{ height: "200%" }} />
 
-      {/* Route endpoints */}
-      <div className="flex items-center justify-between mb-4 px-1">
-        <div className="flex flex-col gap-0.5">
-          <span className="text-[11px] font-medium text-[#7A8A85] uppercase tracking-wider">From</span>
-          <span className="text-sm font-semibold text-[#2C3A3A]">Kondapur</span>
-        </div>
-        <div className="flex-1 mx-3 h-px border-t border-dashed border-[#2C3A3A]/12" />
-        <div className="flex flex-col gap-0.5 items-end">
-          <span className="text-[11px] font-medium text-[#7A8A85] uppercase tracking-wider">To</span>
-          <span className="text-sm font-semibold text-[#2C3A3A]">Hitec City</span>
-        </div>
-      </div>
-
-      {/* Animated SVG route */}
+      {/* Green radial glow — top-left */}
       <div
-        className="relative rounded-xl overflow-hidden"
-        style={{ height: 160, background: "#F0EDE6", border: "1px solid rgba(44,58,58,0.06)" }}
-      >
-        <svg
-          viewBox="0 0 440 175"
-          className="absolute inset-0 w-full h-full"
-          fill="none"
-        >
-          {/* Track (static, faint) */}
-          <path
-            d={ROUTE_PATH}
-            stroke="rgba(86,143,122,0.2)"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
+        className="absolute -top-1/4 -left-1/4 w-[70vw] h-[70vw] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(86,143,122,0.18) 0%, transparent 65%)",
+        }}
+      />
+      {/* Orange radial — top-right */}
+      <div
+        className="absolute -top-1/4 right-0 w-[50vw] h-[50vw] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(249,115,22,0.10) 0%, transparent 65%)",
+        }}
+      />
 
-          {/* Marching dashes */}
-          <motion.path
-            d={ROUTE_PATH}
-            stroke="#568F7A"
-            strokeWidth="2.5"
-            strokeDasharray="8 6"
-            strokeLinecap="round"
-            initial={{ strokeDashoffset: 200 }}
-            animate={{ strokeDashoffset: 0 }}
-            transition={{ duration: 2.4, ease: "easeInOut" }}
-            style={{ filter: "drop-shadow(0 0 3px rgba(86,143,122,0.4))" }}
-          />
+      {/* Floating route nodes */}
+      {[
+        { x: "15%", y: "30%", color: "#568F7A", size: 10, delay: "0s" },
+        { x: "45%", y: "60%", color: "#568F7A", size: 6, delay: "0.8s" },
+        { x: "72%", y: "25%", color: "#F97316", size: 8, delay: "1.4s" },
+        { x: "85%", y: "55%", color: "#568F7A", size: 5, delay: "0.4s" },
+        { x: "30%", y: "75%", color: "#F97316", size: 7, delay: "1.2s" },
+      ].map((dot, i) => (
+        <div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            left: dot.x, top: dot.y,
+            width: dot.size, height: dot.size,
+            backgroundColor: dot.color,
+            opacity: 0.6,
+            animation: `float-dot ${3 + i * 0.5}s ease-in-out ${dot.delay} infinite`,
+            boxShadow: `0 0 ${dot.size * 3}px ${dot.color}`,
+          }}
+        />
+      ))}
 
-          {/* Animated overlay dash (marching) */}
-          <path
-            d={ROUTE_PATH}
-            stroke="#568F7A"
-            strokeWidth="2"
-            strokeDasharray="5 8"
-            strokeLinecap="round"
-            opacity={0.45}
-            className="animate-dash-march"
-          />
+      {/* Faint connecting lines (SVG) */}
+      <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.08 }}>
+        <line x1="15%" y1="30%" x2="45%" y2="60%" stroke="#568F7A" strokeWidth="1" strokeDasharray="4 6" />
+        <line x1="45%" y1="60%" x2="72%" y2="25%" stroke="#568F7A" strokeWidth="1" strokeDasharray="4 6" />
+        <line x1="72%" y1="25%" x2="85%" y2="55%" stroke="#F97316" strokeWidth="1" strokeDasharray="4 6" />
+        <line x1="30%" y1="75%" x2="45%" y2="60%" stroke="#568F7A" strokeWidth="1" strokeDasharray="4 6" />
+      </svg>
 
-          {/* Origin dot */}
-          <motion.g
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-          >
-            <circle cx="40" cy="130" r="10" fill="rgba(86,143,122,0.15)" />
-            <circle cx="40" cy="130" r="5" fill="#568F7A" />
-            <circle cx="40" cy="130" r="5" fill="#568F7A" opacity="0.35" className="pulse-ring" />
-          </motion.g>
-
-          {/* Destination dot */}
-          <motion.g
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 2.4, duration: 0.5 }}
-          >
-            <circle cx="400" cy="58" r="10" fill="rgba(249,115,22,0.15)" />
-            <circle cx="400" cy="58" r="5" fill="#F97316" />
-          </motion.g>
-
-          {/* Traveling car marker */}
-          <motion.g
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.5 }}
-          >
-            <animateMotion
-              dur="5s"
-              repeatCount="indefinite"
-              begin="2.5s"
-              path={ROUTE_PATH}
-              rotate="auto"
-            >
-              <g>
-                <circle r="9" fill="white" />
-                <circle r="7" fill="#568F7A" />
-                <text
-                  textAnchor="middle"
-                  dominantBaseline="central"
-                  fontSize="8"
-                  fill="white"
-                  fontFamily="sans-serif"
-                >
-                  ▲
-                </text>
-              </g>
-            </animateMotion>
-          </motion.g>
-
-          {/* Labels */}
-          <text x="40" y="155" textAnchor="middle" fontSize="9" fill="rgba(44,58,58,0.35)" fontFamily="system-ui,sans-serif">Kondapur</text>
-          <text x="400" y="78" textAnchor="middle" fontSize="9" fill="rgba(44,58,58,0.35)" fontFamily="system-ui,sans-serif">Hitec City</text>
-        </svg>
-      </div>
-
-      {/* Bottom chips */}
-      <div className="mt-4 flex items-center gap-2 flex-wrap">
-        <span className="rounded-full bg-[#2C3A3A]/5 border border-[#2C3A3A]/8 px-3 py-1 text-[11px] font-medium text-[#7A8A85]">
-          3 riders matched
-        </span>
-        <span className="rounded-full bg-[#2C3A3A]/5 border border-[#2C3A3A]/8 px-3 py-1 text-[11px] font-medium text-[#7A8A85]">
-          12 min away
-        </span>
-        <span className="rounded-full bg-[#568F7A]/12 border border-[#568F7A]/20 px-3 py-1 text-[11px] font-medium text-[#568F7A]">
-          ₹0 commission
-        </span>
-      </div>
-    </motion.div>
+      {/* Bottom fade */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-48"
+        style={{ background: "linear-gradient(to bottom, transparent, #0A1515)" }}
+      />
+    </div>
   );
 }
 
 const stats = [
   { value: "95+", label: "Survey responses" },
-  { value: "60s", label: "SOS alert time" },
-  { value: "₹0", label: "Commission" },
+  { value: "₹0", label: "Commission ever" },
+  { value: "60s", label: "SOS escalation" },
+  { value: "5", label: "Membership tiers" },
 ];
 
 export default function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
   const scrollTo = (id: string) => {
-    const el = document.querySelector(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#F7F6F4]">
-      {/* Subtle tinted glow — top-left */}
-      <div
-        className="pointer-events-none absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full opacity-40"
-        style={{ background: "radial-gradient(circle, rgba(86,143,122,0.12) 0%, transparent 70%)" }}
-      />
-      {/* Top-right accent */}
-      <div
-        className="pointer-events-none absolute top-0 right-0 h-[500px] w-[500px] rounded-full opacity-30"
-        style={{ background: "radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%)" }}
-      />
+    <section
+      ref={ref}
+      className="grain relative min-h-screen flex flex-col justify-center overflow-hidden"
+      style={{ background: "#0A1515" }}
+    >
+      <CityBackground />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 pt-32 pb-20 lg:pt-40 lg:pb-32">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-16 lg:gap-12">
+      {/* Content */}
+      <motion.div
+        style={{ y, opacity }}
+        className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 pt-32 pb-28"
+      >
+        {/* Eyebrow */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex items-center gap-3 mb-10"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-[#568F7A] opacity-75 animate-ping" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#568F7A]" />
+          </span>
+          <span className="text-[11px] font-bold text-[#568F7A] uppercase tracking-[0.25em]">
+            Launching in Hyderabad — 2026
+          </span>
+        </motion.div>
 
-          {/* ── Left column ─────────────────────────── */}
-          <div className="flex-1 lg:max-w-[55%]">
-            {/* Eyebrow pill */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-              className="mb-7"
-            >
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#568F7A]/25 bg-[#568F7A]/8 px-4 py-1.5 text-xs font-semibold text-[#568F7A] uppercase tracking-widest">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full rounded-full bg-[#568F7A] opacity-75 animate-ping" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#568F7A]" />
-                </span>
-                Now in Hyderabad
-              </span>
-            </motion.div>
+        {/* Headline */}
+        <div className="max-w-5xl">
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="font-[family-name:var(--font-bricolage)] font-extrabold text-[#F7F6F4] leading-[0.98] tracking-[-0.04em]"
+            style={{ fontSize: "clamp(60px, 9vw, 130px)" }}
+          >
+            Share the
+            <br />
+            <span style={{ color: "#568F7A" }}>journey.</span>
+          </motion.h1>
 
-            {/* H1 */}
-            <motion.h1
-              initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-              className="font-[family-name:var(--font-bricolage)] font-extrabold text-[#2C3A3A] leading-[1.04] tracking-[-0.03em]"
-              style={{ fontSize: "clamp(52px, 7vw, 96px)" }}
-            >
-              Commute smarter.{" "}
-              <span className="text-[#568F7A]">Arrive safer.</span>
-            </motion.h1>
-
-            {/* Subhead */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.38, ease: [0.25, 0.1, 0.25, 1] }}
-              className="mt-6 max-w-xl text-lg leading-relaxed text-[#2C3A3A]/60 font-[family-name:var(--font-dm-sans)]"
-            >
-              India&apos;s first safety-first ride-sharing community. Real-time tracking,
-              verified riders, zero commission.
-            </motion.p>
-
-            {/* CTA buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.52, ease: [0.25, 0.1, 0.25, 1] }}
-              className="mt-10 flex flex-col sm:flex-row gap-4"
-            >
-              <a
-                href={SURVEY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-[14px] bg-[#568F7A] px-7 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-[#4a7d6a] hover:shadow-xl hover:shadow-[#568F7A]/25 hover:-translate-y-0.5"
-              >
-                Join the Community
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 8h10M9 4l4 4-4 4" />
-                </svg>
-              </a>
-              <button
-                onClick={() => scrollTo("#how-it-works")}
-                className="inline-flex items-center justify-center gap-2 rounded-[14px] border border-[#2C3A3A]/15 bg-white px-7 py-4 text-base font-semibold text-[#2C3A3A] transition-all duration-200 hover:border-[#2C3A3A]/30 hover:shadow-md"
-              >
-                See How It Works
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M8 3v10M4 9l4 4 4-4" />
-                </svg>
-              </button>
-            </motion.div>
-
-            {/* Social proof row */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.68, ease: [0.25, 0.1, 0.25, 1] }}
-              className="mt-12 flex flex-wrap gap-x-8 gap-y-3 items-center"
-            >
-              {stats.map((s, i) => (
-                <div key={i} className="flex items-center gap-2.5">
-                  <span className="font-[family-name:var(--font-bricolage)] text-2xl font-bold text-[#568F7A]">
-                    {s.value}
-                  </span>
-                  <span className="text-sm text-[#2C3A3A]/40 font-medium">{s.label}</span>
-                  {i < stats.length - 1 && (
-                    <span className="ml-4 h-4 w-px bg-[#2C3A3A]/12" />
-                  )}
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* ── Right column — Route card ──────────── */}
-          <div className="w-full lg:w-[45%] lg:max-w-[460px]">
-            <RouteCard />
-          </div>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-8 max-w-2xl text-xl leading-relaxed font-[family-name:var(--font-dm-sans)]"
+            style={{ color: "rgba(247,246,244,0.55)" }}
+          >
+            India&apos;s first safety-first ride-sharing community. Verified riders,
+            real-time tracking, zero commission — built for the way Indians actually commute.
+          </motion.p>
         </div>
-      </div>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-12 flex flex-col sm:flex-row gap-4"
+        >
+          <a
+            href={SURVEY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center justify-center gap-2.5 rounded-[14px] px-8 py-4 text-base font-semibold text-white transition-all duration-300"
+            style={{ background: "#568F7A", boxShadow: "0 0 0 0 rgba(86,143,122,0)" }}
+            onMouseEnter={e => (e.currentTarget.style.boxShadow = "0 0 40px rgba(86,143,122,0.4)")}
+            onMouseLeave={e => (e.currentTarget.style.boxShadow = "0 0 0 0 rgba(86,143,122,0)")}
+          >
+            Join the Waitlist
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
+              <path d="M3 8h10M9 4l4 4-4 4" />
+            </svg>
+          </a>
+          <button
+            onClick={() => scrollTo("#how-it-works")}
+            className="inline-flex items-center justify-center gap-2 rounded-[14px] px-8 py-4 text-base font-medium transition-all duration-200"
+            style={{ border: "1px solid rgba(247,246,244,0.12)", color: "rgba(247,246,244,0.7)" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(247,246,244,0.3)"; (e.currentTarget as HTMLButtonElement).style.color = "#F7F6F4"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(247,246,244,0.12)"; (e.currentTarget as HTMLButtonElement).style.color = "rgba(247,246,244,0.7)"; }}
+          >
+            See How It Works
+          </button>
+        </motion.div>
+
+        {/* Stats strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.78 }}
+          className="mt-20 pt-10 flex flex-wrap gap-x-12 gap-y-6 items-center"
+          style={{ borderTop: "1px solid rgba(247,246,244,0.08)" }}
+        >
+          {stats.map((s, i) => (
+            <div key={i} className="flex flex-col gap-0.5">
+              <span
+                className="font-[family-name:var(--font-bricolage)] font-extrabold leading-none"
+                style={{ fontSize: "clamp(28px, 3.5vw, 40px)", color: "#568F7A" }}
+              >
+                {s.value}
+              </span>
+              <span className="text-[12px] font-medium tracking-wide" style={{ color: "rgba(247,246,244,0.35)" }}>
+                {s.label}
+              </span>
+            </div>
+          ))}
+        </motion.div>
+      </motion.div>
+
+      {/* Scroll cue */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
+      >
+        <span className="text-[10px] font-medium tracking-[0.2em] uppercase" style={{ color: "rgba(247,246,244,0.3)" }}>Scroll</span>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="rgba(247,246,244,0.3)" strokeWidth="1.5">
+            <path d="M4 6l4 4 4-4" />
+          </svg>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
