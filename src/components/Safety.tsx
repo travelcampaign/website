@@ -1,15 +1,15 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const features = [
   {
-    title: "Real-time GPS Monitoring",
+    title: "Live GPS Tracking",
     description:
-      "Every active ride is tracked live. Route deviation triggers instant alerts to your guardians. You're never alone on the road.",
+      "Every active ride is tracked in real-time. Your guardians see your exact position throughout the journey.",
     icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10" />
         <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
       </svg>
@@ -17,24 +17,35 @@ const features = [
     accent: "#568F7A",
   },
   {
-    title: "Emergency SOS Button",
+    title: "60-Second SOS Alert",
     description:
-      "One tap sends your live location to all emergency contacts instantly. Help is always one touch away.",
+      "No response in 60 seconds? Your full profile and GPS coordinates are automatically sent to nearest contacts.",
     icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-        <line x1="12" y1="2" x2="12" y2="5" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+        <line x1="12" y1="9" x2="12" y2="13" />
+        <line x1="12" y1="17" x2="12.01" y2="17" />
       </svg>
     ),
     accent: "#F97316",
   },
   {
-    title: "30-Min Post-Ride Window",
+    title: "Route Deviation Alert",
     description:
-      "Safety doesn't stop when the ride ends. Monitoring continues for 30 minutes after drop-off, so your guardians know you've reached safely.",
+      "Stray more than 2km off your planned route? Guardians are notified instantly and the app prompts you to confirm safety.",
     icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      </svg>
+    ),
+    accent: "#568F7A",
+  },
+  {
+    title: "Post-Ride Check-In",
+    description:
+      "Safety monitoring continues 30 minutes after drop-off. Guardians know you've arrived safely — not just that you left.",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10" />
         <polyline points="12 6 12 12 16 14" />
       </svg>
@@ -43,135 +54,120 @@ const features = [
   },
 ];
 
-function FeatureCard({
-  feature,
-  index,
-}: {
-  feature: (typeof features)[0];
-  index: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.15,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="group relative"
-      style={{ perspective: "1000px" }}
-    >
-      <motion.div
-        animate={{
-          rotateX: hovered ? -2 : 0,
-          rotateY: hovered ? 2 : 0,
-          scale: hovered ? 1.02 : 1,
-        }}
-        transition={{ duration: 0.3 }}
-        className="relative overflow-hidden rounded-[18px] border border-primary/5 bg-white p-8 lg:p-10 shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-primary/5"
-      >
-        {/* Accent top border */}
-        <div
-          className="absolute top-0 left-0 right-0 h-1 rounded-t-[18px]"
-          style={{ backgroundColor: feature.accent }}
-        />
-
-        {/* Icon */}
-        <div
-          className="flex h-16 w-16 items-center justify-center rounded-2xl"
-          style={{ backgroundColor: `${feature.accent}15`, color: feature.accent }}
-        >
-          {feature.icon}
-        </div>
-
-        {/* Content */}
-        <h3 className="mt-6 font-[family-name:var(--font-bricolage)] text-xl font-bold text-primary">
-          {feature.title}
-        </h3>
-        <p className="mt-3 text-base text-muted leading-relaxed">
-          {feature.description}
-        </p>
-
-        {/* Decorative corner gradient */}
-        <div
-          className="absolute -bottom-8 -right-8 h-32 w-32 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100 blur-3xl"
-          style={{ backgroundColor: `${feature.accent}20` }}
-        />
-      </motion.div>
-    </motion.div>
-  );
-}
-
 export default function Safety() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const headRef = useRef<HTMLDivElement>(null);
+  const headInView = useInView(headRef, { once: true, margin: "-80px" });
 
   return (
-    <section id="safety" className="py-24 lg:py-32 bg-background border-t border-primary/5">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        {/* Header */}
-        <div ref={ref} className="text-center max-w-3xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5 }}
-            className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-emergency/10"
-          >
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-[family-name:var(--font-bricolage)] text-4xl md:text-5xl font-extrabold text-primary"
-          >
-            The Guardian System
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-4 text-lg text-muted"
-          >
-            Safety isn&apos;t a feature. It&apos;s our foundation.
-          </motion.p>
-        </div>
+    <section
+      id="safety"
+      className="noise-bg relative overflow-hidden bg-[#0D1A1A] clip-top-diagonal-dark"
+    >
+      {/* Radial glow */}
+      <div
+        className="pointer-events-none absolute top-0 right-0 h-[500px] w-[500px] opacity-20"
+        style={{ background: "radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%)" }}
+      />
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 h-[400px] w-[400px] opacity-15"
+        style={{ background: "radial-gradient(circle, rgba(86,143,122,0.3) 0%, transparent 70%)" }}
+      />
 
-        {/* Feature cards */}
-        <div className="mt-16 lg:mt-20 grid gap-6 md:grid-cols-3">
-          {features.map((feature, i) => (
-            <FeatureCard key={feature.title} feature={feature} index={i} />
-          ))}
-        </div>
+      <div className="relative z-10 py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          {/* Asymmetric layout */}
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-20">
 
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-12 flex justify-center"
-        >
-          <div className="inline-flex items-center gap-3 rounded-full bg-trust-green text-white px-6 py-3 shadow-lg shadow-trust-green/20">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              <path d="M9 12l2 2 4-4" />
-            </svg>
-            <span className="text-sm font-semibold text-white">
-              All safety features FREE on every plan
-            </span>
+            {/* Left — Heading */}
+            <div ref={headRef} className="lg:w-[38%] flex flex-col justify-center">
+              <motion.span
+                initial={{ opacity: 0, y: 10 }}
+                animate={headInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5 }}
+                className="inline-block text-[10px] font-bold text-[#568F7A] uppercase tracking-[0.2em] mb-6"
+              >
+                Safety System
+              </motion.span>
+
+              <motion.h2
+                initial={{ opacity: 0, y: 28 }}
+                animate={headInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.08, ease: [0.25, 0.1, 0.25, 1] }}
+                className="font-[family-name:var(--font-bricolage)] font-extrabold text-[#F0EDE6] leading-[1.08] tracking-[-0.02em]"
+                style={{ fontSize: "clamp(36px, 4vw, 56px)" }}
+              >
+                Safety isn&apos;t a feature.{" "}
+                <span className="text-[#568F7A]">It&apos;s the foundation.</span>
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={headInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="mt-6 text-[15px] text-[#F0EDE6]/50 leading-relaxed"
+              >
+                Every plan includes the full guardian system at no extra cost. No tiered safety — everyone gets full protection.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={headInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.32 }}
+                className="mt-8"
+              >
+                <div className="inline-flex items-center gap-2.5 rounded-full border border-[#568F7A]/30 bg-[#568F7A]/10 px-4 py-2">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#568F7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <path d="M9 12l2 2 4-4" />
+                  </svg>
+                  <span className="text-xs font-semibold text-[#568F7A]">FREE on all plans</span>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right — 2×2 cards grid */}
+            <div className="lg:w-[62%] grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {features.map((feature, i) => {
+                const cardRef = useRef<HTMLDivElement>(null);
+                const inView = useInView(cardRef, { once: true, margin: "-60px" });
+
+                return (
+                  <motion.div
+                    key={feature.title}
+                    ref={cardRef}
+                    initial={{ opacity: 0, y: 32 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{
+                      duration: 0.6,
+                      delay: i * 0.12,
+                      ease: [0.25, 0.1, 0.25, 1],
+                    }}
+                    className="safety-card rounded-2xl border border-white/8 bg-white/5 p-6"
+                  >
+                    {/* Icon */}
+                    <div
+                      className="flex h-11 w-11 items-center justify-center rounded-xl mb-4"
+                      style={{
+                        backgroundColor: `${feature.accent}18`,
+                        color: feature.accent,
+                        border: `1px solid ${feature.accent}30`,
+                      }}
+                    >
+                      {feature.icon}
+                    </div>
+
+                    <h3 className="font-[family-name:var(--font-bricolage)] text-base font-bold text-[#F0EDE6] mb-2 leading-snug">
+                      {feature.title}
+                    </h3>
+                    <p className="text-[13px] text-[#F0EDE6]/45 leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

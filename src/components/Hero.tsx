@@ -1,119 +1,164 @@
 "use client";
 
 import { motion } from "framer-motion";
-import AnimatedCounter from "./AnimatedCounter";
 
 const SURVEY_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSeIWEF6riJ2RKzNJh97PS_8yAYgfS0nkLyI7UBq6WfV2bqm6g/viewform?usp=sharing";
 
-function AnimatedRouteLine() {
+const ROUTE_PATH = "M 40 130 C 90 130, 100 65, 170 75 S 250 125, 310 95 S 360 45, 400 58";
+
+function RouteCard() {
   return (
-    <motion.svg
-      viewBox="0 0 800 200"
-      className="absolute bottom-12 left-0 right-0 w-full h-auto opacity-20 pointer-events-none select-none hidden lg:block"
-      initial="hidden"
-      animate="visible"
+    <motion.div
+      initial={{ opacity: 0, x: 40, y: 20 }}
+      animate={{ opacity: 1, x: 0, y: 0 }}
+      transition={{ duration: 0.9, delay: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+      className="relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-2xl shadow-black/40"
     >
-      {/* The route path */}
-      <motion.path
-        d="M0 140 C100 140, 120 60, 220 60 S340 140, 440 100 S560 20, 660 80 S750 140, 800 100"
-        fill="none"
-        stroke="#568F7A"
-        strokeWidth="3"
-        strokeDasharray="12 8"
-        strokeLinecap="round"
-        variants={{
-          hidden: { pathLength: 0 },
-          visible: {
-            pathLength: 1,
-            transition: { duration: 2.5, ease: "easeInOut" },
-          },
-        }}
-      />
-      {/* Animated dashed overlay */}
-      <motion.path
-        d="M0 140 C100 140, 120 60, 220 60 S340 140, 440 100 S560 20, 660 80 S750 140, 800 100"
-        fill="none"
-        stroke="#568F7A"
-        strokeWidth="3"
-        strokeDasharray="8 16"
-        strokeLinecap="round"
-        className="animate-dash"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: 0.6,
-            transition: { delay: 2.5, duration: 0.5 },
-          },
-        }}
-      />
-      {/* Pulsing dot */}
-      <motion.circle
-        r="6"
-        fill="#568F7A"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: [0, 1, 1],
-            transition: { delay: 2.5, duration: 0.3 },
-          },
-        }}
-      >
-        <animateMotion
-          dur="6s"
-          repeatCount="indefinite"
-          path="M0 140 C100 140, 120 60, 220 60 S340 140, 440 100 S560 20, 660 80 S750 140, 800 100"
-          begin="2.5s"
-        />
-        <animate
-          attributeName="r"
-          values="5;8;5"
-          dur="1.5s"
-          repeatCount="indefinite"
-        />
-        <animate
-          attributeName="opacity"
-          values="1;0.5;1"
-          dur="1.5s"
-          repeatCount="indefinite"
-        />
-      </motion.circle>
-      {/* Origin marker */}
-      <motion.g
-        variants={{
-          hidden: { opacity: 0, scale: 0 },
-          visible: {
-            opacity: 1,
-            scale: 1,
-            transition: { delay: 0.3, duration: 0.4 },
-          },
-        }}
-      >
-        <circle cx="0" cy="140" r="8" fill="#568F7A" opacity="0.2" />
-        <circle cx="0" cy="140" r="4" fill="#568F7A" />
-      </motion.g>
-      {/* Destination marker */}
-      <motion.g
-        variants={{
-          hidden: { opacity: 0, scale: 0 },
-          visible: {
-            opacity: 1,
-            scale: 1,
-            transition: { delay: 2.2, duration: 0.4 },
-          },
-        }}
-      >
-        <circle cx="800" cy="100" r="8" fill="#F97316" opacity="0.2" />
-        <circle cx="800" cy="100" r="4" fill="#F97316" />
-      </motion.g>
-    </motion.svg>
+      {/* Header row */}
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-[#568F7A] opacity-75 animate-ping" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#568F7A]" />
+          </span>
+          <span className="text-xs font-semibold text-[#568F7A] uppercase tracking-widest">Live Route</span>
+        </div>
+        <span className="rounded-full bg-[#568F7A]/15 px-2.5 py-1 text-[11px] font-semibold text-[#568F7A]">ACTIVE</span>
+      </div>
+
+      {/* Route endpoints */}
+      <div className="flex items-center justify-between mb-4 px-1">
+        <div className="flex flex-col gap-0.5">
+          <span className="text-[11px] font-medium text-white/40 uppercase tracking-wider">From</span>
+          <span className="text-sm font-semibold text-white">Kondapur</span>
+        </div>
+        <div className="flex-1 mx-3 h-px border-t border-dashed border-white/15" />
+        <div className="flex flex-col gap-0.5 items-end">
+          <span className="text-[11px] font-medium text-white/40 uppercase tracking-wider">To</span>
+          <span className="text-sm font-semibold text-white">Hitec City</span>
+        </div>
+      </div>
+
+      {/* Animated SVG route */}
+      <div className="relative rounded-xl bg-white/4 border border-white/8 overflow-hidden" style={{ height: 160 }}>
+        <svg
+          viewBox="0 0 440 175"
+          className="absolute inset-0 w-full h-full"
+          fill="none"
+        >
+          {/* Track (static, faint) */}
+          <path
+            d={ROUTE_PATH}
+            stroke="rgba(86,143,122,0.18)"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+
+          {/* Marching dashes */}
+          <motion.path
+            d={ROUTE_PATH}
+            stroke="#568F7A"
+            strokeWidth="2.5"
+            strokeDasharray="8 6"
+            strokeLinecap="round"
+            initial={{ strokeDashoffset: 200 }}
+            animate={{ strokeDashoffset: 0 }}
+            transition={{ duration: 2.4, ease: "easeInOut" }}
+            style={{
+              filter: "drop-shadow(0 0 4px rgba(86,143,122,0.5))",
+            }}
+          />
+
+          {/* Animated overlay dash (marching) */}
+          <path
+            d={ROUTE_PATH}
+            stroke="#568F7A"
+            strokeWidth="2"
+            strokeDasharray="5 8"
+            strokeLinecap="round"
+            opacity={0.55}
+            className="animate-dash-march"
+          />
+
+          {/* Origin dot */}
+          <motion.g
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.4 }}
+          >
+            <circle cx="40" cy="130" r="10" fill="rgba(86,143,122,0.18)" />
+            <circle cx="40" cy="130" r="5" fill="#568F7A" />
+            <circle cx="40" cy="130" r="5" fill="#568F7A" opacity="0.4" className="pulse-ring" />
+          </motion.g>
+
+          {/* Destination dot */}
+          <motion.g
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 2.4, duration: 0.5 }}
+          >
+            <circle cx="400" cy="58" r="10" fill="rgba(249,115,22,0.18)" />
+            <circle cx="400" cy="58" r="5" fill="#F97316" />
+          </motion.g>
+
+          {/* Traveling car marker */}
+          <motion.g
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.5 }}
+          >
+            <animateMotion
+              dur="5s"
+              repeatCount="indefinite"
+              begin="2.5s"
+              path={ROUTE_PATH}
+              rotate="auto"
+            >
+              <g>
+                <circle r="9" fill="#0D1A1A" />
+                <circle r="7" fill="#568F7A" />
+                {/* Car glyph */}
+                <text
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fontSize="8"
+                  fill="white"
+                  fontFamily="sans-serif"
+                >
+                  ▲
+                </text>
+              </g>
+            </animateMotion>
+          </motion.g>
+
+          {/* Origin label */}
+          <text x="40" y="155" textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.35)" fontFamily="system-ui,sans-serif">Kondapur</text>
+          {/* Destination label */}
+          <text x="400" y="78" textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.35)" fontFamily="system-ui,sans-serif">Hitec City</text>
+        </svg>
+      </div>
+
+      {/* Bottom chips */}
+      <div className="mt-4 flex items-center gap-2 flex-wrap">
+        <span className="rounded-full bg-white/8 border border-white/10 px-3 py-1 text-[11px] font-medium text-white/65">
+          3 riders matched
+        </span>
+        <span className="rounded-full bg-white/8 border border-white/10 px-3 py-1 text-[11px] font-medium text-white/65">
+          12 min away
+        </span>
+        <span className="rounded-full bg-[#568F7A]/15 border border-[#568F7A]/25 px-3 py-1 text-[11px] font-medium text-[#568F7A]">
+          ₹0 commission
+        </span>
+      </div>
+    </motion.div>
   );
 }
 
 const stats = [
-  { display: "0%", label: "Commission — Ever" },
-  { display: "5", label: "Membership Plans" },
-  { display: "100%", label: "Safety — Free" },
+  { value: "95+", label: "Survey responses" },
+  { value: "60s", label: "SOS alert time" },
+  { value: "₹0", label: "Commission" },
 ];
 
 export default function Hero() {
@@ -123,108 +168,123 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden noise-bg grid-bg">
+    <section className="noise-bg relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#0D1A1A]">
+      {/* Subtle radial glow top-left */}
+      <div
+        className="pointer-events-none absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full opacity-25"
+        style={{ background: "radial-gradient(circle, rgba(86,143,122,0.35) 0%, transparent 70%)" }}
+      />
+      {/* Subtle glow top-right */}
+      <div
+        className="pointer-events-none absolute -top-20 right-0 h-[500px] w-[500px] rounded-full opacity-15"
+        style={{ background: "radial-gradient(circle, rgba(249,115,22,0.25) 0%, transparent 70%)" }}
+      />
+
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8 pt-32 pb-20 lg:pt-40 lg:pb-32">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-8"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full bg-trust-green/10 px-4 py-2 text-sm font-medium text-trust-green">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-trust-green opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-trust-green" />
-            </span>
-            Now building in Hyderabad
-          </span>
-        </motion.div>
+        <div className="flex flex-col lg:flex-row lg:items-center gap-16 lg:gap-12">
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="font-[family-name:var(--font-bricolage)] text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-primary leading-[1.05] tracking-tight max-w-4xl"
-        >
-          Share your journey,{" "}
-          <span className="relative">
-            <span className="relative z-10">not just a ride.</span>
-            <motion.span
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute bottom-2 left-0 right-0 h-4 bg-trust-green/20 origin-left -z-0 rounded-sm"
-            />
-          </span>
-        </motion.h1>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-6 max-w-2xl text-lg sm:text-xl text-muted leading-relaxed font-[family-name:var(--font-dm-sans)]"
-        >
-          India&apos;s first community-driven ride sharing platform. Built around trust, safety,
-          and real human connections.
-        </motion.p>
-
-        {/* Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7 }}
-          className="mt-10 flex flex-col sm:flex-row gap-4"
-        >
-          <a
-            href={SURVEY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-[14px] bg-trust-green px-7 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-trust-green/90 hover:shadow-xl hover:shadow-trust-green/20 hover:-translate-y-0.5"
-          >
-            Take Our Survey
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 8h10M9 4l4 4-4 4" />
-            </svg>
-          </a>
-          <button
-            onClick={() => scrollTo("#how-it-works")}
-            className="inline-flex items-center justify-center gap-2 rounded-[14px] border-2 border-primary/15 px-7 py-4 text-base font-semibold text-primary transition-all duration-200 hover:border-primary/30 hover:bg-primary/5"
-          >
-            See How It Works
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M8 3v10M4 9l4 4 4-4" />
-            </svg>
-          </button>
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1 }}
-          className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4"
-        >
-          {stats.map((stat, i) => (
-            <div key={i} className="flex flex-col rounded-[18px] border border-primary/5 bg-white/60 backdrop-blur-sm px-8 py-6">
-              <span className="font-[family-name:var(--font-bricolage)] text-4xl sm:text-5xl font-extrabold text-primary">
-                {stat.display}
+          {/* ── Left column ─────────────────────────── */}
+          <div className="flex-1 lg:max-w-[55%]">
+            {/* Eyebrow pill */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              className="mb-7"
+            >
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#568F7A]/30 bg-[#568F7A]/10 px-4 py-1.5 text-xs font-semibold text-[#568F7A] uppercase tracking-widest">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-[#568F7A] opacity-75 animate-ping" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#568F7A]" />
+                </span>
+                Now in Hyderabad
               </span>
-              <span className="mt-1 text-sm font-medium text-muted uppercase tracking-wider">
-                {stat.label}
-              </span>
-            </div>
-          ))}
-        </motion.div>
+            </motion.div>
 
-        {/* Animated Route Line */}
-        <AnimatedRouteLine />
+            {/* H1 */}
+            <motion.h1
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+              className="font-[family-name:var(--font-bricolage)] font-extrabold text-[#F0EDE6] leading-[1.04] tracking-[-0.03em]"
+              style={{ fontSize: "clamp(52px, 7vw, 96px)" }}
+            >
+              Commute smarter.{" "}
+              <span className="text-[#568F7A]">Arrive safer.</span>
+            </motion.h1>
+
+            {/* Subhead */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.38, ease: [0.25, 0.1, 0.25, 1] }}
+              className="mt-6 max-w-xl text-lg leading-relaxed text-[#F0EDE6]/60 font-[family-name:var(--font-dm-sans)]"
+            >
+              India&apos;s first safety-first ride-sharing community. Real-time tracking,
+              verified riders, zero commission.
+            </motion.p>
+
+            {/* CTA buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.52, ease: [0.25, 0.1, 0.25, 1] }}
+              className="mt-10 flex flex-col sm:flex-row gap-4"
+            >
+              <a
+                href={SURVEY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-[14px] bg-[#568F7A] px-7 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-[#4a7d6a] hover:shadow-xl hover:shadow-[#568F7A]/25 hover:-translate-y-0.5"
+              >
+                Join the Community
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 8h10M9 4l4 4-4 4" />
+                </svg>
+              </a>
+              <button
+                onClick={() => scrollTo("#how-it-works")}
+                className="inline-flex items-center justify-center gap-2 rounded-[14px] border border-white/18 px-7 py-4 text-base font-semibold text-white/80 transition-all duration-200 hover:border-white/35 hover:text-white hover:bg-white/5"
+              >
+                See How It Works
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M8 3v10M4 9l4 4 4-4" />
+                </svg>
+              </button>
+            </motion.div>
+
+            {/* Social proof row */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.68, ease: [0.25, 0.1, 0.25, 1] }}
+              className="mt-12 flex flex-wrap gap-x-8 gap-y-3 items-center"
+            >
+              {stats.map((s, i) => (
+                <div key={i} className="flex items-center gap-2.5">
+                  <span className="font-[family-name:var(--font-bricolage)] text-2xl font-bold text-[#568F7A]">
+                    {s.value}
+                  </span>
+                  <span className="text-sm text-white/40 font-medium">{s.label}</span>
+                  {i < stats.length - 1 && (
+                    <span className="ml-4 h-4 w-px bg-white/15" />
+                  )}
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* ── Right column — Route card ──────────── */}
+          <div className="w-full lg:w-[45%] lg:max-w-[460px]">
+            <RouteCard />
+          </div>
+        </div>
       </div>
 
-      {/* Bottom gradient overlay for smooth transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+      {/* Bottom diagonal transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, transparent, #F7F6F4)" }}
+      />
     </section>
   );
 }
