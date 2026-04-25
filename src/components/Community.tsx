@@ -61,7 +61,7 @@ function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
           TC
         </div>
         <div>
-          <p className="text-[11px] font-semibold text-[#2C3A3A]">From Our Survey</p>
+          <p className="text-[11px] font-semibold text-[#2C3A3A]">Community member</p>
           <p className="text-[11px] text-[#7A8A85]">{t.location}</p>
         </div>
       </div>
@@ -92,7 +92,11 @@ export default function Community() {
     return () => el.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Only start auto-scroll once section enters view; reset to 0 first so
+  // users always see card 1, not a mid-scroll state from background ticking.
   useEffect(() => {
+    if (!isInView) return;
+    if (containerRef.current) containerRef.current.scrollLeft = 0;
     const interval = setInterval(() => {
       if (paused.current || isDragging.current || !containerRef.current) return;
       const el = containerRef.current;
@@ -103,7 +107,7 @@ export default function Community() {
       }
     }, 20);
     return () => clearInterval(interval);
-  }, []);
+  }, [isInView]);
 
   function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
     if (!containerRef.current) return;
@@ -135,7 +139,7 @@ export default function Community() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
 
           {/* Header */}
-          <div ref={ref} className="text-center max-w-3xl mx-auto mb-14">
+          <div ref={ref} className="text-center max-w-3xl mx-auto mb-16">
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -253,7 +257,7 @@ export default function Community() {
               href={SURVEY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-[14px] bg-[#568F7A] px-7 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-[#4a7d6a] hover:shadow-xl hover:shadow-[#568F7A]/25 hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-[14px] bg-[#568F7A] px-7 py-4 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#4a7d6a]"
             >
               Share Your Feedback
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

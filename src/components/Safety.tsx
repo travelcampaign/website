@@ -16,7 +16,7 @@ const features = [
   },
   {
     title: "60-Second SOS",
-    body: "No response in 60 seconds? Full rider profile, GPS, and ride details go directly to the nearest emergency contact.",
+    body: "No response for 60 seconds? Your full ride details and live location are sent directly to your emergency contacts — no manual action needed.",
     accent: "#F97316",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -27,7 +27,7 @@ const features = [
   },
   {
     title: "Route Deviation Alert",
-    body: "Stray more than 2km off route and guardians are notified instantly. You're prompted to confirm you're safe.",
+    body: "If the ride goes more than 2km off your planned route, your emergency contacts are notified immediately — and you get a prompt to confirm you're safe.",
     accent: "#568F7A",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -142,8 +142,8 @@ export default function Safety() {
                 className="text-[15px] leading-relaxed mb-8"
                 style={{ color: "rgba(247,246,244,0.65)" }}
               >
-                Every plan includes the complete guardian system at no extra cost.
-                No tiered safety. No upsells. Everyone rides with full protection.
+                Every plan includes the complete safety system at no extra cost.
+                No tiers, no upsells — everyone rides fully protected.
               </motion.p>
 
               {/* Animated shield */}

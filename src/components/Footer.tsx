@@ -77,7 +77,7 @@ export default function Footer() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.28em] mb-3" style={{ color: "#568F7A" }}>
-                Launching Hyderabad · 2026
+                Launching in Hyderabad · 2026
               </p>
               <h2
                 className="font-[family-name:var(--font-bricolage)] font-extrabold leading-[1.05] tracking-[-0.03em]"
@@ -86,17 +86,17 @@ export default function Footer() {
                 Be part of it from day one.
               </h2>
               <p className="mt-3 text-sm leading-relaxed" style={{ color: "rgba(247,246,244,0.45)" }}>
-                Join 95+ early members shaping India&apos;s first safety-first ride-sharing community.
+                Join 95+ early members shaping the future of commuting in India.
               </p>
             </div>
             <motion.a
               href={SURVEY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2.5 rounded-[14px] px-7 py-4 text-[15px] font-semibold text-white shrink-0"
-              style={{ background: "#568F7A", boxShadow: "0 0 32px rgba(86,143,122,0.28)" }}
+              className="inline-flex items-center gap-2.5 rounded-[14px] px-7 py-4 text-[15px] font-semibold text-white shrink-0 transition-colors duration-200"
+              style={{ background: "#568F7A" }}
+              onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.background = "#4a7d6a"}
+              onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.background = "#568F7A"}
             >
               Join the Waitlist
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -128,8 +128,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-[13px] leading-relaxed mb-6" style={{ color: "rgba(247,246,244,0.42)" }}>
-              Community-driven ride sharing built around trust, safety, and real human connections.
-              Zero commission. Made for India.
+              Community-driven ride sharing — verified riders, zero commission, and safety built in from the start. Made for India.
             </p>
             {/* Social */}
             <div className="flex gap-2.5">

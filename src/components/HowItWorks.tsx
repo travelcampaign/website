@@ -7,7 +7,7 @@ const steps = [
   {
     num: "01",
     title: "Post Your Route",
-    body: "Set your daily commute. Define schedule, seats, preferences — your campaign, your terms. Runs once or daily.",
+    body: "Set your daily commute. Define schedule, seats, and preferences — your ride, your rules. Runs once or repeats daily.",
     accent: "#568F7A",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -19,7 +19,7 @@ const steps = [
   {
     num: "02",
     title: "Get Matched",
-    body: "AI matches you with verified commuters going your way at the same time. Proximity, trust score, schedule — all weighted.",
+    body: "AI matches you with verified commuters heading the same way at the same time — ranked by distance, user rating, and whether your schedules align.",
     accent: "#568F7A",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -32,7 +32,7 @@ const steps = [
   {
     num: "03",
     title: "Ride Safely",
-    body: "Live GPS, route deviation alerts, 60-second SOS escalation, and a 30-min post-ride safety window. All free on every plan.",
+    body: "Live GPS tracking, automatic alerts if you go silent for 60 seconds, notifications if the route changes unexpectedly — and 30-minute monitoring after you arrive. All free.",
     accent: "#F97316",
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -73,7 +73,7 @@ function Step({ step, index }: { step: typeof steps[0]; index: number }) {
       >
         {/* Step number — top right, big but clearly decorative */}
         <span
-          className="absolute top-5 right-6 font-[family-name:var(--font-syne)] font-extrabold leading-none select-none pointer-events-none"
+          className="absolute top-5 right-6 font-[family-name:var(--font-bricolage)] font-extrabold leading-none select-none pointer-events-none"
           style={{
             fontSize: "clamp(52px, 6vw, 80px)",
             color: step.accent,

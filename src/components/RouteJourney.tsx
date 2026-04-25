@@ -93,7 +93,7 @@ const PHASES = [
     accent: "#568F7A",
     eyebrow: "The Start",
     title: "Post\nYour Route",
-    sub: "Define your commute, seats, and schedule. Your journey, your terms.",
+    sub: "Set your route, seats, and schedule. Your ride, your rules.",
   },
   {
     id: 1,
@@ -101,17 +101,17 @@ const PHASES = [
     label: "02",
     accent: "#568F7A",
     eyebrow: "Smart Matching",
-    title: "AI Finds\nYour Crew",
-    sub: "Proximity · Trust score · Schedule — all weighted in real-time.",
+    title: "AI Finds\nYour Match",
+    sub: "Matched with verified riders near you, heading the same way, at the same time — automatically.",
   },
   {
     id: 2,
     at: 0.55,
     label: "03",
     accent: "#F97316",
-    eyebrow: "Guardian Safety",
+    eyebrow: "Safety System",
     title: "Ride with\nFull Protection",
-    sub: "Live GPS · 60-second SOS · Route deviation alerts. Free on every plan.",
+    sub: "Live GPS, inactivity detection, and route deviation alerts. Free on every plan.",
   },
   {
     id: 3,
@@ -120,7 +120,7 @@ const PHASES = [
     accent: "#568F7A",
     eyebrow: "Zero Commission",
     title: "₹0 Cut.\nAlways.",
-    sub: "Pay each other directly. No middleman, no commission — ever.",
+    sub: "Pay each other directly. No middleman. No cut. Ever.",
   },
 ];
 
@@ -256,7 +256,7 @@ function JourneyMap({ carProgress, route }: { carProgress: number; route: RouteC
         (map as any).__destEl = dEl;
         new ml.Marker({ element: dEl }).setLngLat([route.dropoff.lng, route.dropoff.lat]).addTo(map);
 
-        // Car — emoji marker (small, clean, recognisable)
+        // Car — emoji marker
         const carEl = document.createElement("div");
         carEl.style.cssText = `
           font-size:28px;
@@ -506,7 +506,7 @@ export default function RouteJourney() {
                   {phase.sub}
                 </p>
                 <span
-                  className="font-[family-name:var(--font-syne)] font-extrabold"
+                  className="font-[family-name:var(--font-bricolage)] font-extrabold"
                   style={{ fontSize: "clamp(42px, 6vw, 72px)", color: "rgba(247,246,244,0.05)", lineHeight: 1 }}
                 >
                   {phase.label}

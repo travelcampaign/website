@@ -21,7 +21,7 @@ export default function SurveyCTA() {
       />
 
       <div className="relative z-10 py-32 lg:py-40">
-        <div className="mx-auto max-w-4xl px-6 lg:px-8 text-center">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
           <div ref={ref}>
             <motion.span
               initial={{ opacity: 0, y: 12 }}
@@ -30,7 +30,7 @@ export default function SurveyCTA() {
               className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] mb-8"
               style={{ color: "#568F7A" }}
             >
-              Shape the Platform
+              Have Your Say
             </motion.span>
 
             <motion.h2
@@ -40,9 +40,9 @@ export default function SurveyCTA() {
               className="font-[family-name:var(--font-bricolage)] font-extrabold leading-[1.02] tracking-[-0.04em] mb-8"
               style={{ fontSize: "clamp(48px, 7vw, 96px)", color: "#F7F6F4" }}
             >
-              Your voice{" "}
-              <span style={{ color: "#568F7A" }}>builds</span>{" "}
-              Travel Campaign.
+              Your feedback{" "}
+              <span style={{ color: "#568F7A" }}>shapes</span>{" "}
+              what we build.
             </motion.h2>
 
             <motion.p
@@ -65,17 +65,13 @@ export default function SurveyCTA() {
                 href={SURVEY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 rounded-[14px] text-base font-bold text-white transition-all duration-300"
-                style={{ background: "#568F7A", padding: "18px 40px" }}
+                className="inline-flex items-center gap-2.5 rounded-[14px] px-8 py-4 text-base font-bold text-white transition-all duration-300"
+                style={{ background: "#568F7A" }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 50px rgba(86,143,122,0.45)";
                   (e.currentTarget as HTMLAnchorElement).style.background = "#4a7d6a";
-                  (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
                 }}
                 onMouseLeave={e => {
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
                   (e.currentTarget as HTMLAnchorElement).style.background = "#568F7A";
-                  (e.currentTarget as HTMLAnchorElement).style.transform = "none";
                 }}
               >
                 Take the Survey
@@ -90,9 +86,9 @@ export default function SurveyCTA() {
               animate={inView ? { opacity: 1 } : {}}
               transition={{ delay: 0.6 }}
               className="mt-6 text-[12px]"
-              style={{ color: "rgba(247,246,244,0.22)" }}
+              style={{ color: "rgba(247,246,244,0.40)" }}
             >
-              Anonymous · 3 minutes · No sign-up required
+              Anonymous · 3 minutes · No sign-up needed
             </motion.p>
           </div>
         </div>

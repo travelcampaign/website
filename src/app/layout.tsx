@@ -55,7 +55,7 @@ export default function RootLayout({
       lang="en"
       className={`${bricolage.variable} ${dmSans.variable} ${syne.variable} antialiased`}
     >
-      <body className="min-h-screen">
+      <body className="min-h-screen" suppressHydrationWarning>
         {children}
       </body>
     </html>

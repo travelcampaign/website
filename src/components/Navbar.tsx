@@ -79,13 +79,13 @@ export default function Navbar() {
             <a
               href="#survey"
               onClick={(e) => handleClick(e, "#community")}
-              className={`inline-flex items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold transition-all duration-200 ${
+              className={`inline-flex items-center gap-2 rounded-[14px] border px-5 py-2 text-sm font-semibold transition-all duration-200 ${
                 scrolled
                   ? "border-[#568F7A]/40 bg-[#568F7A]/8 text-[#568F7A] hover:bg-[#568F7A]/15 hover:border-[#568F7A]/55"
                   : "border-[#568F7A]/60 bg-[#568F7A]/15 text-[#F7F6F4] hover:bg-[#568F7A]/25 hover:border-[#568F7A]/80"
               }`}
             >
-              Join Waitlist
+              Join the Waitlist
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M2 6h8M6 2l4 4-4 4" />
               </svg>
@@ -143,7 +143,7 @@ export default function Navbar() {
                 onClick={(e) => handleClick(e, "#community")}
                 className="mt-4 inline-flex items-center justify-center rounded-[14px] bg-[#568F7A] px-5 py-3 text-sm font-semibold text-white"
               >
-                Join Waitlist
+                Join the Waitlist
               </a>
             </div>
           </motion.div>

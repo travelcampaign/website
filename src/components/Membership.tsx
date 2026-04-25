@@ -8,7 +8,7 @@ const plans = [
     name: "FREE",
     price: "0",
     description: "Start your journey — no risk.",
-    features: ["3 km matching radius", "3 rides per week", "Basic matching", "Full safety system"],
+    features: ["Match riders within 3 km", "3 rides per week", "Standard matching", "Full safety system"],
     cta: "Get Started Free",
     highlighted: false,
     badge: null,
@@ -17,7 +17,7 @@ const plans = [
     name: "BASIC+",
     price: "99",
     description: "Made for the daily office commuter.",
-    features: ["5 km radius", "7 rides per week", "Saved routes", "Priority matching", "Full safety system"],
+    features: ["Match riders within 5 km", "7 rides per week", "Saved routes", "Faster matching", "Full safety system"],
     cta: "Join Basic+",
     highlighted: false,
     badge: "POPULAR",
@@ -26,7 +26,7 @@ const plans = [
     name: "PRO",
     price: "199",
     description: "The sweet spot for power riders.",
-    features: ["10 km radius", "Unlimited rides", "Recurring schedules", "Route analytics", "Full safety system"],
+    features: ["Match riders within 10 km", "Unlimited rides", "Auto-repeat daily routes", "Monthly savings report", "Full safety system"],
     cta: "Join Pro",
     highlighted: true,
     badge: "BEST VALUE",
@@ -35,7 +35,7 @@ const plans = [
     name: "TRAVEL+",
     price: "299",
     description: "For those who go beyond the city.",
-    features: ["25 km radius", "Intercity matching", "Companion mode", "Priority support", "Full safety system"],
+    features: ["Match riders within 25 km", "Intercity trips", "Travel with a friend", "Priority support", "Full safety system"],
     cta: "Join Travel+",
     highlighted: false,
     badge: null,
@@ -44,7 +44,7 @@ const plans = [
     name: "MAX",
     price: "499",
     description: "Lead the community. No limits.",
-    features: ["Unlimited radius", "Community leader tools", "All features included", "Early feature access", "Full safety system"],
+    features: ["No distance limits", "Host & grow your community", "All features included", "Early feature access", "Full safety system"],
     cta: "Go Max",
     highlighted: false,
     badge: null,
@@ -127,24 +127,32 @@ function PlanCard({ plan, index }: { plan: typeof plans[0]; index: number }) {
         ))}
       </ul>
 
-      <button
-        className="w-full rounded-[12px] py-3 text-sm font-semibold transition-all duration-200"
-        style={
-          plan.highlighted
-            ? { background: "#568F7A", color: "#fff" }
-            : { background: "rgba(44,58,58,0.06)", color: "#2C3A3A", border: "1px solid rgba(44,58,58,0.1)" }
-        }
-        onMouseEnter={e => {
-          if (plan.highlighted) (e.currentTarget as HTMLButtonElement).style.background = "#4a7d6a";
-          else (e.currentTarget as HTMLButtonElement).style.background = "rgba(44,58,58,0.11)";
-        }}
-        onMouseLeave={e => {
-          if (plan.highlighted) (e.currentTarget as HTMLButtonElement).style.background = "#568F7A";
-          else (e.currentTarget as HTMLButtonElement).style.background = "rgba(44,58,58,0.06)";
-        }}
-      >
-        {plan.cta} — Coming Soon
-      </button>
+      <div className="flex flex-col items-center gap-2">
+        <button
+          className="w-full rounded-[12px] py-3 text-sm font-semibold transition-all duration-200"
+          style={
+            plan.highlighted
+              ? { background: "#568F7A", color: "#fff" }
+              : { background: "rgba(44,58,58,0.06)", color: "#2C3A3A", border: "1px solid rgba(44,58,58,0.1)" }
+          }
+          onMouseEnter={e => {
+            if (plan.highlighted) (e.currentTarget as HTMLButtonElement).style.background = "#4a7d6a";
+            else (e.currentTarget as HTMLButtonElement).style.background = "rgba(44,58,58,0.11)";
+          }}
+          onMouseLeave={e => {
+            if (plan.highlighted) (e.currentTarget as HTMLButtonElement).style.background = "#568F7A";
+            else (e.currentTarget as HTMLButtonElement).style.background = "rgba(44,58,58,0.06)";
+          }}
+        >
+          {plan.cta}
+        </button>
+        <span
+          className="text-[10px] font-medium tracking-wide"
+          style={{ color: plan.highlighted ? "rgba(247,246,244,0.3)" : "rgba(44,58,58,0.35)" }}
+        >
+          Launching Q3 2026
+        </span>
+      </div>
     </motion.div>
   );
 }
@@ -183,7 +191,7 @@ export default function Membership() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-5 text-lg text-[#7A8A85] leading-relaxed"
             >
-              No commissions. No hidden charges. Subscriptions keep the platform running — nothing else.
+              Subscriptions only. No commissions, no hidden charges — ever.
             </motion.p>
           </div>
 
