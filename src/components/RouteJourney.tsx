@@ -126,9 +126,12 @@ const PHASES = [
 
 // ── Map component ────────────────────────────────────────────────
 function JourneyMap({ carProgress, route }: { carProgress: number; route: RouteConfig }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mapRef       = useRef<any>(null);
-  const markerRef    = useRef<any>(null);
+  const containerRef  = useRef<HTMLDivElement>(null);
+  const mapRef        = useRef<any>(null);
+  const markerRef     = useRef<any>(null);
+  const targetPos     = useRef<[number, number] | null>(null);
+  const currentPos    = useRef<[number, number] | null>(null);
+  const rafRef        = useRef<number | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -279,27 +282,60 @@ function JourneyMap({ carProgress, route }: { carProgress: number; route: RouteC
     };
   }, []);
 
-  // Animate route + car on progress change
+  // Start lerp RAF loop once map is ready
+  useEffect(() => {
+    if (!ready || !mapRef.current) return;
+    const map = mapRef.current;
+    const LERP = 0.07; // lower = more drag/lag
+
+    const tick = () => {
+      if (!targetPos.current) { rafRef.current = requestAnimationFrame(tick); return; }
+
+      // Initialise current position on first frame
+      if (!currentPos.current) currentPos.current = [...targetPos.current] as [number, number];
+
+      const [tLng, tLat] = targetPos.current;
+      const [cLng, cLat] = currentPos.current;
+
+      const newLng = cLng + (tLng - cLng) * LERP;
+      const newLat = cLat + (tLat - cLat) * LERP;
+      currentPos.current = [newLng, newLat];
+
+      // Move car marker
+      markerRef.current?.setLngLat([newLng, newLat]);
+
+      // Camera follows smoothly, slightly ahead of car
+      const camP = Math.min(1, (targetPos.current as any).__progress + 0.08);
+      const [camLng, camLat] = interpolateRoute(route.coords, camP);
+      map.easeTo({ center: [camLng, camLat], duration: 180, easing: (t: number) => t * (2 - t) });
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [ready, route]);
+
+  // Update target position + route line on progress change
   useEffect(() => {
     if (!ready || !mapRef.current) return;
     const map = mapRef.current;
 
+    const [lng, lat] = interpolateRoute(route.coords, carProgress);
+    const t = targetPos.current ?? [lng, lat];
+    (t as any).__progress = carProgress;
+    targetPos.current = [lng, lat];
+    (targetPos.current as any).__progress = carProgress;
+
+    // Update drawn route line immediately (snappy line, lagging car = nice contrast)
     const sliced = sliceRoute(route.coords, carProgress);
     const geo = { type: "Feature" as const, properties: {} as Record<string, unknown>, geometry: { type: "LineString" as const, coordinates: sliced } };
     (map.getSource("route") as any)?.setData(geo);
     (map.getSource("glow") as any)?.setData(geo);
 
-    const [lng, lat] = interpolateRoute(route.coords, carProgress);
-    markerRef.current?.setLngLat([lng, lat]);
-
     // Reveal destination as car approaches
     const destEl = (map as any).__destEl as HTMLDivElement | undefined;
     if (destEl) destEl.style.opacity = String(Math.min(1, carProgress * 3));
-
-    // Camera follows car
-    const camP = Math.min(1, carProgress + 0.1);
-    const [cLng, cLat] = interpolateRoute(route.coords, camP);
-    map.easeTo({ center: [cLng, cLat], duration: 350, easing: (t: number) => t });
   }, [carProgress, ready, route]);
 
   return <div ref={containerRef} className="absolute inset-0 w-full h-full" />;
