@@ -102,7 +102,7 @@ function PlanCard({ plan, index }: { plan: typeof plans[0]; index: number }) {
       <div className="flex items-baseline gap-1 mb-6">
         <span className="text-sm font-medium" style={{ color: plan.highlighted ? "rgba(247,246,244,0.5)" : "#7A8A85" }}>₹</span>
         <span
-          className="font-[family-name:var(--font-syne)] font-extrabold leading-none tracking-tight"
+          className="font-[family-name:var(--font-bricolage)] font-extrabold leading-none tracking-tight"
           style={{ fontSize: "clamp(38px, 4vw, 50px)", color: plan.highlighted ? "#F7F6F4" : "#2C3A3A" }}
         >
           {plan.price}

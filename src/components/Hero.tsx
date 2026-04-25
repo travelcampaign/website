@@ -9,45 +9,26 @@ const SURVEY_URL =
 function CityBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <div className="city-grid absolute inset-0 opacity-35" style={{ height: "200%" }} />
+      {/* ── Layered atmospheric depth ── */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: [
+          "radial-gradient(ellipse 95% 80% at 5% 60%, rgba(86,143,122,0.24) 0%, transparent 58%)",
+          "radial-gradient(ellipse 70% 55% at 58% -10%, rgba(86,143,122,0.13) 0%, transparent 55%)",
+          "radial-gradient(ellipse 52% 45% at 98% 24%, rgba(249,115,22,0.13) 0%, transparent 52%)",
+          "radial-gradient(ellipse 60% 35% at 50% 110%, rgba(86,143,122,0.08) 0%, transparent 58%)",
+        ].join(", ")
+      }} />
 
-      {/* Radial glows */}
-      <div className="absolute -top-1/4 -left-1/4 w-[75vw] h-[75vw] rounded-full"
-        style={{ background: "radial-gradient(circle, rgba(86,143,122,0.16) 0%, transparent 65%)" }} />
-      <div className="absolute -top-1/4 right-0 w-[55vw] h-[55vw] rounded-full"
-        style={{ background: "radial-gradient(circle, rgba(249,115,22,0.09) 0%, transparent 65%)" }} />
-      <div className="absolute bottom-0 left-1/3 w-[50vw] h-[40vw] rounded-full"
-        style={{ background: "radial-gradient(circle, rgba(86,143,122,0.07) 0%, transparent 65%)" }} />
+      {/* ── Scrolling city grid ── */}
+      <div className="city-grid absolute inset-0" style={{ height: "200%", opacity: 0.2 }} />
 
-      {/* Floating route nodes */}
-      {[
-        { x: "12%",  y: "28%", color: "#568F7A", size: 8,  delay: "0s"   },
-        { x: "42%",  y: "58%", color: "#568F7A", size: 5,  delay: "0.8s" },
-        { x: "70%",  y: "22%", color: "#F97316", size: 7,  delay: "1.4s" },
-        { x: "83%",  y: "52%", color: "#568F7A", size: 4,  delay: "0.4s" },
-        { x: "28%",  y: "72%", color: "#F97316", size: 6,  delay: "1.2s" },
-        { x: "58%",  y: "38%", color: "#568F7A", size: 3,  delay: "2.0s" },
-      ].map((dot, i) => (
-        <div key={i} className="absolute rounded-full" style={{
-          left: dot.x, top: dot.y,
-          width: dot.size, height: dot.size,
-          backgroundColor: dot.color,
-          opacity: 0.5,
-          animation: `float-dot ${3 + i * 0.5}s ease-in-out ${dot.delay} infinite`,
-          boxShadow: `0 0 ${dot.size * 3}px ${dot.color}`,
-        }} />
-      ))}
+      {/* ── Subtle diagonal light beam ── */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: "linear-gradient(135deg, rgba(86,143,122,0.04) 0%, transparent 45%, rgba(249,115,22,0.03) 100%)"
+      }} />
 
-      {/* Connecting SVG lines */}
-      <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.06 }}>
-        <line x1="12%" y1="28%" x2="42%" y2="58%" stroke="#568F7A" strokeWidth="1" strokeDasharray="4 6" />
-        <line x1="42%" y1="58%" x2="70%" y2="22%" stroke="#568F7A" strokeWidth="1" strokeDasharray="4 6" />
-        <line x1="70%" y1="22%" x2="83%" y2="52%" stroke="#F97316" strokeWidth="1" strokeDasharray="4 6" />
-        <line x1="28%" y1="72%" x2="42%" y2="58%" stroke="#568F7A" strokeWidth="1" strokeDasharray="4 6" />
-      </svg>
-
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-56"
+      {/* ── Bottom fade into next section ── */}
+      <div className="absolute bottom-0 left-0 right-0 h-80 pointer-events-none"
         style={{ background: "linear-gradient(to bottom, transparent, #0A1515)" }} />
     </div>
   );
@@ -213,10 +194,11 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* ── Scroll cue — fixed to bottom, never overlaps content ── */}
+      {/* ── Scroll cue — fades with hero on scroll ── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        style={{ opacity }}
         transition={{ delay: 1.4, duration: 0.6 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 pointer-events-none"
       >
