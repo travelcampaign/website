@@ -256,18 +256,28 @@ function JourneyMap({ carProgress, route }: { carProgress: number; route: RouteC
         (map as any).__destEl = dEl;
         new ml.Marker({ element: dEl }).setLngLat([route.dropoff.lng, route.dropoff.lat]).addTo(map);
 
-        // Car — emoji marker
-        const carEl = document.createElement("div");
+        // Car — canonical reference photo (white sedan, top-down, bg removed).
+        // Same image used by mobile (assets/markers/car-top.png) and backend
+        // live-tracking page (/api/car-marker.png). One asset, three surfaces.
+        const carEl = document.createElement("img");
+        carEl.src = "/car-marker.png";
+        carEl.alt = "";
         carEl.style.cssText = `
-          font-size:28px;
-          line-height:1;
+          width:34px;
+          height:auto;
           display:block;
           filter:drop-shadow(0 3px 10px rgba(0,0,0,0.65));
           user-select:none;
           pointer-events:none;
         `;
-        carEl.textContent = "🚗";
-        markerRef.current = new ml.Marker({ element: carEl, anchor: "center" })
+        // rotationAlignment 'viewport' keeps the top-down car flat against
+        // the screen even when the map tilts; setRotation() (used in the
+        // tick loop below) then turns the car to face the direction of motion.
+        markerRef.current = new ml.Marker({
+          element: carEl,
+          anchor: "center",
+          rotationAlignment: "viewport",
+        })
           .setLngLat([route.pickup.lng, route.pickup.lat])
           .addTo(map);
 
@@ -303,6 +313,19 @@ function JourneyMap({ carProgress, route }: { carProgress: number; route: RouteC
 
       // Move car marker
       markerRef.current?.setLngLat([newLng, newLat]);
+
+      // Rotate the car so its front points toward where it's going.
+      // The image is a top-down photo facing north (0°). Bearing math:
+      //   atan2(dLng, dLat) gives 0=N, 90=E, 180=S, -90=W (radians),
+      //   then degrees, then maplibre's setRotation rotates clockwise.
+      // Only update when there's real horizontal motion (>~1m), otherwise
+      // the car jitters when nearly stopped at the start/end of a leg.
+      const dLng = tLng - cLng;
+      const dLat = tLat - cLat;
+      if (Math.abs(dLng) > 1e-7 || Math.abs(dLat) > 1e-7) {
+        const bearing = (Math.atan2(dLng, dLat) * 180) / Math.PI;
+        markerRef.current?.setRotation(bearing);
+      }
 
       // Camera follows smoothly, slightly ahead of car
       const camP = Math.min(1, (targetPos.current as any).__progress + 0.08);
