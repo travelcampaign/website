@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, DM_Sans, Syne } from "next/font/google";
+import { Bricolage_Grotesque, DM_Sans, Syne, Outfit } from "next/font/google";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -24,11 +24,22 @@ const syne = Syne({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+// Brand font — used inside the canonical Haloryd logo SVGs (wordmarks).
+// The SVG <text> elements reference 'Outfit' by name; without this loader
+// browsers fall back to system-ui and the wordmark renders incorrectly.
+const outfit = Outfit({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-outfit",
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "Travel Campaign — Community-Driven Ride Sharing for India",
+  title: "Haloryd — Community-Driven Ride Sharing for India",
   description:
     "India's community-driven ride sharing platform built around trust, safety, and real human connections. Zero commission. Zero per-ride charges.",
   keywords: [
+    "haloryd",
     "ride sharing",
     "carpooling",
     "India",
@@ -38,10 +49,16 @@ export const metadata: Metadata = {
     "commute",
   ],
   openGraph: {
-    title: "Travel Campaign — Share Your Journey, Not Just a Ride",
+    title: "Haloryd — Share Your Journey, Not Just a Ride",
     description:
       "India's community-driven ride sharing platform built around trust, safety, and real human connections.",
     type: "website",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.svg",
   },
 };
 
@@ -53,7 +70,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bricolage.variable} ${dmSans.variable} ${syne.variable} antialiased`}
+      className={`${bricolage.variable} ${dmSans.variable} ${syne.variable} ${outfit.variable} antialiased`}
     >
       <body className="min-h-screen" suppressHydrationWarning>
         {children}
