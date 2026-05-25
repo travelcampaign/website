@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { HalorydWordmark } from "./HalorydWordmark";
 
 const SURVEY_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeIWEF6riJ2RKzNJh97PS_8yAYgfS0nkLyI7UBq6WfV2bqm6g/viewform?usp=sharing";
 
@@ -110,22 +111,10 @@ export default function Footer() {
       {/* Main footer grid */}
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-14 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1.8fr_1fr_1fr_1fr] gap-10 lg:gap-8">
-          {/* Brand column */}
+          {/* Brand column — canonical Haloryd wordmark (cream on dark footer) */}
           <div>
-            <div className="flex items-center gap-2.5 mb-5">
-              <div
-                className="flex h-9 w-9 items-center justify-center rounded-xl"
-                style={{ background: "rgba(86,143,122,0.15)", border: "1px solid rgba(86,143,122,0.25)" }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#568F7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                  <path d="M2 17l10 5 10-5" />
-                  <path d="M2 12l10 5 10-5" />
-                </svg>
-              </div>
-              <span className="font-[family-name:var(--font-bricolage)] text-lg font-bold" style={{ color: "#F7F6F4" }}>
-                Travel Campaign
-              </span>
+            <div className="mb-5">
+              <HalorydWordmark variant="cream" className="h-8 w-auto" />
             </div>
             <p className="text-[13px] leading-relaxed mb-6" style={{ color: "rgba(247,246,244,0.42)" }}>
               Community-driven ride sharing — verified riders, zero commission, and safety built in from the start. Made for India.
@@ -185,7 +174,7 @@ export default function Footer() {
           style={{ borderTop: "1px solid rgba(247,246,244,0.06)" }}
         >
           <p className="text-[12px]" style={{ color: "rgba(247,246,244,0.24)" }}>
-            &copy; 2026 Travel Campaign. All rights reserved.
+            &copy; 2026 Haloryd. All rights reserved.
           </p>
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#568F7A" }} />

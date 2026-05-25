@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { HalorydWordmark } from "./HalorydWordmark";
 
 const navLinks = [
   { label: "How It Works", href: "#how-it-works" },
@@ -40,20 +41,14 @@ export default function Navbar() {
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex h-[72px] items-center justify-between">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#568F7A]/20 border border-[#568F7A]/35 group-hover:bg-[#568F7A]/30 transition-colors duration-200">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#568F7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                <path d="M2 17l10 5 10-5" />
-                <path d="M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <span className={`font-[family-name:var(--font-bricolage)] text-lg font-bold tracking-tight transition-colors duration-300 ${
-              scrolled ? "text-[#2C3A3A]" : "text-[#F7F6F4]"
-            }`}>
-              Travel Campaign
-            </span>
+          {/* Logo — canonical Haloryd wordmark (halo replaces the "o").
+              Inline component so the SVG inherits the parent's Outfit font;
+              <img src=...> would sandbox it and fall back to system fonts. */}
+          <a href="#" className="flex items-center group" aria-label="Haloryd home">
+            <HalorydWordmark
+              variant={scrolled ? "charcoal" : "cream"}
+              className="h-7 w-auto transition-opacity duration-300"
+            />
           </a>
 
           {/* Desktop links */}
