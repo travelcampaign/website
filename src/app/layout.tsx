@@ -24,9 +24,9 @@ const syne = Syne({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-// Brand font — used inside the canonical Haloryd logo SVGs (wordmarks).
-// The SVG <text> elements reference 'Outfit' by name; without this loader
-// browsers fall back to system-ui and the wordmark renders incorrectly.
+// Brand font — used inside the Nexstopp wordmark SVG. The SVG <text> element
+// references 'Outfit' by name; without this loader browsers fall back to
+// system-ui and the wordmark renders incorrectly.
 const outfit = Outfit({
   subsets: ["latin"],
   display: "swap",
@@ -35,11 +35,11 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Haloryd — Community-Driven Ride Sharing for India",
+  title: "Nexstopp — Community-Driven Ride Sharing for India",
   description:
     "India's community-driven ride sharing platform built around trust, safety, and real human connections. Zero commission. Zero per-ride charges.",
   keywords: [
-    "haloryd",
+    "nexstopp",
     "ride sharing",
     "carpooling",
     "India",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     "commute",
   ],
   openGraph: {
-    title: "Haloryd — Share Your Journey, Not Just a Ride",
+    title: "Nexstopp — Share Your Journey, Not Just a Ride",
     description:
       "India's community-driven ride sharing platform built around trust, safety, and real human connections.",
     type: "website",

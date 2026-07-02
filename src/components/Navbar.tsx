@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { HalorydWordmark } from "./HalorydWordmark";
+import { NexstoppWordmark } from "./NexstoppWordmark";
 
 const navLinks = [
   { label: "How It Works", href: "#how-it-works" },
@@ -41,11 +41,11 @@ export default function Navbar() {
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex h-[72px] items-center justify-between">
-          {/* Logo — canonical Haloryd wordmark (halo replaces the "o").
-              Inline component so the SVG inherits the parent's Outfit font;
-              <img src=...> would sandbox it and fall back to system fonts. */}
-          <a href="#" className="flex items-center group" aria-label="Haloryd home">
-            <HalorydWordmark
+          {/* Logo — Nexstopp wordmark. Inline component so the SVG inherits the
+              parent's Outfit font; <img src=...> would sandbox it and fall back
+              to system fonts. */}
+          <a href="#" className="flex items-center group" aria-label="Nexstopp home">
+            <NexstoppWordmark
               variant={scrolled ? "charcoal" : "cream"}
               className="h-7 w-auto transition-opacity duration-300"
             />

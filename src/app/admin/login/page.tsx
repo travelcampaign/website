@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
-import { HalorydWordmark } from '@/components/HalorydWordmark'
+import { NexstoppWordmark } from '@/components/NexstoppWordmark'
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080'
 
@@ -47,9 +47,9 @@ export default function AdminLoginPage() {
         className="w-full max-w-sm rounded-2xl p-8 shadow-sm border"
         style={{ background: '#ffffff', borderColor: '#e5e7eb' }}
       >
-        {/* Logo — canonical Haloryd wordmark (charcoal on white card) */}
+        {/* Logo — Nexstopp wordmark (charcoal on white card) */}
         <div className="mb-8">
-          <HalorydWordmark variant="charcoal" className="h-8 w-auto" />
+          <NexstoppWordmark variant="charcoal" className="h-8 w-auto" />
           <div className="text-xs mt-2" style={{ color: '#7A8A85' }}>
             Admin Panel — sign in to continue
           </div>

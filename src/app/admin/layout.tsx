@@ -12,7 +12,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
 } from 'lucide-react'
-import { HalorydWordmark } from '@/components/HalorydWordmark'
+import { NexstoppWordmark } from '@/components/NexstoppWordmark'
 
 const NAV = [
   { href: '/admin',          label: 'Dashboard',    Icon: LayoutDashboard },
@@ -46,9 +46,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           className="flex flex-col shrink-0 h-full overflow-y-auto"
           style={{ width: 220, background: '#2C3A3A' }}
         >
-          {/* Logo — canonical Haloryd wordmark (cream on charcoal sidebar) */}
+          {/* Logo — Nexstopp wordmark (cream on charcoal sidebar) */}
           <div className="px-5 py-5 border-b border-white/10">
-            <HalorydWordmark variant="cream" className="h-6 w-auto" />
+            <NexstoppWordmark variant="cream" className="h-6 w-auto" />
             <div className="text-[11px] mt-1.5" style={{ color: '#568F7A' }}>Admin Panel</div>
           </div>
 
@@ -109,7 +109,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </button>
 
           <span className="flex-1 text-sm font-semibold lowercase" style={{ color: '#2C3A3A' }}>
-            haloryd admin
+            nexstopp admin
           </span>
 
           <span

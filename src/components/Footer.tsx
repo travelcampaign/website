@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { HalorydWordmark } from "./HalorydWordmark";
+import { NexstoppWordmark } from "./NexstoppWordmark";
 
 const SURVEY_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeIWEF6riJ2RKzNJh97PS_8yAYgfS0nkLyI7UBq6WfV2bqm6g/viewform?usp=sharing";
 
@@ -27,9 +27,9 @@ const footerLinks = [
   {
     heading: "Legal",
     links: [
-      { label: "Privacy Policy", href: "#" },
-      { label: "Terms of Service", href: "#" },
-      { label: "Safety Policy", href: "#" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Safety Policy", href: "/#safety" },
     ],
   },
 ];
@@ -111,10 +111,10 @@ export default function Footer() {
       {/* Main footer grid */}
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-14 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1.8fr_1fr_1fr_1fr] gap-10 lg:gap-8">
-          {/* Brand column — canonical Haloryd wordmark (cream on dark footer) */}
+          {/* Brand column — Nexstopp wordmark (cream on dark footer) */}
           <div>
             <div className="mb-5">
-              <HalorydWordmark variant="cream" className="h-8 w-auto" />
+              <NexstoppWordmark variant="cream" className="h-8 w-auto" />
             </div>
             <p className="text-[13px] leading-relaxed mb-6" style={{ color: "rgba(247,246,244,0.42)" }}>
               Community-driven ride sharing — verified riders, zero commission, and safety built in from the start. Made for India.
@@ -174,7 +174,7 @@ export default function Footer() {
           style={{ borderTop: "1px solid rgba(247,246,244,0.06)" }}
         >
           <p className="text-[12px]" style={{ color: "rgba(247,246,244,0.24)" }}>
-            &copy; 2026 Haloryd. All rights reserved.
+            &copy; 2026 Nexstopp. All rights reserved.
           </p>
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#568F7A" }} />
