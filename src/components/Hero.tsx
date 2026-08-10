@@ -146,38 +146,6 @@ function PhoneMockup() {
         </div>
       </motion.div>
 
-      {/* Badge: Trust Score — top-left */}
-      <motion.div
-        initial={{ opacity: 0, x: -20, scale: 0.85 }}
-        animate={{ opacity: 1, x: 0, scale: 1 }}
-        transition={{ delay: 1.4, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute z-20"
-        style={{ left: "4px", top: "160px" }}
-      >
-        <div
-          className="rounded-xl px-3.5 py-2.5"
-          style={{
-            background: "rgba(8,18,18,0.95)",
-            border: "1px solid rgba(86,143,122,0.20)",
-            boxShadow: "0 8px 28px rgba(0,0,0,0.5)",
-            backdropFilter: "blur(12px)",
-          }}
-        >
-          <p
-            className="font-[family-name:var(--font-bricolage)] font-extrabold leading-none"
-            style={{ fontSize: "18px", color: "#568F7A" }}
-          >
-            4.9
-          </p>
-          <p
-            className="font-[family-name:var(--font-dm-sans)] text-[9px] mt-1"
-            style={{ color: "rgba(247,246,244,0.38)" }}
-          >
-            Trust Score
-          </p>
-        </div>
-      </motion.div>
-
       {/* ── Phone frame ── */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -439,7 +407,7 @@ function PhoneMockup() {
             {/* Rider row */}
             <div className="flex items-center gap-2.5 mb-3">
               <div
-                className="rounded-full flex items-center justify-center font-[family-name:var(--font-bricolage)] text-[11px] font-bold shrink-0"
+                className="rounded-full flex items-center justify-center shrink-0"
                 style={{
                   width: "30px", height: "30px",
                   background: "rgba(86,143,122,0.18)",
@@ -447,20 +415,23 @@ function PhoneMockup() {
                   border: "1px solid rgba(86,143,122,0.22)",
                 }}
               >
-                R
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
               </div>
               <div className="flex-1">
                 <p
                   className="font-[family-name:var(--font-dm-sans)] text-[11px] font-semibold"
                   style={{ color: "#F7F6F4" }}
                 >
-                  Rahul S.
+                  Your co-rider
                 </p>
                 <p
                   className="font-[family-name:var(--font-dm-sans)] text-[9px]"
                   style={{ color: "rgba(247,246,244,0.4)" }}
                 >
-                  4.9 trust · Verified
+                  Verified profile
                 </p>
               </div>
               <div className="text-right">
@@ -489,10 +460,10 @@ function PhoneMockup() {
 
 // ── Stats ─────────────────────────────────────────────────────
 const stats = [
-  { value: "95+", label: "Survey responses",    accent: "#568F7A" },
-  { value: "₹0",  label: "Zero platform fee",   accent: "#568F7A" },
-  { value: "60s", label: "Auto-alert window",   accent: "#F97316" },
-  { value: "5",   label: "Membership plans",  accent: "#568F7A" },
+  { value: "260+", label: "Survey responses",      accent: "#568F7A" },
+  { value: "₹0",   label: "Zero platform fee",     accent: "#568F7A" },
+  { value: "60s",  label: "Guardian alert window", accent: "#F97316" },
+  { value: "2",    label: "Plans at launch",       accent: "#568F7A" },
 ];
 
 // ── Hero ──────────────────────────────────────────────────────

@@ -87,7 +87,7 @@ export default function Footer() {
                 Be part of it from day one.
               </h2>
               <p className="mt-3 text-sm leading-relaxed" style={{ color: "rgba(247,246,244,0.45)" }}>
-                Join 95+ early members shaping the future of commuting in India.
+                Join the 260+ commuters who have already shared their voice — and shape the future of commuting in India.
               </p>
             </div>
             <motion.a

@@ -11,7 +11,7 @@ const plans = [
     features: ["Match riders within 3 km", "3 rides per week", "Standard matching", "Full safety system"],
     cta: "Get Started Free",
     highlighted: false,
-    badge: null,
+    badge: null as string | null,
   },
   {
     name: "BASIC+",
@@ -19,35 +19,8 @@ const plans = [
     description: "Made for the daily office commuter.",
     features: ["Match riders within 5 km", "7 rides per week", "Saved routes", "Faster matching", "Full safety system"],
     cta: "Join Basic+",
-    highlighted: false,
-    badge: "POPULAR",
-  },
-  {
-    name: "PRO",
-    price: "199",
-    description: "The sweet spot for power riders.",
-    features: ["Match riders within 10 km", "Unlimited rides", "Auto-repeat daily routes", "Monthly savings report", "Full safety system"],
-    cta: "Join Pro",
     highlighted: true,
-    badge: "BEST VALUE",
-  },
-  {
-    name: "TRAVEL+",
-    price: "299",
-    description: "For those who go beyond the city.",
-    features: ["Match riders within 25 km", "Intercity trips", "Travel with a friend", "Priority support", "Full safety system"],
-    cta: "Join Travel+",
-    highlighted: false,
-    badge: null,
-  },
-  {
-    name: "MAX",
-    price: "499",
-    description: "Lead the community. No limits.",
-    features: ["No distance limits", "Host & grow your community", "All features included", "Early feature access", "Full safety system"],
-    cta: "Go Max",
-    highlighted: false,
-    badge: null,
+    badge: null as string | null,
   },
 ];
 
@@ -195,17 +168,10 @@ export default function Membership() {
             </motion.p>
           </div>
 
-          {/* Top 3 */}
-          <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {plans.slice(0, 3).map((p, i) => (
+          {/* Launch plans — centered pair */}
+          <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:w-2/3 lg:mx-auto">
+            {plans.map((p, i) => (
               <PlanCard key={p.name} plan={p} index={i} />
-            ))}
-          </div>
-
-          {/* Bottom 2 — centered, matching card width of top row */}
-          <div className="mt-5 grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 lg:w-2/3 lg:mx-auto">
-            {plans.slice(3).map((p, i) => (
-              <PlanCard key={p.name} plan={p} index={i + 3} />
             ))}
           </div>
 
@@ -216,7 +182,7 @@ export default function Membership() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-10 text-center text-sm text-[#7A8A85]"
           >
-            Safety features free on every plan · Monthly billing · Cancel anytime
+            Safety features free on every plan · Monthly billing · Cancel anytime · More tiers as the community grows
           </motion.p>
         </div>
       </div>

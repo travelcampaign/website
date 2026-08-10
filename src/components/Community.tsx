@@ -30,9 +30,9 @@ const testimonials = [
 ];
 
 const stats = [
-  { value: "95+", label: "Survey Responses" },
+  { value: "260+", label: "Survey Responses" },
   { value: "70%+", label: "Open to Ride Sharing" },
-  { value: "60%+", label: "Travel Alone Daily" },
+  { value: "36%", label: "Travel Alone Daily" },
   { value: "#1", label: "Pain Point: Traffic & Cost" },
 ];
 
