@@ -69,7 +69,7 @@ export default function Safety() {
               <div key={f.title} className="rounded-[18px] border border-[rgba(242,238,229,0.09)] bg-[rgba(242,238,229,0.03)] p-7">
                 <div className="flex items-start gap-4">
                   <span
-                    className={`mt-1 flex h-9 w-9 flex-none items-center justify-center rounded-full ${
+                    className={`mt-0.5 flex h-11 w-11 flex-none items-center justify-center rounded-full ${
                       f.ember
                         ? "bg-[rgba(249,115,22,0.12)] text-ember"
                         : "bg-[rgba(111,180,153,0.12)] text-sage"
@@ -77,17 +77,17 @@ export default function Safety() {
                   >
                     {f.ember ? (
                       f.title.includes("Emergency") ? (
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4.5 w-4.5">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
                           <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.5 2.1L8 10a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.5c.9.3 1.9.6 2.9.7a2 2 0 011.7 2z" />
                         </svg>
                       ) : (
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4.5 w-4.5">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
                           <path d="M21 11.5a8.5 8.5 0 01-11.9 7.8L3 21l1.7-6.1A8.5 8.5 0 1121 11.5z" />
                           <path d="M12 9v3m0 3h.01" strokeLinecap="round" />
                         </svg>
                       )
                     ) : (
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4.5 w-4.5">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
                         <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" />
                       </svg>
                     )}
@@ -108,6 +108,7 @@ export default function Safety() {
           </div>
         </div>
       </div>
+      <div className="bridge-to-cream" aria-hidden="true" />
     </section>
   );
 }

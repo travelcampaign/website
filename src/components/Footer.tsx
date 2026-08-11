@@ -28,7 +28,7 @@ const COLUMNS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0C1312]">
+    <footer className="border-t border-[rgba(242,238,229,0.08)] bg-[#0C1312]">
       <div className="mx-auto max-w-[1200px] px-6 pb-10 pt-20 sm:px-12">
         <div className="grid gap-12 md:grid-cols-[1.4fr_2fr]">
           <div>

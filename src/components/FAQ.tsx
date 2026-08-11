@@ -27,7 +27,7 @@ const QA: { q: string; a: string }[] = [
 
 export default function FAQ() {
   return (
-    <section id="faq" className="bg-cream">
+    <section id="faq" className="relative z-[4] -mt-[3px] bg-cream">
       <div className="mx-auto max-w-[840px] px-6 py-28 sm:px-12">
         <p className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.22em] text-sage-deep">
           Fair questions
@@ -40,7 +40,7 @@ export default function FAQ() {
           {QA.map((item) => (
             <details
               key={item.q}
-              className="group rounded-[18px] border border-[#E2DBCB] bg-white open:shadow-[0_16px_40px_rgba(35,44,42,0.08)]"
+              className="group rounded-[18px] border border-[#E2DBCB] bg-white transition-shadow duration-300 open:border-sage-deep/40 open:shadow-[0_18px_44px_rgba(35,44,42,0.10)]"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-7 py-5 [&::-webkit-details-marker]:hidden">
                 <span className="text-[16.5px] font-semibold leading-snug text-ink">

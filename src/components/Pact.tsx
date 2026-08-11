@@ -96,7 +96,7 @@ export default function Pact() {
                 className="pact-row border-b border-[rgba(242,238,229,0.09)] py-10 first:border-t"
               >
                 <div className="flex items-baseline gap-6">
-                  <span className="font-[family-name:var(--font-mono)] text-[13px] text-dusk-mute">
+                  <span className="font-[family-name:var(--font-mono)] text-[15px] font-medium text-dusk-dim">
                     {p.index}
                   </span>
                   <div>
@@ -117,6 +117,7 @@ export default function Pact() {
           </div>
         </div>
       </div>
+      <div className="bridge-to-cream" aria-hidden="true" />
     </section>
   );
 }

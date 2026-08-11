@@ -6,7 +6,7 @@ const WAITLIST_URL =
 
 export default function Membership() {
   return (
-    <section id="membership" className="bg-cream">
+    <section id="membership" className="relative z-[4] -mt-[3px] bg-cream">
       <div className="mx-auto max-w-[1200px] px-6 py-28 sm:px-12">
         <div className="max-w-[60ch]">
           <p className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.22em] text-sage-deep">
