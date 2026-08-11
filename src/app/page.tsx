@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import HowItWorks from "@/components/HowItWorks";
+import JourneyScroll from "@/components/JourneyScroll";
 import Safety from "@/components/Safety";
 import Membership from "@/components/Membership";
 import Pact from "@/components/Pact";
@@ -14,7 +14,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <HowItWorks />
+        <JourneyScroll />
         <Safety />
         <Membership />
         <Pact />
