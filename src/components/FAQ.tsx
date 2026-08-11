@@ -5,23 +5,23 @@
 const QA: { q: string; a: string }[] = [
   {
     q: "How do I know who I'm riding with?",
-    a: "Everyone on Nexstopp signs up with an OTP-verified phone number and submits identity verification that is reviewed before a 'Verified' badge appears. Matching only pairs you with commuters whose posted route genuinely overlaps yours — hosts see who's asking to join, and riders see who's driving, before anyone confirms.",
+    a: "Everyone on Nexstopp signs up with a verified phone number, and the Verified badge only appears after an identity check is reviewed. Matching pairs you with commuters whose posted route genuinely overlaps yours. Hosts see who is asking to join, riders see who is driving, and nobody is confirmed until both say yes.",
   },
   {
-    q: "What does the guardian system actually do?",
-    a: "You pick your guardians — a parent, partner or friend. While you ride, they can watch your live GPS. If you press SOS, or the app notices you've gone quiet and you don't respond to a check-in, your guardians are alerted with your live location and ride details, and the app helps you call 112 immediately. We don't claim to contact the police for you — we make sure the people who care about you know, fast.",
+    q: "Who watches over my ride?",
+    a: "Your own people do. Amma, your partner, your best friend, whoever you choose. While you ride, they can open your live location like they're sitting beside you. If you press SOS, or you go quiet and miss a check-in, they instantly get your exact location and ride details, and the app helps you call 112. We never claim to call the police for you. We make sure the people who love you know, fast.",
   },
   {
-    q: "Why is there zero commission — what's the catch?",
-    a: "There isn't one. Fuel money moves directly between riders; Nexstopp never touches it, so there's nothing to take a cut of. The plan is for optional membership to be our only revenue — and safety features are never part of any paid tier.",
+    q: "Why zero commission? What's the catch?",
+    a: "There isn't one. Fuel money moves directly between riders, and Nexstopp never touches it, so there is nothing to take a cut of. Optional membership is meant to be our only revenue, and safety is never part of any paid tier.",
   },
   {
     q: "Is my location data shared or sold?",
-    a: "Your live location is shared only during a ride, only with the co-riders on it and the guardians you chose. We don't sell data — to advertisers or anyone else — and you can delete your account and personal data from inside the app.",
+    a: "Your live location is shared only during a ride, and only with the co-riders on it and the guardians you chose. We do not sell data, to advertisers or anyone else. You can delete your account and personal data from inside the app.",
   },
   {
     q: "When can I actually use it?",
-    a: "We're launching in Hyderabad first, starting with a small group from the waitlist so early rides are dense on a few corridors instead of thin everywhere. Join the waitlist and you'll hear from us before anyone else.",
+    a: "Hyderabad first. We start with a small group from the waitlist so early rides are dense on a few corridors instead of thin everywhere. Join the waitlist and you will hear from us before anyone else.",
   },
 ];
 

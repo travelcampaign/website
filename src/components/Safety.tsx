@@ -5,22 +5,22 @@
 const FEATURES = [
   {
     title: "Your guardians, not a call centre",
-    body: "Pick the people who worry about you — a parent, a partner, a friend. They see your ride live and they're the first to know if something's off.",
+    body: "Your people, chosen by you: a parent, a partner, a friend. They can watch your ride live, and they are the first to know if something feels off.",
     ember: false,
   },
   {
     title: "Live GPS on every ride",
-    body: "Every ride broadcasts its position for the people you chose. Not a last-known location — a moving one.",
+    body: "Every ride shares its position with the people you chose. Not a last-known location. A moving one.",
     ember: false,
   },
   {
     title: "If you go quiet, we ask",
-    body: "The app notices stillness and route changes and checks in on you. No answer? Your guardians get your live location and ride details, instantly.",
+    body: "Stopped too long, or way off route? The app checks in on you first. No answer, and the people you chose see exactly where you are, instantly.",
     ember: true,
   },
   {
     title: "Emergency, one tap away",
-    body: "SOS alerts your guardians with your exact position and keeps updating them — and the app helps you reach 112 immediately.",
+    body: "SOS sends your guardians your exact position and keeps updating them. The app also helps you reach 112 immediately.",
     ember: true,
   },
 ];
@@ -43,7 +43,7 @@ export default function Safety() {
                 <strong className="font-semibold">Every protection here is free, for every rider.</strong>
               </p>
               <p className="mt-2 max-w-[42ch] text-[15.5px] leading-[1.65] text-dusk-dim">
-                No premium tier, no upsell — it&apos;s the reason Nexstopp exists.
+                No premium tier, no upsell. Keeping you safe is the reason Nexstopp exists.
               </p>
 
               {/* guardian motif — framed, not floating */}
@@ -95,7 +95,7 @@ export default function Safety() {
 
             <p className="mt-2 px-1 text-[13.5px] leading-relaxed text-dusk-dim">
               Nexstopp alerts the guardians you choose and helps you reach
-              emergency services — it does not replace them. In an emergency,
+              emergency services. It does not replace them. In an emergency,
               always call 112.
             </p>
           </div>

@@ -36,7 +36,7 @@ export default function Footer() {
               nexstopp<span className="italic text-sage">.</span>
             </p>
             <p className="mt-4 max-w-[34ch] text-[14.5px] leading-[1.7] text-dusk-mute">
-              Community-run carpooling for India — safety first, zero
+              Community-run carpooling for India. Safety first, zero
               commission, always.
             </p>
           </div>
@@ -66,7 +66,14 @@ export default function Footer() {
 
         <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-[rgba(242,238,229,0.08)] pt-8">
           <p className="text-[13px] text-dusk-mute">
-            © 2026 Nexstopp. Built in Hyderabad.
+            © 2026 Nexstopp. Built in Hyderabad. Map data ©{" "}
+            <a href="https://www.openstreetmap.org/copyright" className="underline decoration-[rgba(242,238,229,0.25)] underline-offset-2 hover:text-dusk-dim" target="_blank" rel="noopener noreferrer">
+              OpenStreetMap
+            </a>{" "}
+            contributors, tiles ©{" "}
+            <a href="https://carto.com/attributions" className="underline decoration-[rgba(242,238,229,0.25)] underline-offset-2 hover:text-dusk-dim" target="_blank" rel="noopener noreferrer">
+              CARTO
+            </a>.
           </p>
           <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-dusk-mute">
             The city goes home together

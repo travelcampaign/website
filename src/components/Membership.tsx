@@ -16,9 +16,9 @@ export default function Membership() {
             Safety is <em className="italic text-sage-deep">never paywalled.</em>
           </h2>
           <p className="mt-6 text-[16.5px] leading-[1.7] text-ink-soft">
-            Every protection — live GPS, guardians, SOS — is free on every
-            plan, forever. Membership only changes how much matching you get.
-            And we never take a cut of the ride.
+            Every protection, from live GPS to guardians to SOS, is free on
+            every plan, forever. Membership only changes how much matching you
+            get. And we never take a cut of the ride.
           </p>
         </div>
 
@@ -36,7 +36,7 @@ export default function Membership() {
               {[
                 "Post and join everyday commutes",
                 "On-route matching with verified riders",
-                "Live GPS, guardians and SOS — all of it",
+                "Live GPS, guardians and SOS, all of it",
                 "Fair fuel-split calculator",
               ].map((f) => (
                 <li key={f} className="flex items-start gap-3 text-[15px] leading-snug text-ink">
@@ -74,7 +74,7 @@ export default function Membership() {
             </ul>
             <p className="mt-6 text-[13px] leading-relaxed text-ink-soft">
               The maths: one shared 20&nbsp;km commute typically saves more than
-              the fee. If it doesn&apos;t pay for itself, stay free — nothing
+              the fee. If it doesn&apos;t pay for itself, stay free. Nothing
               that keeps you safe ever costs a rupee.
             </p>
           </div>
@@ -87,7 +87,7 @@ export default function Membership() {
           </p>
           <p className="max-w-[52ch] text-[14.5px] leading-relaxed text-ink-soft">
             Fuel money moves between riders, directly. Nexstopp never touches
-            it and never takes a percentage — membership is our only revenue.
+            it and never takes a percentage. Membership is our only revenue.
           </p>
         </div>
       </div>
