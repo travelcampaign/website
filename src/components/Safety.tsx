@@ -39,10 +39,11 @@ export default function Safety() {
               <h2 className="mt-5 max-w-[14ch] font-[family-name:var(--font-display)] text-[clamp(36px,4.6vw,54px)] font-normal leading-[1.12] tracking-[-0.01em] text-dusk-text">
                 Someone always knows <em className="italic text-sage">you&apos;re moving.</em>
               </h2>
-              <p className="mt-6 max-w-[42ch] text-[16.5px] leading-[1.7] text-dusk-dim">
-                Safety isn&apos;t a premium tier here. Every protection below is
-                free, on every plan, for every rider — because it&apos;s the
-                reason Nexstopp exists.
+              <p className="mt-6 max-w-[42ch] text-[17px] leading-[1.6] text-dusk-text">
+                <strong className="font-semibold">Every protection here is free, for every rider.</strong>
+              </p>
+              <p className="mt-2 max-w-[42ch] text-[15.5px] leading-[1.65] text-dusk-dim">
+                No premium tier, no upsell — it&apos;s the reason Nexstopp exists.
               </p>
 
               {/* guardian motif — framed, not floating */}
@@ -92,7 +93,7 @@ export default function Safety() {
               </div>
             ))}
 
-            <p className="mt-2 px-1 text-[13px] leading-relaxed text-dusk-mute">
+            <p className="mt-2 px-1 text-[13.5px] leading-relaxed text-dusk-dim">
               Nexstopp alerts the guardians you choose and helps you reach
               emergency services — it does not replace them. In an emergency,
               always call 112.

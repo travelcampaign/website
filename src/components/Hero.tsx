@@ -63,6 +63,14 @@ export default function Hero() {
           </a>
         </div>
 
+        {/* honest proof — the real survey, not an invented member count */}
+        <p
+          className="hero-enter mt-6 font-[family-name:var(--font-mono)] text-[11.5px] uppercase tracking-[0.18em] text-dusk-dim"
+          style={{ "--enter-delay": "480ms" } as React.CSSProperties}
+        >
+          Built with answers from 268 Indian commuters
+        </p>
+
         {/* live-ride panel */}
         <div className="hero-enter" style={{ "--enter-delay": "550ms" } as React.CSSProperties}>
           <RidePanel />
