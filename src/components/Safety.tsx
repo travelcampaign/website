@@ -15,7 +15,7 @@ const FEATURES = [
   },
   {
     title: "If you go quiet, we ask",
-    body: "Stopped too long, or way off route? The app checks in on you first. No answer, and the people you chose see exactly where you are, instantly.",
+    body: "If you stop for too long or drift far off the route, the app checks in on you first. If you don't answer, the people you chose see exactly where you are.",
     ember: true,
   },
   {
@@ -43,7 +43,7 @@ export default function Safety() {
                 <strong className="font-semibold">Every protection here is free, for every rider.</strong>
               </p>
               <p className="mt-2 max-w-[42ch] text-[15.5px] leading-[1.65] text-dusk-dim">
-                Not a paid extra, not a plan. Keeping you safe is the reason Nexstopp exists.
+                None of it costs money, because keeping people safe is the reason Nexstopp exists.
               </p>
 
               {/* guardian motif — framed, not floating */}

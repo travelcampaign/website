@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Nexstopp",
+  title: "Privacy Policy | Nexstopp",
   description:
     "How Nexstopp collects, uses, and protects your data. We never sell your personal information.",
 };
@@ -14,11 +14,11 @@ const sections: LegalSection[] = [
     heading: "1. Who we are",
     body: (
       <p>
-        Nexstopp is a community-driven, safety-first ride-sharing platform for
-        India, currently in a pilot in Hyderabad. We connect verified community
-        members who are already travelling the same way so they can share the
-        ride. We are a technology platform — not a taxi service or transport
-        operator — and we never process payments for rides.
+        Nexstopp is a carpooling platform for India built around community and
+        safety. We are currently running a pilot in Hyderabad. We connect
+        verified community members who are already travelling the same way so
+        they can share the ride. We are a technology platform, not a taxi
+        service or transport operator, and we never process payments for rides.
       </p>
     ),
   },
@@ -29,36 +29,36 @@ const sections: LegalSection[] = [
         <p>We collect only what we need to run a safe carpool:</p>
         <ul className={list}>
           <li>
-            <strong>Account details</strong> — your mobile number (verified by a
+            <strong>Account details</strong>: your mobile number (verified by a
             one-time password), name, and gender. You may add a profile photo.
           </li>
           <li>
-            <strong>Identity verification (KYC)</strong> — to keep the community
+            <strong>Identity verification (KYC)</strong>: to keep the community
             trusted, we verify a government ID. We store your verification{" "}
             <em>status</em> and a masked reference (for example, only the last
             few digits), not full ID numbers where it can be avoided.
           </li>
           <li>
-            <strong>Vehicle details</strong> — if you host rides: vehicle type,
-            make/model, and registration number.
+            <strong>Vehicle details</strong>: vehicle type, make/model, and
+            registration number, if you host rides.
           </li>
           <li>
-            <strong>Location</strong> — precise GPS only while a ride is active
-            and during a short post-ride safety window. It powers live tracking,
-            route-deviation and inactivity checks, and matching you with people
-            going your way.
+            <strong>Location</strong>: precise GPS only while a ride is active
+            and during a short safety window after the ride. We use it for live
+            tracking, for route-deviation and inactivity checks, and to match
+            you with people going your way.
           </li>
           <li>
-            <strong>Guardians (emergency contacts)</strong> — the names and phone
+            <strong>Guardians (emergency contacts)</strong>: the names and phone
             numbers you choose to add. We use these only to alert them if a
             safety check is triggered.
           </li>
           <li>
-            <strong>Ride & community data</strong> — routes, times, ride history,
+            <strong>Ride & community data</strong>: routes, times, ride history,
             ratings, and your trust score.
           </li>
           <li>
-            <strong>Device & usage</strong> — basic diagnostics needed to keep
+            <strong>Device & usage</strong>: basic diagnostics needed to keep
             the app working.
           </li>
         </ul>
@@ -71,7 +71,7 @@ const sections: LegalSection[] = [
       <ul className={list}>
         <li>Match you with hosts and riders travelling the same route.</li>
         <li>
-          Power safety features — live tracking, route-deviation and inactivity
+          Run safety features: live tracking, route-deviation and inactivity
           detection, SOS, and guardian alerts.
         </li>
         <li>Maintain trust scores, ratings, and identity verification.</li>
@@ -97,28 +97,28 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          <strong>We never sell your personal data.</strong> Our business is
-          membership subscriptions, not advertising to or profiling you. We share
-          data only in these limited situations:
+          <strong>We never sell your personal data.</strong> We earn from
+          membership fees, not from advertising to you or profiling you. We
+          share data only in these limited situations:
         </p>
         <ul className={list}>
           <li>
-            <strong>With other members, to make a ride work</strong> — a host and
+            <strong>With other members, to make a ride work</strong>: a host and
             rider see each other&apos;s first name, trust score, verification
             badge, pickup point, and live location during the shared ride.
           </li>
           <li>
-            <strong>With service providers who help us operate</strong> — Twilio
+            <strong>With service providers who help us operate</strong>: Twilio
             (to send OTP and guardian SMS) and Google Maps (routing and
             geocoding). They may process data only on our instructions.
           </li>
           <li>
-            <strong>Your guardians, during a safety event</strong> — if a safety
+            <strong>Your guardians, during a safety event</strong>: if a safety
             check is triggered, we share your live location and profile with the
             emergency contacts you added.
           </li>
           <li>
-            <strong>When the law requires it</strong> — to comply with a valid
+            <strong>When the law requires it</strong>: to comply with a valid
             legal request, or to protect someone&apos;s safety in an emergency.
           </li>
         </ul>
@@ -130,8 +130,8 @@ const sections: LegalSection[] = [
     body: (
       <p>
         Nexstopp is peer-to-peer. Any money members choose to share toward fuel
-        or costs is settled directly between them (for example, by cash or UPI) —
-        we do not collect, hold, or process it, and we take no commission. The
+        or costs is settled directly between them, for example by cash or UPI.
+        We do not collect, hold, or process it, and we take no commission. The
         only payment we handle is your optional membership subscription.
       </p>
     ),
@@ -164,7 +164,7 @@ const sections: LegalSection[] = [
     body: (
       <p>
         Where identity verification uses Aadhaar, we handle it with your explicit
-        consent and follow applicable law, including masking — we do not store
+        consent and follow applicable law, including masking. We do not store
         your full Aadhaar number. You are never required to share your Aadhaar to
         use safety features, which are free for everyone.
       </p>
@@ -208,10 +208,9 @@ export default function PrivacyPage() {
       lastUpdated="2 July 2026"
       intro={
         <p>
-          This policy explains, in plain language, what information Nexstopp
-          collects, how we use it, and the choices you have. Our guiding rule is
-          simple: collect only what a safe carpool needs, and never sell your
-          data.
+          This policy explains what information Nexstopp collects, how we use
+          it, and the choices you have. We collect only what a safe carpool
+          needs, and we never sell your data.
         </p>
       }
       sections={sections}

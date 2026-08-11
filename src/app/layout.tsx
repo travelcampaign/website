@@ -39,9 +39,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Nexstopp — Community-Driven Ride Sharing for India",
+  title: "Nexstopp | Carpooling for India, starting in Hyderabad",
   description:
-    "India's community-driven ride sharing platform built around trust, safety, and real human connections. Zero commission. Zero per-ride charges.",
+    "Share your daily commute with verified neighbours while someone you trust watches over the ride. Riders split fuel costs directly and Nexstopp takes no commission.",
   keywords: [
     "nexstopp",
     "ride sharing",
@@ -53,9 +53,9 @@ export const metadata: Metadata = {
     "commute",
   ],
   openGraph: {
-    title: "Nexstopp — Share Your Journey, Not Just a Ride",
+    title: "Nexstopp | The city goes home together",
     description:
-      "India's community-driven ride sharing platform built around trust, safety, and real human connections.",
+      "Carpooling for India with safety built in. Riders split fuel costs directly and Nexstopp takes no commission.",
     type: "website",
   },
   icons: {

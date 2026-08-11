@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Nexstopp",
+  title: "Terms of Service | Nexstopp",
   description:
-    "The terms for using Nexstopp — a community carpooling platform. Cost-sharing only, zero commission, peer-to-peer.",
+    "The terms for using Nexstopp, a community carpooling platform. Members share costs directly with each other, and Nexstopp takes no commission.",
 };
 
 const list = "list-disc pl-5 space-y-2";
@@ -58,7 +58,7 @@ const sections: LegalSection[] = [
       <p>
         Nexstopp is built for genuine cost-sharing, not profit. Any amount members
         contribute toward fuel or running costs is voluntary and shared directly
-        between them — it is not a commercial fare. Nexstopp does not set, collect,
+        between them. It is not a commercial fare. Nexstopp does not set, collect,
         or take a commission on it, and members must not use the platform to run a
         commercial transport business.
       </p>
@@ -69,16 +69,16 @@ const sections: LegalSection[] = [
     body: (
       <ul className={list}>
         <li>
-          Core use and all safety features are available without charge. Optional
-          paid membership tiers unlock added convenience.
+          Core use and all safety features are free. You can also pay for an
+          optional membership plan that adds convenience features.
         </li>
         <li>
           Membership is billed for the plan you choose. You can cancel anytime;
           cancellation stops future renewals.
         </li>
         <li>
-          Nexstopp never processes payments between riders — those are settled
-          peer-to-peer.
+          Nexstopp never processes payments between riders. Riders settle those
+          directly with each other.
         </li>
       </ul>
     ),
@@ -102,8 +102,8 @@ const sections: LegalSection[] = [
     heading: "7. Safety features",
     body: (
       <p>
-        Nexstopp provides safety tools — live tracking, route-deviation and
-        inactivity checks, SOS, and guardian alerts — to help keep you safe. They
+        Nexstopp provides safety tools to help keep you safe: live tracking,
+        route-deviation and inactivity checks, SOS, and guardian alerts. They
         are provided on a best-effort basis and are not a substitute for the
         emergency services. In any emergency, call 112 directly. We cannot
         guarantee that an alert will always be delivered, for example if there is
@@ -168,7 +168,7 @@ const sections: LegalSection[] = [
     heading: "13. Changes to these terms",
     body: (
       <p>
-        We may update these Terms as the product evolves. We will revise the “last
+        We may update these Terms as the product changes. We will revise the “last
         updated” date above and, for significant changes, notify you in the app.
         Continuing to use Nexstopp after an update means you accept the new Terms.
       </p>
@@ -184,9 +184,9 @@ export default function TermsPage() {
       intro={
         <p>
           These Terms explain how Nexstopp works and what we each agree to. In
-          short: Nexstopp is a platform that helps community members share rides
-          they are already taking — cost-sharing only, zero commission, and
-          peer-to-peer.
+          short, Nexstopp is a platform that helps community members share rides
+          they are already taking. Members only share costs, directly with each
+          other, and Nexstopp takes no commission.
         </p>
       }
       sections={sections}

@@ -73,9 +73,8 @@ export default function Membership() {
               ))}
             </ul>
             <p className="mt-6 text-[13px] leading-relaxed text-ink-soft">
-              The maths: one shared 20&nbsp;km commute typically saves more than
-              the fee. If it doesn&apos;t pay for itself, stay free. Nothing
-              that keeps you safe ever costs a rupee.
+              The maths: one shared 20&nbsp;km commute usually saves more than the
+              fee. If it doesn&apos;t pay for itself, stay on the free plan.
             </p>
           </div>
         </div>
@@ -87,7 +86,7 @@ export default function Membership() {
           </p>
           <p className="max-w-[52ch] text-[14.5px] leading-relaxed text-ink-soft">
             Fuel money moves between riders, directly. Nexstopp never touches
-            it and never takes a percentage. Membership is our only revenue.
+            it and never takes a percentage. Membership is our only income.
           </p>
         </div>
       </div>

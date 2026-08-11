@@ -36,8 +36,8 @@ export default function Footer() {
               nexstopp<span className="italic text-sage">.</span>
             </p>
             <p className="mt-4 max-w-[34ch] text-[14.5px] leading-[1.7] text-dusk-mute">
-              Community-run carpooling for India. Safety first, zero
-              commission, always.
+              Community-run carpooling for India, with safety built in and
+              zero commission.
             </p>
           </div>
 

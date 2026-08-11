@@ -9,7 +9,7 @@ const QA: { q: string; a: string }[] = [
   },
   {
     q: "Who watches over my ride?",
-    a: "Your own people do. Amma, your partner, your best friend, whoever you choose. While you ride, they can open your live location like they're sitting beside you. If you press SOS, or you go quiet and miss a check-in, they instantly get your exact location and ride details, and the app helps you call 112. We never claim to call the police for you. We make sure the people who love you know, fast.",
+    a: "Your own people do. Amma, your partner, your best friend, whoever you choose. While you ride, they can open your live location like they're sitting beside you. If you press SOS, or you go quiet and miss a check-in, they instantly get your exact location and ride details, and the app helps you call 112. We never claim to call the police for you. What we do is make sure the people who love you find out immediately.",
   },
   {
     q: "Why zero commission? What's the catch?",

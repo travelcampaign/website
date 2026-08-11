@@ -54,7 +54,7 @@ const PHASES = [
     eyebrow: "Zero commission",
     title: "₹0 cut.",
     accent: "Always.",
-    sub: "Fuel money moves between riders. No middleman, no percentage, ever.",
+    sub: "Fuel money moves between riders directly, and no part of it ever comes to us.",
     ember: false,
   },
 ];

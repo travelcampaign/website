@@ -14,8 +14,8 @@ export default function SurveyCTA() {
             <em className="italic text-sage">sharing.</em>
           </h2>
           <p className="mx-auto mt-6 max-w-[44ch] text-[16.5px] leading-[1.7] text-dusk-dim">
-            We are launching in Hyderabad, and early members get to shape the
-            routes, the rules, and the road ahead.
+            We are launching in Hyderabad, and the people who join early get a
+            real say in how it works.
           </p>
           <div className="mt-10">
             <a
