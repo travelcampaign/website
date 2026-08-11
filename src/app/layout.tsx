@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, DM_Sans, Syne, Outfit } from "next/font/google";
+import { Fraunces, DM_Sans, DM_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({
+// Display serif — the Evening Commute voice. Italic carries the emotional
+// beat inside each headline ("home together.").
+const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-bricolage",
-  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-fraunces",
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
 });
 
 const dmSans = DM_Sans({
@@ -16,12 +19,12 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-// Funky geometric display font — used for dramatic headings + stats
-const syne = Syne({
+// Metadata voice: kickers, route labels, timestamps.
+const dmMono = DM_Mono({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-syne",
-  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-dm-mono",
+  weight: ["400", "500"],
 });
 
 // Brand font — used inside the Nexstopp wordmark SVG. The SVG <text> element
@@ -70,7 +73,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bricolage.variable} ${dmSans.variable} ${syne.variable} ${outfit.variable} antialiased`}
+      className={`${fraunces.variable} ${dmSans.variable} ${dmMono.variable} ${outfit.variable} antialiased`}
     >
       <body className="min-h-screen" suppressHydrationWarning>
         {children}

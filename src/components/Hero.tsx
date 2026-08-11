@@ -1,652 +1,223 @@
-"use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+/* ─────────────────────────────────────────────────────────────
+   Hero — "The Evening Commute"
+   Dusk ground, Fraunces headline, and the live-ride panel:
+   a framed night-map card showing an illustrative ride with a
+   guardian watching. All labels generic — no invented personas.
+   ───────────────────────────────────────────────────────────── */
 
-const SURVEY_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSeIWEF6riJ2RKzNJh97PS_8yAYgfS0nkLyI7UBq6WfV2bqm6g/viewform?usp=sharing";
+const WAITLIST_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSe0aPYcXW-4CyYuc74YEHl9zM_Ni7QDyVZBFhqm2Y69ZC0aiw/viewform";
 
-// ── Atmospheric background ────────────────────────────────────
-function Background() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div
-        className="absolute"
-        style={{
-          top: "-30%", left: "-10%",
-          width: "70%", height: "90%",
-          background: "radial-gradient(ellipse, rgba(86,143,122,0.18) 0%, transparent 65%)",
-          filter: "blur(80px)",
-        }}
-      />
-      <div
-        className="absolute"
-        style={{
-          top: "20%", right: "-20%",
-          width: "65%", height: "80%",
-          background: "radial-gradient(ellipse, rgba(44,58,58,0.35) 0%, transparent 65%)",
-          filter: "blur(70px)",
-        }}
-      />
-      <div
-        className="absolute"
-        style={{
-          bottom: "-10%", left: "30%",
-          width: "50%", height: "50%",
-          background: "radial-gradient(ellipse, rgba(249,115,22,0.06) 0%, transparent 65%)",
-          filter: "blur(80px)",
-        }}
-      />
-      {/* Subtle diagonal beam */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(125deg, rgba(86,143,122,0.03) 0%, transparent 40%, rgba(44,58,58,0.04) 100%)",
-        }}
-      />
-      {/* Bottom fade */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-64"
-        style={{ background: "linear-gradient(to bottom, transparent, #0A1515)" }}
-      />
-    </div>
-  );
-}
-
-// ── Phone map: city block data ────────────────────────────────
-const BLOCKS = [
-  { x: 8,  y: 20,  w: 52, h: 30, o: 0.06 },
-  { x: 70, y: 8,   w: 44, h: 48, o: 0.05 },
-  { x: 126,y: 18,  w: 58, h: 38, o: 0.07 },
-  { x: 196,y: 28,  w: 38, h: 28, o: 0.05 },
-  { x: 18, y: 66,  w: 38, h: 58, o: 0.06 },
-  { x: 70, y: 70,  w: 68, h: 44, o: 0.05 },
-  { x: 156,y: 72,  w: 48, h: 52, o: 0.06 },
-  { x: 14, y: 145, w: 58, h: 38, o: 0.05 },
-  { x: 86, y: 128, w: 54, h: 58, o: 0.07 },
-  { x: 154,y: 132, w: 64, h: 44, o: 0.06 },
-  { x: 8,  y: 205, w: 48, h: 32, o: 0.05 },
-  { x: 70, y: 200, w: 38, h: 44, o: 0.06 },
-  { x: 126,y: 195, w: 58, h: 48, o: 0.05 },
-  { x: 200,y: 185, w: 34, h: 52, o: 0.06 },
-];
-
-// ── Phone mockup ──────────────────────────────────────────────
-function PhoneMockup() {
-  return (
-    <div className="relative" style={{ width: "380px", height: "580px" }}>
-
-      {/* Badge: ₹0 Commission — right */}
-      <motion.div
-        initial={{ opacity: 0, x: 24, scale: 0.85 }}
-        animate={{ opacity: 1, x: 0, scale: 1 }}
-        transition={{ delay: 1.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute z-20"
-        style={{ right: "0px", top: "80px" }}
-      >
-        <div
-          className="rounded-xl px-3.5 py-2.5"
-          style={{
-            background: "rgba(8,18,18,0.95)",
-            border: "1px solid rgba(86,143,122,0.28)",
-            boxShadow: "0 8px 28px rgba(0,0,0,0.5)",
-            backdropFilter: "blur(12px)",
-          }}
-        >
-          <p
-            className="font-[family-name:var(--font-bricolage)] font-extrabold leading-none"
-            style={{ fontSize: "20px", color: "#568F7A" }}
-          >
-            ₹0
-          </p>
-          <p
-            className="font-[family-name:var(--font-dm-sans)] text-[9px] mt-1 uppercase tracking-widest"
-            style={{ color: "rgba(247,246,244,0.38)" }}
-          >
-            Commission
-          </p>
-        </div>
-      </motion.div>
-
-      {/* Badge: Safety Active — bottom-left */}
-      <motion.div
-        initial={{ opacity: 0, x: -24, scale: 0.85 }}
-        animate={{ opacity: 1, x: 0, scale: 1 }}
-        transition={{ delay: 1.25, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute z-20"
-        style={{ left: "0px", bottom: "90px" }}
-      >
-        <div
-          className="rounded-xl px-3.5 py-2.5"
-          style={{
-            background: "rgba(8,18,18,0.95)",
-            border: "1px solid rgba(249,115,22,0.25)",
-            boxShadow: "0 8px 28px rgba(0,0,0,0.5)",
-            backdropFilter: "blur(12px)",
-          }}
-        >
-          <div className="flex items-center gap-1.5 mb-1">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F97316" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-            <p
-              className="font-[family-name:var(--font-dm-sans)] text-[10px] font-bold"
-              style={{ color: "#F97316" }}
-            >
-              Safety Active
-            </p>
-          </div>
-          <p
-            className="font-[family-name:var(--font-dm-sans)] text-[9px]"
-            style={{ color: "rgba(247,246,244,0.35)" }}
-          >
-            60s SOS · Live GPS
-          </p>
-        </div>
-      </motion.div>
-
-      {/* ── Phone frame ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.0, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute left-1/2 -translate-x-1/2 top-0"
-        style={{ width: "240px" }}
-      >
-        <div
-          className="relative rounded-[44px] overflow-hidden"
-          style={{
-            height: "520px",
-            background: "#0A1515",
-            border: "7px solid #1C2E2E",
-            boxShadow:
-              "0 0 0 1px rgba(86,143,122,0.10), 0 48px 80px rgba(0,0,0,0.75), inset 0 0 0 1px rgba(86,143,122,0.06)",
-          }}
-        >
-          {/* Dynamic island / notch */}
-          <div
-            className="absolute top-3 left-1/2 -translate-x-1/2 z-30 rounded-full"
-            style={{ width: "72px", height: "18px", background: "#1C2E2E" }}
-          />
-
-          {/* Status bar */}
-          <div
-            className="flex justify-between items-center px-5 pt-7 pb-2"
-            style={{ position: "relative", zIndex: 5 }}
-          >
-            <span
-              className="font-[family-name:var(--font-dm-sans)] text-[10px]"
-              style={{ color: "rgba(247,246,244,0.38)" }}
-            >
-              9:41
-            </span>
-            <span style={{ color: "rgba(247,246,244,0.25)", fontSize: "8px" }}>
-              ▲▲▲
-            </span>
-          </div>
-
-          {/* Map area */}
-          <div
-            className="relative"
-            style={{ height: "282px", background: "#0D1C1C", overflow: "hidden" }}
-          >
-            {/* Grid */}
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(86,143,122,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(86,143,122,0.035) 1px, transparent 1px)",
-                backgroundSize: "18px 18px",
-              }}
-            />
-            {/* City blocks */}
-            {BLOCKS.map((b, i) => (
-              <div
-                key={i}
-                className="absolute rounded-sm"
-                style={{
-                  left: b.x, top: b.y,
-                  width: b.w, height: b.h,
-                  background: `rgba(86,143,122,${b.o})`,
-                }}
-              />
-            ))}
-            {/* Road highlights */}
-            <div
-              className="absolute"
-              style={{
-                left: 0, right: 0, top: "62px", height: "8px",
-                background: "rgba(44,58,58,0.5)",
-              }}
-            />
-            <div
-              className="absolute"
-              style={{
-                left: 0, right: 0, top: "130px", height: "6px",
-                background: "rgba(44,58,58,0.4)",
-              }}
-            />
-            <div
-              className="absolute"
-              style={{
-                left: "96px", top: 0, bottom: 0, width: "7px",
-                background: "rgba(44,58,58,0.4)",
-              }}
-            />
-            <div
-              className="absolute"
-              style={{
-                left: "162px", top: 0, bottom: 0, width: "5px",
-                background: "rgba(44,58,58,0.35)",
-              }}
-            />
-
-            {/* Route + markers SVG */}
-            <svg
-              className="absolute inset-0 w-full h-full"
-              viewBox="0 0 226 282"
-              preserveAspectRatio="none"
-            >
-              {/* Marching-ant route */}
-              <motion.path
-                d="M 46 248 C 72 195, 136 172, 172 78"
-                stroke="#568F7A"
-                strokeWidth="2.5"
-                fill="none"
-                strokeDasharray="7 5"
-                animate={{ strokeDashoffset: [0, -24] }}
-                transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
-                opacity="0.85"
-              />
-              {/* Pickup glow ring */}
-              <motion.circle
-                cx="46" cy="248" r="13"
-                fill="rgba(86,143,122,0)"
-                stroke="#568F7A"
-                strokeWidth="1"
-                animate={{ r: [13, 18, 13], opacity: [0.4, 0, 0.4] }}
-                transition={{ duration: 2.2, repeat: Infinity }}
-              />
-              {/* Pickup dot */}
-              <circle cx="46" cy="248" r="6" fill="#568F7A" />
-              <circle cx="46" cy="248" r="3" fill="#F7F6F4" />
-              {/* Destination glow ring */}
-              <motion.circle
-                cx="172" cy="78" r="13"
-                fill="rgba(249,115,22,0)"
-                stroke="#F97316"
-                strokeWidth="1"
-                animate={{ r: [13, 18, 13], opacity: [0.35, 0, 0.35] }}
-                transition={{ duration: 2.6, repeat: Infinity, delay: 0.8 }}
-              />
-              {/* Destination dot */}
-              <circle cx="172" cy="78" r="6" fill="#F97316" />
-              <circle cx="172" cy="78" r="3" fill="#F7F6F4" />
-              {/* Car pulsing ring */}
-              <motion.circle
-                cx="116" cy="165" r="16"
-                fill="rgba(86,143,122,0.12)"
-                animate={{ r: [16, 22, 16] }}
-                transition={{ duration: 1.8, repeat: Infinity }}
-              />
-              {/* Car dot */}
-              <circle cx="116" cy="165" r="8" fill="#568F7A" />
-              <circle cx="116" cy="165" r="4" fill="#F7F6F4" />
-            </svg>
-
-            {/* Place labels */}
-            <div
-              className="absolute"
-              style={{ left: "6px", bottom: "18px" }}
-            >
-              <div
-                className="rounded-lg px-2 py-1"
-                style={{
-                  background: "rgba(8,16,16,0.88)",
-                  border: "1px solid rgba(86,143,122,0.22)",
-                }}
-              >
-                <p
-                  className="font-[family-name:var(--font-dm-sans)] text-[8px] font-bold"
-                  style={{ color: "#568F7A" }}
-                >
-                  Kondapur
-                </p>
-              </div>
-            </div>
-            <div
-              className="absolute"
-              style={{ left: "50%", top: "50px" }}
-            >
-              <div
-                className="rounded-lg px-2 py-1"
-                style={{
-                  background: "rgba(8,16,16,0.88)",
-                  border: "1px solid rgba(249,115,22,0.22)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                <p
-                  className="font-[family-name:var(--font-dm-sans)] text-[8px] font-bold"
-                  style={{ color: "#F97316" }}
-                >
-                  HiTec City
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* ── Match card (bottom sheet) ── */}
-          <div
-            className="absolute bottom-0 left-0 right-0 px-4 pt-4 pb-4"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(9,19,19,0.96), rgba(9,19,19,1))",
-              borderTop: "1px solid rgba(86,143,122,0.12)",
-            }}
-          >
-            {/* Handle bar */}
-            <div
-              className="mx-auto mb-3 rounded-full"
-              style={{ width: "32px", height: "3px", background: "rgba(247,246,244,0.12)" }}
-            />
-
-            {/* Match label */}
-            <div className="flex items-center gap-1.5 mb-3">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-[#568F7A] opacity-70 animate-ping" />
-                <span className="relative inline-flex rounded-full bg-[#568F7A] w-1.5 h-1.5" />
-              </span>
-              <span
-                className="font-[family-name:var(--font-dm-sans)] text-[9px] font-bold uppercase tracking-[1.5px]"
-                style={{ color: "#568F7A" }}
-              >
-                Match Found
-              </span>
-            </div>
-
-            {/* Route row */}
-            <div className="flex items-center gap-1.5 mb-3">
-              <div className="flex flex-col items-center gap-0.5">
-                <div
-                  className="w-2 h-2 rounded-full"
-                  style={{ background: "#568F7A" }}
-                />
-                <div
-                  className="w-px h-5"
-                  style={{ background: "linear-gradient(to bottom, #568F7A80, #F9731660)" }}
-                />
-                <div
-                  className="w-2 h-2 rounded-full"
-                  style={{ background: "#F97316" }}
-                />
-              </div>
-              <div className="flex-1">
-                <p
-                  className="font-[family-name:var(--font-dm-sans)] text-[11px] font-semibold"
-                  style={{ color: "#F7F6F4" }}
-                >
-                  Kondapur
-                </p>
-                <p
-                  className="font-[family-name:var(--font-dm-sans)] text-[11px] font-semibold mt-2"
-                  style={{ color: "#F7F6F4" }}
-                >
-                  HiTec City
-                </p>
-              </div>
-              <p
-                className="font-[family-name:var(--font-dm-sans)] text-[10px] shrink-0"
-                style={{ color: "rgba(247,246,244,0.4)" }}
-              >
-                22 min
-              </p>
-            </div>
-
-            {/* Rider row */}
-            <div className="flex items-center gap-2.5 mb-3">
-              <div
-                className="rounded-full flex items-center justify-center shrink-0"
-                style={{
-                  width: "30px", height: "30px",
-                  background: "rgba(86,143,122,0.18)",
-                  color: "#568F7A",
-                  border: "1px solid rgba(86,143,122,0.22)",
-                }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-              </div>
-              <div className="flex-1">
-                <p
-                  className="font-[family-name:var(--font-dm-sans)] text-[11px] font-semibold"
-                  style={{ color: "#F7F6F4" }}
-                >
-                  Your co-rider
-                </p>
-                <p
-                  className="font-[family-name:var(--font-dm-sans)] text-[9px]"
-                  style={{ color: "rgba(247,246,244,0.4)" }}
-                >
-                  Verified profile
-                </p>
-              </div>
-              <div className="text-right">
-                <p
-                  className="font-[family-name:var(--font-bricolage)] font-extrabold leading-none"
-                  style={{ fontSize: "16px", color: "#568F7A" }}
-                >
-                  ₹0
-                </p>
-              </div>
-            </div>
-
-            {/* CTA */}
-            <div
-              className="w-full py-2.5 rounded-xl text-center font-[family-name:var(--font-dm-sans)] text-[11px] font-bold text-white"
-              style={{ background: "#568F7A" }}
-            >
-              Request to Join
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-// ── Stats ─────────────────────────────────────────────────────
-const stats = [
-  { value: "260+", label: "Survey responses",      accent: "#568F7A" },
-  { value: "₹0",   label: "Zero platform fee",     accent: "#568F7A" },
-  { value: "60s",  label: "Guardian alert window", accent: "#F97316" },
-  { value: "2",    label: "Plans at launch",       accent: "#568F7A" },
-];
-
-// ── Hero ──────────────────────────────────────────────────────
 export default function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y       = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
-
-  const scrollTo = (id: string) =>
-    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
-
   return (
-    <section
-      ref={ref}
-      className="grain relative min-h-screen overflow-hidden"
-      style={{ background: "#0A1515" }}
-    >
-      <Background />
+    <section className="dusk-ground grain relative overflow-hidden">
+      <div className="relative z-[2] mx-auto max-w-[1200px] px-6 pt-36 pb-24 sm:px-12">
+        {/* kicker */}
+        <p
+          className="hero-enter font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.22em] text-sage"
+          style={{ "--enter-delay": "50ms" } as React.CSSProperties}
+        >
+          Carpooling for India · Hyderabad first
+        </p>
 
-      <motion.div
-        style={{ y, opacity }}
-        className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-8 min-h-screen flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-0 pt-28 pb-20"
-      >
-        {/* ── Left: text content ── */}
-        <div className="flex-1 flex flex-col items-start lg:pr-8">
+        {/* headline */}
+        <h1
+          className="hero-enter mt-7 max-w-[11ch] font-[family-name:var(--font-display)] text-[clamp(52px,7vw,84px)] font-normal leading-[1.04] tracking-[-0.015em] text-dusk-text"
+          style={{ "--enter-delay": "150ms" } as React.CSSProperties}
+        >
+          The city goes <em className="italic text-sage">home together.</em>
+        </h1>
 
-          {/* Eyebrow */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.1 }}
-            className="flex items-center gap-3 mb-8"
+        {/* sub */}
+        <p
+          className="hero-enter mt-7 max-w-[47ch] text-lg leading-[1.65] text-dusk-dim"
+          style={{ "--enter-delay": "280ms" } as React.CSSProperties}
+        >
+          Share your daily commute with verified neighbours. Split the fuel,
+          never a commission — while a guardian you chose watches every
+          kilometre until you say you&apos;re home.
+        </p>
+
+        {/* CTAs */}
+        <div
+          className="hero-enter mt-10 flex flex-wrap items-center gap-4"
+          style={{ "--enter-delay": "400ms" } as React.CSSProperties}
+        >
+          <a
+            href={WAITLIST_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-sage px-8 py-4 text-base font-semibold text-night-0 transition-colors hover:bg-[#7FC0A6]"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-[#568F7A] opacity-75 animate-ping" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#568F7A]" />
-            </span>
-            <span className="font-[family-name:var(--font-dm-sans)] text-[11px] font-bold text-[#568F7A] uppercase tracking-[0.28em]">
-              Launching in Hyderabad — 2026
-            </span>
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h1
-            initial={{ opacity: 0, y: 44 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.95, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="font-[family-name:var(--font-bricolage)] font-extrabold text-[#F7F6F4] leading-[1.0] tracking-[-0.03em]"
-            style={{ fontSize: "clamp(48px, 5.5vw, 88px)" }}
+            Join the waitlist
+          </a>
+          <a
+            href="#how-it-works"
+            className="hairline rounded-full border px-7 py-4 text-base text-dusk-text transition-colors hover:border-[rgba(242,238,229,0.28)]"
           >
-            Share the{" "}
-            <em className="not-italic" style={{ color: "#568F7A" }}>
-              journey.
-            </em>
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
-            className="font-[family-name:var(--font-dm-sans)] font-medium mt-5 max-w-md"
-            style={{
-              fontSize: "clamp(15px, 1.3vw, 18px)",
-              color: "rgba(247,246,244,0.48)",
-              lineHeight: 1.7,
-            }}
-          >
-            Verified riders, zero commission, real-time safety — built for
-            the way Indians actually commute.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.46 }}
-            className="flex flex-col sm:flex-row gap-3 mt-8"
-          >
-            <a
-              href={SURVEY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-[family-name:var(--font-dm-sans)] group inline-flex items-center justify-center gap-2.5 rounded-[14px] px-7 py-4 text-[15px] font-semibold text-white transition-all duration-300"
-              style={{ background: "#568F7A" }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLAnchorElement).style.background = "#4a7d6a";
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLAnchorElement).style.background = "#568F7A";
-              }}
-            >
-              Join the Waitlist
-              <svg
-                width="15" height="15" viewBox="0 0 16 16" fill="none"
-                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                className="group-hover:translate-x-1 transition-transform"
-              >
-                <path d="M3 8h10M9 4l4 4-4 4" />
-              </svg>
-            </a>
-            <button
-              onClick={() => scrollTo("#how-it-works")}
-              className="font-[family-name:var(--font-dm-sans)] inline-flex items-center justify-center gap-2 rounded-[14px] px-7 py-4 text-[15px] font-medium transition-all duration-200"
-              style={{
-                border: "1px solid rgba(247,246,244,0.14)",
-                color: "rgba(247,246,244,0.72)",
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(247,246,244,0.32)";
-                (e.currentTarget as HTMLButtonElement).style.color = "#F7F6F4";
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(247,246,244,0.14)";
-                (e.currentTarget as HTMLButtonElement).style.color = "rgba(247,246,244,0.72)";
-              }}
-            >
-              See How It Works
-            </button>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.62 }}
-            className="mt-12 pt-8 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-6 w-full"
-            style={{ borderTop: "1px solid rgba(247,246,244,0.07)" }}
-          >
-            {stats.map((s, i) => (
-              <div key={i} className="flex flex-col gap-1">
-                <span
-                  className="font-[family-name:var(--font-bricolage)] font-extrabold leading-none"
-                  style={{ fontSize: "clamp(24px, 2.5vw, 34px)", color: s.accent }}
-                >
-                  {s.value}
-                </span>
-                <span
-                  className="font-[family-name:var(--font-dm-sans)] text-[11px] font-medium tracking-wide"
-                  style={{ color: "rgba(247,246,244,0.42)" }}
-                >
-                  {s.label}
-                </span>
-              </div>
-            ))}
-          </motion.div>
+            See how it works
+          </a>
         </div>
 
-        {/* ── Right: phone mockup ── */}
-        <div className="flex-shrink-0 flex justify-center lg:justify-end lg:pl-8">
-          <PhoneMockup />
+        {/* live-ride panel */}
+        <div className="hero-enter" style={{ "--enter-delay": "550ms" } as React.CSSProperties}>
+          <RidePanel />
         </div>
-      </motion.div>
-
-      {/* ── Scroll cue ── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        style={{ opacity }}
-        transition={{ delay: 1.6, duration: 0.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 pointer-events-none"
-      >
-        <span
-          className="text-[9px] font-bold tracking-[0.22em] uppercase"
-          style={{ color: "rgba(247,246,244,0.18)" }}
-        >
-          Scroll
-        </span>
-        <motion.svg
-          width="14" height="14" viewBox="0 0 16 16" fill="none"
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity }}
-        >
-          <path
-            d="M4 6l4 4 4-4"
-            stroke="rgba(247,246,244,0.20)"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </motion.svg>
-      </motion.div>
+      </div>
     </section>
+  );
+}
+
+/* The framed night-map card. Illustrative by design: generic labels,
+   a mother as guardian ("Amma"), no fabricated user personas. */
+function RidePanel() {
+  return (
+    <div className="mt-16 overflow-hidden rounded-3xl border border-[rgba(242,238,229,0.10)] bg-[linear-gradient(160deg,#1B2825_0%,#141F1D_60%,#17241F_100%)] shadow-[0_30px_80px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(242,238,229,0.06)]">
+      {/* head */}
+      <div className="hairline-soft flex items-center justify-between border-b px-7 py-5">
+        <div className="flex items-center gap-2.5 font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] text-dusk-dim">
+          <span className="guardian-beat h-2 w-2 rounded-full bg-sage" />
+          LIVE RIDE · 8:42 PM
+        </div>
+        <div className="flex items-center gap-2 rounded-full border border-[rgba(249,115,22,0.25)] bg-[rgba(249,115,22,0.10)] px-4 py-2 text-[13px] font-medium text-[#F5B98C]">
+          <ShieldIcon className="h-3.5 w-3.5" />
+          Amma is watching this ride
+        </div>
+      </div>
+
+      {/* night map */}
+      <div className="relative h-[320px]">
+        <svg
+          viewBox="0 0 1100 320"
+          preserveAspectRatio="xMidYMid slice"
+          className="absolute inset-0 h-full w-full"
+          aria-hidden="true"
+        >
+          {/* park + lake patches */}
+          <ellipse cx="905" cy="55" rx="130" ry="52" fill="rgba(111,180,153,0.05)" />
+          <ellipse cx="180" cy="72" rx="110" ry="46" fill="rgba(122,166,199,0.05)" />
+          {/* city blocks — a denser grid of faint masses */}
+          <rect x="70" y="150" width="120" height="58" rx="7" fill="rgba(242,238,229,0.045)" />
+          <rect x="215" y="128" width="88" height="46" rx="7" fill="rgba(242,238,229,0.035)" />
+          <rect x="255" y="215" width="150" height="72" rx="7" fill="rgba(242,238,229,0.05)" />
+          <rect x="440" y="40" width="120" height="62" rx="7" fill="rgba(242,238,229,0.04)" />
+          <rect x="470" y="205" width="105" height="55" rx="7" fill="rgba(242,238,229,0.035)" />
+          <rect x="610" y="120" width="140" height="66" rx="7" fill="rgba(242,238,229,0.05)" />
+          <rect x="640" y="240" width="120" height="52" rx="7" fill="rgba(242,238,229,0.035)" />
+          <rect x="800" y="150" width="115" height="60" rx="7" fill="rgba(242,238,229,0.045)" />
+          <rect x="950" y="215" width="120" height="62" rx="7" fill="rgba(242,238,229,0.04)" />
+          {/* road network — visible but quiet */}
+          <path d="M-20 260 C 200 250, 340 155, 520 150 S 860 195, 1120 100" fill="none" stroke="rgba(242,238,229,0.05)" strokeWidth="12" />
+          <path d="M-20 130 C 180 140, 420 66, 660 88 S 980 150, 1120 140" fill="none" stroke="rgba(242,238,229,0.10)" strokeWidth="1.5" />
+          <path d="M250 340 C 272 235, 345 128, 415 -20" fill="none" stroke="rgba(242,238,229,0.10)" strokeWidth="1.5" />
+          <path d="M585 340 C 592 260, 620 140, 665 -20" fill="none" stroke="rgba(242,238,229,0.08)" strokeWidth="1.5" />
+          <path d="M760 340 C 772 252, 815 128, 885 -20" fill="none" stroke="rgba(242,238,229,0.10)" strokeWidth="1.5" />
+          <path d="M-20 200 L 1120 178" fill="none" stroke="rgba(242,238,229,0.05)" strokeWidth="1" />
+          {/* the route: glow + core, drawn in once */}
+          <path
+            id="heroRoute"
+            className="route-draw"
+            d="M70 262 C 240 250, 350 158, 520 152 S 830 190, 1035 98"
+            fill="none"
+            stroke="rgba(111,180,153,0.30)"
+            strokeWidth="12"
+            strokeLinecap="round"
+          />
+          <path
+            className="route-draw"
+            d="M70 262 C 240 250, 350 158, 520 152 S 830 190, 1035 98"
+            fill="none"
+            stroke="#6FB499"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+          />
+          {/* origin + destination markers on the line */}
+          <circle cx="70" cy="262" r="6" fill="#6FB499" />
+          <circle cx="70" cy="262" r="10" fill="none" stroke="rgba(111,180,153,0.35)" strokeWidth="2" />
+          <circle cx="1035" cy="98" r="6" fill="#F97316" />
+          <circle cx="1035" cy="98" r="10" fill="none" stroke="rgba(249,115,22,0.35)" strokeWidth="2" />
+          {/* mid-route co-rider pickup */}
+          <circle cx="520" cy="152" r="5" fill="none" stroke="#6FB499" strokeWidth="2.5" />
+          {/* the car — travels the route (SMIL; hidden under reduced motion) */}
+          <g className="car-anim">
+            <g>
+              <circle r="7" fill="#fff" style={{ filter: "drop-shadow(0 0 9px rgba(111,180,153,0.95))" }} />
+              <circle className="ring-pulse" r="14" fill="none" stroke="#6FB499" strokeWidth="2" />
+              <animateMotion dur="16s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.85;1" calcMode="linear">
+                <mpath href="#heroRoute" />
+              </animateMotion>
+            </g>
+          </g>
+          {/* static fallback car for reduced motion */}
+          <g className="car-static" style={{ display: "none" }}>
+            <circle cx="520" cy="152" r="7" fill="#fff" />
+          </g>
+        </svg>
+
+        {/* stop pills */}
+        <div className="absolute bottom-[8%] left-[4%] flex items-center gap-2 rounded-full border border-[rgba(242,238,229,0.14)] bg-[rgba(16,25,24,0.85)] px-4 py-2 text-[13px] font-medium text-dusk-text backdrop-blur-sm">
+          <span className="h-[7px] w-[7px] rounded-full bg-sage" />
+          Madhapur <span className="font-normal text-dusk-mute">· picked up</span>
+        </div>
+        <div className="absolute left-[38%] top-[28%] hidden items-center gap-2 rounded-full border border-[rgba(111,180,153,0.28)] bg-[rgba(16,25,24,0.85)] px-3.5 py-1.5 text-[12px] font-medium text-dusk-text backdrop-blur-sm sm:flex">
+          <span className="h-[6px] w-[6px] rounded-full border-[1.5px] border-sage" />
+          Co-rider joins <span className="font-normal text-dusk-mute">· on your route</span>
+        </div>
+        <div className="absolute right-[4%] top-[10%] flex items-center gap-2 rounded-full border border-[rgba(242,238,229,0.14)] bg-[rgba(16,25,24,0.85)] px-4 py-2 text-[13px] font-medium text-dusk-text backdrop-blur-sm">
+          <span className="h-[7px] w-[7px] rounded-full bg-ember" />
+          Hitec City <span className="font-normal text-dusk-mute">· 12 min</span>
+        </div>
+      </div>
+
+      {/* value row */}
+      <div className="flex flex-wrap justify-center gap-3.5 px-7 pb-8 pt-6">
+        <ValuePill>
+          <GpsIcon className="h-4 w-4 text-sage" />
+          <b className="font-semibold text-dusk-text">Live GPS</b>&nbsp;on every ride
+        </ValuePill>
+        <ValuePill>
+          <ShieldIcon className="h-4 w-4 text-ember" />
+          <b className="font-semibold text-dusk-text">Guardian SOS</b>&nbsp;free on every plan
+        </ValuePill>
+        <ValuePill>
+          <CheckIcon className="h-4 w-4 text-sage" />
+          <b className="font-semibold text-dusk-text">₹0 commission</b>&nbsp;— fuel split stays yours
+        </ValuePill>
+      </div>
+    </div>
+  );
+}
+
+function ValuePill({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-2.5 whitespace-nowrap rounded-full border border-[rgba(242,238,229,0.10)] bg-[rgba(242,238,229,0.03)] px-5 py-3 text-[14.5px] text-dusk-dim">
+      {children}
+    </div>
+  );
+}
+
+function ShieldIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+      <path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z" />
+    </svg>
+  );
+}
+
+function GpsIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="3" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function CheckIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+      <path d="M5 13l4 4L19 7" />
+    </svg>
   );
 }

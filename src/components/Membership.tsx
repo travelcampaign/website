@@ -1,191 +1,104 @@
-"use client";
+/* Membership — cream. Launch reality only: FREE + ₹99.
+   The headline IS the safety promise: it's never paywalled. */
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-
-const plans = [
-  {
-    name: "FREE",
-    price: "0",
-    description: "Start your journey — no risk.",
-    features: ["Match riders within 3 km", "3 rides per week", "Standard matching", "Full safety system"],
-    cta: "Get Started Free",
-    highlighted: false,
-    badge: null as string | null,
-  },
-  {
-    name: "BASIC+",
-    price: "99",
-    description: "Made for the daily office commuter.",
-    features: ["Match riders within 5 km", "7 rides per week", "Saved routes", "Faster matching", "Full safety system"],
-    cta: "Join Basic+",
-    highlighted: true,
-    badge: null as string | null,
-  },
-];
-
-function PlanCard({ plan, index }: { plan: typeof plans[0]; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 48 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.65, delay: index * 0.09, ease: [0.22, 1, 0.36, 1] }}
-      className={`plan-card relative flex flex-col rounded-2xl p-6 lg:p-7 ${
-        plan.highlighted
-          ? "z-10 scale-[1.025]"
-          : ""
-      }`}
-      style={
-        plan.highlighted
-          ? { background: "#2C3A3A", border: "2px solid #568F7A", boxShadow: "0 0 60px rgba(86,143,122,0.2), 0 24px 48px rgba(0,0,0,0.3)" }
-          : { background: "#ffffff", border: "1px solid rgba(44,58,58,0.08)", boxShadow: "0 4px 24px rgba(44,58,58,0.07)" }
-      }
-    >
-      {/* Badge */}
-      {plan.badge && (
-        <div className="absolute -top-3.5 left-6">
-          <span
-            className="inline-block rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
-            style={
-              plan.highlighted
-                ? { background: "#568F7A", color: "#fff" }
-                : { background: "rgba(86,143,122,0.12)", color: "#568F7A", border: "1px solid rgba(86,143,122,0.25)" }
-            }
-          >
-            {plan.badge}
-          </span>
-        </div>
-      )}
-
-      <p
-        className="text-[10px] font-bold uppercase tracking-[0.2em] mb-1"
-        style={{ color: plan.highlighted ? "#568F7A" : "#7A8A85" }}
-      >
-        {plan.name}
-      </p>
-      <p className="text-[12px] mb-5" style={{ color: plan.highlighted ? "rgba(247,246,244,0.5)" : "#7A8A85" }}>
-        {plan.description}
-      </p>
-
-      {/* Price */}
-      <div className="flex items-baseline gap-1 mb-6">
-        <span className="text-sm font-medium" style={{ color: plan.highlighted ? "rgba(247,246,244,0.5)" : "#7A8A85" }}>₹</span>
-        <span
-          className="font-[family-name:var(--font-bricolage)] font-extrabold leading-none tracking-tight"
-          style={{ fontSize: "clamp(38px, 4vw, 50px)", color: plan.highlighted ? "#F7F6F4" : "#2C3A3A" }}
-        >
-          {plan.price}
-        </span>
-        <span className="text-sm font-medium ml-0.5" style={{ color: plan.highlighted ? "rgba(247,246,244,0.4)" : "#7A8A85" }}>
-          /mo
-        </span>
-      </div>
-
-      <div className="h-px mb-5" style={{ background: plan.highlighted ? "rgba(247,246,244,0.08)" : "rgba(44,58,58,0.06)" }} />
-
-      <ul className="flex-1 space-y-2.5 mb-7">
-        {plan.features.map((f) => (
-          <li key={f} className="flex items-start gap-2.5">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#568F7A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-            <span className="text-[13px]" style={{ color: plan.highlighted ? "rgba(247,246,244,0.75)" : "rgba(44,58,58,0.7)" }}>
-              {f}
-            </span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="flex flex-col items-center gap-2">
-        <button
-          className="w-full rounded-[12px] py-3 text-sm font-semibold transition-all duration-200"
-          style={
-            plan.highlighted
-              ? { background: "#568F7A", color: "#fff" }
-              : { background: "rgba(44,58,58,0.06)", color: "#2C3A3A", border: "1px solid rgba(44,58,58,0.1)" }
-          }
-          onMouseEnter={e => {
-            if (plan.highlighted) (e.currentTarget as HTMLButtonElement).style.background = "#4a7d6a";
-            else (e.currentTarget as HTMLButtonElement).style.background = "rgba(44,58,58,0.11)";
-          }}
-          onMouseLeave={e => {
-            if (plan.highlighted) (e.currentTarget as HTMLButtonElement).style.background = "#568F7A";
-            else (e.currentTarget as HTMLButtonElement).style.background = "rgba(44,58,58,0.06)";
-          }}
-        >
-          {plan.cta}
-        </button>
-        <span
-          className="text-[10px] font-medium tracking-wide"
-          style={{ color: plan.highlighted ? "rgba(247,246,244,0.3)" : "rgba(44,58,58,0.35)" }}
-        >
-          Launching Q3 2026
-        </span>
-      </div>
-    </motion.div>
-  );
-}
+const WAITLIST_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSe0aPYcXW-4CyYuc74YEHl9zM_Ni7QDyVZBFhqm2Y69ZC0aiw/viewform";
 
 export default function Membership() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
   return (
-    <section id="membership" className="relative bg-[#F7F6F4] clip-top-diagonal">
-      <div className="py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section id="membership" className="bg-cream">
+      <div className="mx-auto max-w-[1200px] px-6 py-28 sm:px-12">
+        <div className="max-w-[60ch]">
+          <p className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.22em] text-sage-deep">
+            Membership
+          </p>
+          <h2 className="mt-5 font-[family-name:var(--font-display)] text-[clamp(36px,4.6vw,54px)] font-normal leading-[1.1] tracking-[-0.01em] text-ink">
+            Safety is <em className="italic text-sage-deep">never paywalled.</em>
+          </h2>
+          <p className="mt-6 text-[16.5px] leading-[1.7] text-ink-soft">
+            Every protection — live GPS, guardians, SOS — is free on every
+            plan, forever. Membership only changes how much matching you get.
+            And we never take a cut of the ride.
+          </p>
+        </div>
 
-          <div ref={ref} className="text-center max-w-2xl mx-auto mb-16 lg:mb-20">
-            <motion.span
-              initial={{ opacity: 0, y: 10 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="inline-block text-[10px] font-bold text-[#568F7A] uppercase tracking-[0.22em] mb-4"
-            >
-              Transparent Pricing
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 28 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.75, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="font-[family-name:var(--font-bricolage)] font-extrabold text-[#2C3A3A] leading-[1.1] tracking-[-0.025em]"
-              style={{ fontSize: "clamp(34px, 4.5vw, 58px)" }}
-            >
-              Start free.{" "}
-              <span style={{ color: "#568F7A" }}>Grow when ready.</span>
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-5 text-lg text-[#7A8A85] leading-relaxed"
-            >
-              Subscriptions only. No commissions, no hidden charges — ever.
-            </motion.p>
+        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:max-w-[880px]">
+          {/* FREE */}
+          <div className="plan-card rounded-[18px] border border-[#E2DBCB] bg-white p-8">
+            <p className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.2em] text-ink-soft">
+              Community
+            </p>
+            <div className="mt-4 flex items-baseline gap-2">
+              <span className="font-[family-name:var(--font-display)] text-[52px] font-normal leading-none text-ink">₹0</span>
+              <span className="text-[15px] text-ink-soft">forever</span>
+            </div>
+            <ul className="mt-7 flex flex-col gap-3.5">
+              {[
+                "Post and join everyday commutes",
+                "On-route matching with verified riders",
+                "Live GPS, guardians and SOS — all of it",
+                "Fair fuel-split calculator",
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-3 text-[15px] leading-snug text-ink">
+                  <Check className="mt-0.5 h-4 w-4 flex-none text-sage-deep" />
+                  {f}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Launch plans — centered pair */}
-          <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:w-2/3 lg:mx-auto">
-            {plans.map((p, i) => (
-              <PlanCard key={p.name} plan={p} index={i} />
-            ))}
+          {/* ₹99 */}
+          <div className="plan-card relative rounded-[18px] border-2 border-sage-deep bg-white p-8">
+            <span className="absolute -top-3 left-8 rounded-full bg-sage-deep px-3.5 py-1 font-[family-name:var(--font-mono)] text-[10.5px] uppercase tracking-[0.16em] text-white">
+              For daily commuters
+            </span>
+            <p className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.2em] text-ink-soft">
+              Plus
+            </p>
+            <div className="mt-4 flex items-baseline gap-2">
+              <span className="font-[family-name:var(--font-display)] text-[52px] font-normal leading-none text-ink">₹99</span>
+              <span className="text-[15px] text-ink-soft">/ month</span>
+            </div>
+            <ul className="mt-7 flex flex-col gap-3.5">
+              {[
+                "Everything in Community",
+                "Higher daily matching limits",
+                "Wider search radius for matches",
+                "Priority support",
+              ].map((f) => (
+                <li key={f} className="flex items-start gap-3 text-[15px] leading-snug text-ink">
+                  <Check className="mt-0.5 h-4 w-4 flex-none text-sage-deep" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-6 text-[13px] leading-relaxed text-ink-soft">
+              The maths: one shared 20&nbsp;km commute typically saves more than
+              the fee. If it doesn&apos;t pay for itself, stay free — nothing
+              that keeps you safe ever costs a rupee.
+            </p>
           </div>
+        </div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="mt-10 text-center text-sm text-[#7A8A85]"
-          >
-            Safety features free on every plan · Monthly billing · Cancel anytime · More tiers as the community grows
-          </motion.p>
+        {/* zero commission strip */}
+        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-[18px] border border-[#E2DBCB] bg-cream-deep px-8 py-6 lg:max-w-[880px]">
+          <p className="font-[family-name:var(--font-display)] text-[22px] text-ink">
+            ₹0 commission, <em className="italic text-sage-deep">ever.</em>
+          </p>
+          <p className="max-w-[52ch] text-[14.5px] leading-relaxed text-ink-soft">
+            Fuel money moves between riders, directly. Nexstopp never touches
+            it and never takes a percentage — membership is our only revenue.
+          </p>
         </div>
       </div>
     </section>
+  );
+}
+
+function Check({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={className}>
+      <path d="M5 13l4 4L19 7" />
+    </svg>
   );
 }

@@ -1,31 +1,68 @@
 @import "tailwindcss";
 @import "maplibre-gl/dist/maplibre-gl.css";
 
+/* ═══════════════════════════════════════════════════════════
+   Evening Commute design system
+   Dusk hero/footer · cream body · sage accent · ember = safety
+   ═══════════════════════════════════════════════════════════ */
 @theme inline {
-  --color-ink:         #0A1515;
-  --color-cream:       #F7F6F4;
+  /* night grounds (hero, safety, pact, footer) */
+  --color-night-0: #101918;
+  --color-night-1: #16211F;
+  --color-night-2: #1D2C29;
+
+  /* cream body (how-it-works, membership) */
+  --color-cream:      #F5F1E8;
+  --color-cream-deep: #EDE8DC;
+  --color-ink:        #232C2A;
+  --color-ink-soft:   #5C6963;
+
+  /* on-dark text */
+  --color-dusk-text:  #F2EEE5;
+  --color-dusk-dim:   #B9C2BC;
+  --color-dusk-mute:  #7E8F89;
+
+  /* accents */
+  --color-sage:       #6FB499;
+  --color-sage-deep:  #568F7A;
+  --color-ember:      #F97316;   /* guardian / safety moments ONLY */
+
+  /* legacy aliases still referenced by the admin panel + legal shell */
   --color-primary:     #2C3A3A;
   --color-trust:       #568F7A;
-  --color-ember:       #F97316;
-  --color-surface:     #F7F6F4;
-  --color-background:  #F7F6F4;
   --color-trust-green: #568F7A;
   --color-emergency:   #F97316;
-  --color-text:        #2C3A3A;
-  --color-muted:       #7A8A85;
+  --color-surface:     #F5F1E8;
+  --color-background:  #F5F1E8;
+  --color-text:        #232C2A;
+  --color-muted:       #5C6963;
 
-  --font-display: var(--font-bricolage);
+  --font-display: var(--font-fraunces);
   --font-body:    var(--font-dm-sans);
-  --font-accent:  var(--font-syne);
+  --font-mono:    var(--font-dm-mono);
 }
 
 /* ── Base ─────────────────────────────────────────────────── */
 html { scroll-behavior: smooth; }
 body {
   background-color: var(--color-cream);
-  color: var(--color-text);
+  color: var(--color-ink);
   font-family: var(--font-body), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* hairlines on dark */
+.hairline       { border-color: rgba(242, 238, 229, 0.10); }
+.hairline-soft  { border-color: rgba(242, 238, 229, 0.07); }
+
+/* the dusk ground: night gradient + ember horizon rising from the fold */
+.dusk-ground {
+  background:
+    radial-gradient(120% 85% at 50% 118%, rgba(249, 115, 22, 0.13) 0%, rgba(249, 115, 22, 0) 55%),
+    linear-gradient(180deg, var(--color-night-0) 0%, var(--color-night-1) 55%, var(--color-night-2) 100%);
+}
+.night-ground {
+  background: linear-gradient(180deg, var(--color-night-2) 0%, var(--color-night-1) 60%, var(--color-night-0) 100%);
 }
 
 /* ── Grain overlay for dark sections ─────────────────────── */
@@ -41,94 +78,87 @@ body {
   mix-blend-mode: overlay;
 }
 
-/* ── Animated city-grid background (hero) ─────────────────── */
-@keyframes city-pulse {
-  0%, 100% { opacity: 0.3; }
-  50%       { opacity: 0.7; }
+/* ── Route motion ─────────────────────────────────────────── */
+@keyframes route-draw {
+  to { stroke-dashoffset: 0; }
 }
-@keyframes city-scroll {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-50%); }
+.route-draw {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: route-draw 2.8s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.3s;
 }
-.city-grid {
-  background-image:
-    linear-gradient(rgba(86,143,122,0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(86,143,122,0.12) 1px, transparent 1px);
-  background-size: 60px 60px;
-  animation: city-scroll 40s linear infinite;
-}
-@keyframes float-dot {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
-  50%       { transform: translateY(-12px) scale(1.2); opacity: 1; }
-}
-
-/* ── Route dashes ────────────────────────────────────────── */
 @keyframes dash-march {
-  to { stroke-dashoffset: -200; }
+  to { stroke-dashoffset: -26; }
 }
-.animate-dash-march { animation: dash-march 3s linear infinite; }
+.dash-march { animation: dash-march 1.6s linear infinite; }
 
-@keyframes pulse-ring {
-  0%   { transform: scale(0.8); opacity: 1; }
-  100% { transform: scale(2.2); opacity: 0; }
+@keyframes guardian-beat {
+  0%   { box-shadow: 0 0 0 0 rgba(111, 180, 153, 0.5); }
+  70%  { box-shadow: 0 0 0 11px rgba(111, 180, 153, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(111, 180, 153, 0); }
 }
-.pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
+.guardian-beat { animation: guardian-beat 2.2s ease-out infinite; }
 
-/* ── Section dividers ─────────────────────────────────────── */
-.clip-dark-to-cream {
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 60px), 0 100%);
+@keyframes ring-pulse {
+  0%   { opacity: 0.6; transform: scale(1); }
+  70%  { opacity: 0;   transform: scale(2.1); }
+  100% { opacity: 0;   transform: scale(2.1); }
 }
-.clip-cream-to-dark {
-  clip-path: polygon(0 0, 100% 60px, 100% 100%, 0 100%);
-  margin-top: -60px;
-  padding-top: 120px;
+.ring-pulse { transform-origin: center; animation: ring-pulse 2.4s ease-out infinite 3.2s; }
+
+/* one-time fade-up reveal (Reveal component adds this on intersection) */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.clip-top-diagonal {
-  clip-path: polygon(0 60px, 100% 0, 100% 100%, 0 100%);
-  margin-top: -60px;
-  padding-top: 120px;
+.fade-up { animation: fade-up 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; }
+
+/* hero entrance — pure CSS, staggered via --enter-delay. Content is only
+   hidden DURING the animation (backwards fill), never before or after,
+   so a stalled/hidden tab still ends up fully visible. */
+@keyframes hero-enter {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.clip-top-diagonal-dark {
-  clip-path: polygon(0 0, 100% 60px, 100% 100%, 0 100%);
-  margin-top: -60px;
-  padding-top: 120px;
+.hero-enter {
+  animation: hero-enter 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-draw   { animation: none; stroke-dashoffset: 0; }
+  .dash-march,
+  .guardian-beat,
+  .ring-pulse   { animation: none; }
+  .fade-up      { animation: none; opacity: 1; transform: none; }
+  .car-anim     { display: none; }
+  .car-static   { display: block !important; }
+  html          { scroll-behavior: auto; }
 }
 
 /* ── Scrollbar ─────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0A1515; }
-::-webkit-scrollbar-thumb { background: #568F7A; border-radius: 2px; }
+::-webkit-scrollbar-track { background: var(--color-night-0); }
+::-webkit-scrollbar-thumb { background: var(--color-sage-deep); border-radius: 2px; }
 
 /* ── Selection ─────────────────────────────────────────────── */
 ::selection {
-  background-color: rgba(86,143,122,0.35);
-  color: #0A1515;
+  background-color: rgba(111, 180, 153, 0.35);
+  color: var(--color-night-0);
 }
 
-/* ── Plan card hover ─────────────────────────────────────── */
+/* ── Membership card hover (cream section) ────────────────── */
 .plan-card {
-  transition: transform 0.3s cubic-bezier(0.25,0.1,0.25,1),
-              box-shadow 0.3s cubic-bezier(0.25,0.1,0.25,1);
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+              box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .plan-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 32px 56px -12px rgba(44,58,58,0.2);
+  box-shadow: 0 32px 56px -12px rgba(35, 44, 42, 0.18);
 }
-
-/* ── Number reveal ──────────────────────────────────────────── */
-@keyframes count-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.stat-reveal { animation: count-up 0.7s cubic-bezier(0.25,0.1,0.25,1) forwards; }
-
-/* ── Video shimmer ──────────────────────────────────────────── */
-@keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-.video-shimmer {
-  background: linear-gradient(90deg, #1a2828 25%, #243232 50%, #1a2828 75%);
-  background-size: 200% 100%;
-  animation: shimmer 2s ease infinite;
+@media (prefers-reduced-motion: reduce) {
+  .plan-card, .plan-card:hover { transition: none; transform: none; }
 }

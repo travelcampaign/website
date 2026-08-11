@@ -1,223 +1,102 @@
-"use client";
+/* How it works — cream section, but the same framed-panel language as the
+   hero's ride card: one elevated "route ticket" holding three stops joined
+   by a solid, present route line. Disc colors echo the app's markers —
+   sage for the journey, ember for the guarded arrival. */
 
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-
-const steps = [
+const STEPS = [
   {
-    num: "01",
-    title: "Post Your Route",
-    body: "Set your daily commute. Define schedule, seats, and preferences — your ride, your rules. Runs once or repeats daily.",
-    accent: "#568F7A",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-        <circle cx="12" cy="10" r="3" />
-      </svg>
-    ),
+    index: "01",
+    title: "Post your route",
+    body: "Set your daily commute — where you start, where you land, when you leave. Once, or every weekday.",
+    ember: false,
   },
   {
-    num: "02",
-    title: "Get Matched",
-    body: "AI matches you with verified commuters heading the same way at the same time — ranked by distance, user rating, and whether your schedules align.",
-    accent: "#568F7A",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
+    index: "02",
+    title: "Match along the way",
+    body: "Verified commuters already driving your way. Pickup points snap to their actual route, so nobody detours for anybody.",
+    ember: false,
   },
   {
-    num: "03",
-    title: "Ride Safely",
-    body: "Live GPS tracking, automatic alerts if you go silent for 60 seconds, notifications if the route changes unexpectedly — and 30-minute monitoring after you arrive. All free.",
-    accent: "#F97316",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        <path d="M9 12l2 2 4-4" />
-      </svg>
-    ),
+    index: "03",
+    title: "Ride watched over",
+    body: "Live GPS, a guardian who sees you moving, and a check-in the moment anything goes quiet — until you say you're home.",
+    ember: true,
   },
 ];
 
-function Step({ step, index }: { step: typeof steps[0]; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 48 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.75, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
-      className="relative flex flex-col"
-    >
-      {/* Card */}
-      <div
-        className="relative flex flex-col h-full rounded-2xl p-7 overflow-hidden transition-all duration-300"
-        style={{
-          background: "rgba(247,246,244,0.035)",
-          border: "1px solid rgba(247,246,244,0.07)",
-        }}
-        onMouseEnter={e => {
-          (e.currentTarget as HTMLDivElement).style.background = `rgba(${step.accent === "#F97316" ? "249,115,22" : "86,143,122"},0.05)`;
-          (e.currentTarget as HTMLDivElement).style.borderColor = `rgba(${step.accent === "#F97316" ? "249,115,22" : "86,143,122"},0.2)`;
-        }}
-        onMouseLeave={e => {
-          (e.currentTarget as HTMLDivElement).style.background = "rgba(247,246,244,0.035)";
-          (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(247,246,244,0.07)";
-        }}
-      >
-        {/* Step number — top right, big but clearly decorative */}
-        <span
-          className="absolute top-5 right-6 font-[family-name:var(--font-bricolage)] font-extrabold leading-none select-none pointer-events-none"
-          style={{
-            fontSize: "clamp(52px, 6vw, 80px)",
-            color: step.accent,
-            opacity: 0.12,
-            letterSpacing: "-0.05em",
-          }}
-          aria-hidden
-        >
-          {step.num}
-        </span>
-
-        {/* Icon box */}
-        <div
-          className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 shrink-0"
-          style={{
-            background: `${step.accent}18`,
-            color: step.accent,
-            border: `1px solid ${step.accent}28`,
-          }}
-        >
-          {step.icon}
-        </div>
-
-        {/* Small step badge */}
-        <span
-          className="inline-block text-[10px] font-bold uppercase tracking-[0.22em] mb-3"
-          style={{ color: step.accent, opacity: 0.7 }}
-        >
-          Step {step.num}
-        </span>
-
-        {/* Title */}
-        <h3
-          className="font-[family-name:var(--font-bricolage)] font-extrabold leading-[1.12] mb-3"
-          style={{ fontSize: "clamp(22px, 2.2vw, 30px)", color: "#F7F6F4" }}
-        >
-          {step.title}
-        </h3>
-
-        {/* Body */}
-        <p
-          className="text-[14px] leading-relaxed"
-          style={{ color: "rgba(247,246,244,0.58)" }}
-        >
-          {step.body}
-        </p>
-      </div>
-    </motion.div>
-  );
-}
-
-/* Arrow connector between steps */
-function StepConnector({ accent }: { accent: string }) {
-  return (
-    <div className="hidden lg:flex items-center justify-center shrink-0 w-12">
-      <svg width="36" height="16" viewBox="0 0 36 16" fill="none">
-        <path
-          d="M0 8 Q12 8 24 8"
-          stroke={accent}
-          strokeWidth="1.5"
-          strokeDasharray="3 4"
-          opacity="0.35"
-        />
-        <path
-          d="M26 4 L34 8 L26 12"
-          stroke={accent}
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          opacity="0.35"
-          fill="none"
-        />
-      </svg>
-    </div>
-  );
-}
-
 export default function HowItWorks() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headRef = useRef<HTMLDivElement>(null);
-  const headInView = useInView(headRef, { once: true, margin: "-80px" });
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
-  const lineWidth = useTransform(scrollYProgress, [0.1, 0.7], ["0%", "100%"]);
-
   return (
-    <section
-      id="how-it-works"
-      ref={sectionRef}
-      className="grain relative clip-top-diagonal-dark"
-      style={{ background: "#0A1515" }}
-    >
-      <div className="relative z-10 py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section id="how-it-works" className="bg-cream">
+      <div className="mx-auto max-w-[1200px] px-6 py-28 sm:px-12">
+        <p className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.22em] text-sage-deep">
+          How it works
+        </p>
+        <h2 className="mt-5 max-w-[16ch] font-[family-name:var(--font-display)] text-[clamp(36px,4.6vw,54px)] font-normal leading-[1.1] tracking-[-0.01em] text-ink">
+          Three stops to a <em className="italic text-sage-deep">lighter commute.</em>
+        </h2>
 
-          {/* Header */}
-          <div ref={headRef} className="mb-16 max-w-2xl">
-            <motion.span
-              initial={{ opacity: 0, y: 12 }}
-              animate={headInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5 }}
-              className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] mb-5"
-              style={{ color: "#568F7A" }}
+        {/* the route ticket */}
+        <div className="mt-14 overflow-hidden rounded-3xl border border-[#E2DBCB] bg-white shadow-[0_24px_60px_rgba(35,44,42,0.08)]">
+          <div className="relative grid md:grid-cols-3">
+            {/* continuous route line behind the discs (desktop) */}
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 1200 120"
+              preserveAspectRatio="none"
+              className="pointer-events-none absolute left-0 right-0 top-0 hidden h-[120px] w-full md:block"
             >
-              How It Works
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 28 }}
-              animate={headInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.75, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-              className="font-[family-name:var(--font-bricolage)] font-extrabold leading-[1.05] tracking-[-0.03em]"
-              style={{ fontSize: "clamp(32px, 4.5vw, 60px)", color: "#F7F6F4" }}
-            >
-              Three steps to a{" "}
-              <span style={{ color: "#568F7A" }}>smarter commute.</span>
-            </motion.h2>
-          </div>
+              <path
+                d="M-10 78 C 200 70, 340 56, 600 60 S 1000 74, 1210 52"
+                fill="none"
+                stroke="rgba(86,143,122,0.16)"
+                strokeWidth="9"
+                strokeLinecap="round"
+              />
+              <path
+                className="dash-march"
+                d="M-10 78 C 200 70, 340 56, 600 60 S 1000 74, 1210 52"
+                fill="none"
+                stroke="#568F7A"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeDasharray="8 7"
+              />
+            </svg>
 
-          {/* Animated connector line */}
-          <div className="hidden lg:block relative mb-12" style={{ height: 1 }}>
-            <div className="absolute inset-0" style={{ background: "rgba(247,246,244,0.05)" }} />
-            <motion.div
-              className="absolute left-0 top-0 h-full"
-              style={{
-                width: lineWidth,
-                background: "linear-gradient(to right, #568F7A, #F97316)",
-                boxShadow: "0 0 10px rgba(86,143,122,0.5)",
-              }}
-            />
-          </div>
-
-          {/* Steps — cards with arrow connectors on desktop */}
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-0 items-stretch">
-            {steps.map((s, i) => (
-              <div key={s.num} className="contents">
-                <div className="flex-1 min-w-0">
-                  <Step step={s} index={i} />
+            {STEPS.map((s, i) => (
+              <div
+                key={s.index}
+                className={`relative p-9 pt-12 ${
+                  i > 0 ? "border-t border-[#EDE8DC] md:border-l md:border-t-0" : ""
+                }`}
+              >
+                {/* stop disc — solid, like the app's map markers */}
+                <div
+                  className={`relative z-[1] flex h-12 w-12 items-center justify-center rounded-full font-[family-name:var(--font-mono)] text-[13px] font-medium text-white shadow-[0_6px_16px_rgba(35,44,42,0.18)] ${
+                    s.ember ? "bg-ember" : "bg-sage-deep"
+                  }`}
+                >
+                  {s.index}
                 </div>
-                {i < steps.length - 1 && (
-                  <StepConnector accent={steps[i + 1].accent} />
-                )}
+                <h3 className="mt-7 font-[family-name:var(--font-display)] text-[25px] font-medium leading-tight text-ink">
+                  {s.title}
+                </h3>
+                <p className="mt-3 max-w-[36ch] text-[15.5px] leading-[1.65] text-ink-soft">
+                  {s.body}
+                </p>
               </div>
             ))}
           </div>
 
+          {/* ticket footer — grounds the card, mirrors the hero panel's value row */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#EDE8DC] bg-[#FBF9F4] px-9 py-5">
+            <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.18em] text-ink-soft">
+              Madhapur → Hitec City · illustrative commute
+            </p>
+            <p className="text-[13.5px] text-ink-soft">
+              No detours. No cash awkwardness. No strangers nobody vouches for.
+            </p>
+          </div>
         </div>
       </div>
     </section>
