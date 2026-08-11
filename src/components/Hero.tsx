@@ -13,10 +13,10 @@ export default function Hero() {
       <div className="relative z-[2] mx-auto max-w-[1200px] px-6 pt-36 pb-10 sm:px-12">
         {/* kicker */}
         <p
-          className="hero-enter font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.22em] text-sage"
+          className="hero-enter font-[family-name:var(--font-mono)] text-[12px] tracking-[0.06em] text-sage"
           style={{ "--enter-delay": "50ms" } as React.CSSProperties}
         >
-          Carpooling for India · Hyderabad first
+          Carpooling for India · Starting in Hyderabad
         </p>
 
         {/* headline */}

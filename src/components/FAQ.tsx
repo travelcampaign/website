@@ -13,7 +13,7 @@ const QA: { q: string; a: string }[] = [
   },
   {
     q: "Why zero commission? What's the catch?",
-    a: "There isn't one. Fuel money moves directly between riders, and Nexstopp never touches it, so there is nothing to take a cut of. Optional membership is meant to be our only revenue, and safety is never part of any paid tier.",
+    a: "There isn't one. Fuel money moves directly between riders, and Nexstopp never touches it, so there is nothing to take a cut of. Optional membership is meant to be our only income, and safety is never something you pay for.",
   },
   {
     q: "Is my location data shared or sold?",
@@ -21,7 +21,7 @@ const QA: { q: string; a: string }[] = [
   },
   {
     q: "When can I actually use it?",
-    a: "Hyderabad first. We start with a small group from the waitlist so early rides are dense on a few corridors instead of thin everywhere. Join the waitlist and you will hear from us before anyone else.",
+    a: "We are starting in Hyderabad. The first invites go to a small group from the waitlist, so that rides fill up properly on a few busy routes instead of being spread thin across the city. Join the waitlist and you will hear from us first.",
   },
 ];
 

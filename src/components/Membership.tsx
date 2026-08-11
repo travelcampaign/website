@@ -13,7 +13,7 @@ export default function Membership() {
             Membership
           </p>
           <h2 className="mt-5 font-[family-name:var(--font-display)] text-[clamp(36px,4.6vw,54px)] font-normal leading-[1.1] tracking-[-0.01em] text-ink">
-            Safety is <span className="text-sage-deep">never paywalled.</span>
+            Safety is <span className="text-sage-deep">free. Always.</span>
           </h2>
           <p className="mt-6 text-[16.5px] leading-[1.7] text-ink-soft">
             Every protection, from live GPS to guardians to SOS, is free on
@@ -34,10 +34,10 @@ export default function Membership() {
             </div>
             <ul className="mt-7 flex flex-col gap-3.5">
               {[
-                "Post and join everyday commutes",
-                "On-route matching with verified riders",
+                "Post your daily route, join others",
+                "Matched with verified riders on your way",
                 "Live GPS, guardians and SOS, all of it",
-                "Fair fuel-split calculator",
+                "Fair fuel-cost splitting",
               ].map((f) => (
                 <li key={f} className="flex items-start gap-3 text-[15px] leading-snug text-ink">
                   <Check className="mt-0.5 h-4 w-4 flex-none text-sage-deep" />
@@ -62,8 +62,8 @@ export default function Membership() {
             <ul className="mt-7 flex flex-col gap-3.5">
               {[
                 "Everything in Community",
-                "Higher daily matching limits",
-                "Wider search radius for matches",
+                "More ride matches every day",
+                "Find rides from farther away",
                 "Priority support",
               ].map((f) => (
                 <li key={f} className="flex items-start gap-3 text-[15px] leading-snug text-ink">
