@@ -33,7 +33,7 @@ export default function FAQ() {
           Fair questions
         </p>
         <h2 className="mt-5 font-[family-name:var(--font-display)] text-[clamp(34px,4.2vw,50px)] font-normal leading-[1.1] tracking-[-0.01em] text-ink">
-          Asked by <em className="italic text-sage-deep">almost everyone.</em>
+          Asked by <span className="text-sage-deep">almost everyone.</span>
         </h2>
 
         <div className="mt-12 flex flex-col gap-3">

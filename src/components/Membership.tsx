@@ -13,7 +13,7 @@ export default function Membership() {
             Membership
           </p>
           <h2 className="mt-5 font-[family-name:var(--font-display)] text-[clamp(36px,4.6vw,54px)] font-normal leading-[1.1] tracking-[-0.01em] text-ink">
-            Safety is <em className="italic text-sage-deep">never paywalled.</em>
+            Safety is <span className="text-sage-deep">never paywalled.</span>
           </h2>
           <p className="mt-6 text-[16.5px] leading-[1.7] text-ink-soft">
             Every protection, from live GPS to guardians to SOS, is free on
@@ -83,7 +83,7 @@ export default function Membership() {
         {/* zero commission strip */}
         <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-[18px] border border-[#E2DBCB] bg-cream-deep px-8 py-6 lg:max-w-[880px]">
           <p className="font-[family-name:var(--font-display)] text-[22px] text-ink">
-            ₹0 commission, <em className="italic text-sage-deep">ever.</em>
+            ₹0 commission, <span className="text-sage-deep">ever.</span>
           </p>
           <p className="max-w-[52ch] text-[14.5px] leading-relaxed text-ink-soft">
             Fuel money moves between riders, directly. Nexstopp never touches
