@@ -13,7 +13,7 @@ const QA: { q: string; a: string }[] = [
   },
   {
     q: "Why zero commission? What's the catch?",
-    a: "There isn't one. Fuel money moves directly between riders, and Nexstopp never touches it, so there is nothing to take a cut of. Optional membership is meant to be our only income, and safety is never something you pay for.",
+    a: "There isn't one. Riders pay each other for fuel directly, and Nexstopp never touches that money, so there is nothing to take a cut of. Optional membership is meant to be our only income, and safety is never something you pay for.",
   },
   {
     q: "Is my location data shared or sold?",

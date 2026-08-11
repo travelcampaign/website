@@ -17,7 +17,7 @@ export default function Membership() {
           </h2>
           <p className="mt-6 text-[16.5px] leading-[1.7] text-ink-soft">
             Every protection, from live GPS to guardians to SOS, is free on
-            every plan, forever. Membership only changes how much matching you
+            every plan, forever. Membership only changes how many ride matches you
             get. And we never take a cut of the ride.
           </p>
         </div>
@@ -85,8 +85,9 @@ export default function Membership() {
             ₹0 commission, <span className="text-sage-deep">ever.</span>
           </p>
           <p className="max-w-[52ch] text-[14.5px] leading-relaxed text-ink-soft">
-            Fuel money moves between riders, directly. Nexstopp never touches
-            it and never takes a percentage. Membership is our only income.
+            Riders pay each other for fuel directly. Nexstopp never touches
+            that money and never takes a percentage. Membership is our only
+            income.
           </p>
         </div>
       </div>

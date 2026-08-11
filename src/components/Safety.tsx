@@ -5,7 +5,7 @@
 const FEATURES = [
   {
     title: "Your own people, not a call centre",
-    body: "Your people, chosen by you: a parent, a partner, a friend. They can watch your ride live, and they are the first to know if something feels off.",
+    body: "You choose who watches over you: a parent, a partner, a close friend. They can see your ride live, and they are the first to know if something feels off.",
     ember: false,
   },
   {

@@ -38,7 +38,7 @@ const PHASES = [
     eyebrow: "The match",
     title: "Matched along",
     accent: "the way.",
-    sub: "Verified commuters already driving your way. Pickups snap to their route, so nobody detours.",
+    sub: "Verified commuters already driving your way. Pickup points fall on the driver's existing route, so nobody goes out of their way.",
     ember: false,
   },
   {
@@ -54,7 +54,7 @@ const PHASES = [
     eyebrow: "Zero commission",
     title: "₹0 cut.",
     accent: "Always.",
-    sub: "Fuel money moves between riders directly, and no part of it ever comes to us.",
+    sub: "Riders pay each other for fuel directly, and none of it ever comes to Nexstopp.",
     ember: false,
   },
 ];

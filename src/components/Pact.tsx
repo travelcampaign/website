@@ -13,7 +13,7 @@ const PROMISES = [
     pre: "We take",
     accent: "zero commission",
     post: "on rides.",
-    sub: "The fuel split is yours. We never touch it.",
+    sub: "Riders split fuel costs between themselves, and we never touch that money.",
     ember: false,
   },
   {
