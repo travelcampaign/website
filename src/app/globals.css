@@ -37,7 +37,7 @@
   --color-text:        #232C2A;
   --color-muted:       #5C6963;
 
-  --font-display: var(--font-fraunces);
+  --font-display: var(--font-serif-display);
   --font-body:    var(--font-dm-sans);
   --font-mono:    var(--font-dm-mono);
 }
@@ -180,10 +180,4 @@ body {
 @media (max-width: 640px) {
   .ride-pill { font-size: 11.5px !important; padding: 5px 10px !important; gap: 6px !important; }
   .ride-pill-co { display: none !important; }
-}
-
-/* Fraunces: disable the wonky alternates (descending f, leaning caps).
-   Elegant to typographers, "broken" to everyone else. */
-h1, h2, h3, h4, .font-display-tame {
-  font-variation-settings: "WONK" 0, "SOFT" 0;
 }

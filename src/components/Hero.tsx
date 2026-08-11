@@ -21,7 +21,7 @@ export default function Hero() {
 
         {/* headline */}
         <h1
-          className="hero-enter mt-7 max-w-[11ch] font-[family-name:var(--font-display)] text-[clamp(52px,7vw,84px)] font-normal leading-[1.04] tracking-[-0.015em] text-dusk-text"
+          className="hero-enter mt-7 max-w-[13ch] font-[family-name:var(--font-display)] text-[clamp(52px,7vw,84px)] font-normal leading-[1.04] tracking-[-0.015em] text-dusk-text"
           style={{ "--enter-delay": "150ms" } as React.CSSProperties}
         >
           The city goes <em className="italic text-sage">home together.</em>

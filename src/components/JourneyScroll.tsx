@@ -199,7 +199,7 @@ export default function JourneyScroll() {
               type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: line },
             });
             car.setLngLat(pointAt(ROUTE.coords, carP));
-            car.setRotation(bearingAt(ROUTE.coords, carP) + 180); // sprite nose points down
+            car.setRotation(bearingAt(ROUTE.coords, carP)); // sprite nose points up (taillights at bottom)
             raf = requestAnimationFrame(tick);
           };
           raf = requestAnimationFrame(tick);

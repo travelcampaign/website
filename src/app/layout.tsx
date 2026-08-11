@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Fraunces, DM_Sans, DM_Mono, Outfit } from "next/font/google";
+import { DM_Serif_Display, DM_Sans, DM_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 
-// Display serif — the Evening Commute voice. Italic carries the emotional
-// beat inside each headline ("home together.").
-const fraunces = Fraunces({
+// Display serif — the Evening Commute voice. DM Serif Display pairs with
+// DM Sans/DM Mono by design; high contrast without Fraunces' wonky
+// letterforms (the descending f read as a broken glyph).
+const serifDisplay = DM_Serif_Display({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-fraunces",
+  variable: "--font-serif-display",
   style: ["normal", "italic"],
-  weight: "variable",
-  axes: ["SOFT", "WONK"],
+  weight: "400",
 });
 
 const dmSans = DM_Sans({
@@ -74,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${dmSans.variable} ${dmMono.variable} ${outfit.variable} antialiased`}
+      className={`${serifDisplay.variable} ${dmSans.variable} ${dmMono.variable} ${outfit.variable} antialiased`}
     >
       <body className="min-h-screen" suppressHydrationWarning>
         {children}

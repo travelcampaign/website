@@ -60,7 +60,7 @@ export default function LegalPage({
               <section key={i} className="mt-10">
                 <h2
                   className="text-xl font-bold mb-3"
-                  style={{ color: "#232C2A", fontFamily: "var(--font-fraunces)" }}
+                  style={{ color: "#232C2A", fontFamily: "var(--font-serif-display)" }}
                 >
                   {s.heading}
                 </h2>
