@@ -15,9 +15,8 @@ const sections: LegalSection[] = [
     body: (
       <p>
         By creating an account or using Nexstopp, you accept these Terms. If
-        something here does not sit right with you, write to us at
-        hello@nexstopp.com before you sign up. We would rather sort it out
-        than have you agree to something you are unsure about.
+        you do not agree with any part of them, contact us at
+        hello@nexstopp.com before signing up so we can address your concern.
       </p>
     ),
   },
