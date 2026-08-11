@@ -5,7 +5,7 @@
 const QA: { q: string; a: string }[] = [
   {
     q: "How do I know who I'm riding with?",
-    a: "Everyone on Nexstopp signs up with a verified phone number, and the Verified badge only appears after an identity check is reviewed. Matching pairs you with commuters whose posted route genuinely overlaps yours. Hosts see who is asking to join, riders see who is driving, and nobody is confirmed until both say yes.",
+    a: "Everyone on Nexstopp signs up with a verified phone number, and the Verified badge appears only after we review their identity documents. You are only matched with commuters whose route genuinely overlaps yours. Hosts see who is asking to join, riders see who is driving, and nobody is confirmed until both say yes.",
   },
   {
     q: "Who watches over my ride?",
@@ -13,7 +13,7 @@ const QA: { q: string; a: string }[] = [
   },
   {
     q: "Why zero commission? What's the catch?",
-    a: "There isn't one. Riders pay each other for fuel directly, and Nexstopp never touches that money, so there is nothing to take a cut of. Optional membership is meant to be our only income, and safety is never something you pay for.",
+    a: "There isn't one. Riders pay each other for fuel directly, and Nexstopp never touches that money, so there is nothing to take a cut of. Our only income will be the optional membership plan, and safety is never something you pay for.",
   },
   {
     q: "Is my location data shared or sold?",

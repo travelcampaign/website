@@ -10,17 +10,17 @@ const FEATURES = [
   },
   {
     title: "Live GPS on every ride",
-    body: "Every ride shares its position with the people you chose, so they can see where you are right now, not just where you were last seen.",
+    body: "During a ride, the people you chose can see the car's live position on the map, not just the last place it was seen.",
     ember: false,
   },
   {
     title: "If you go quiet, we ask",
-    body: "If you stop for too long or drift far off the route, the app checks in on you first. If you don't answer, the people you chose see exactly where you are.",
+    body: "If the car stays still for too long, or goes far off the planned route, the app asks if you are okay. If you don't reply, your guardians are alerted and can see exactly where you are.",
     ember: true,
   },
   {
     title: "Emergency, one tap away",
-    body: "SOS sends your guardians your exact position and keeps updating them. The app also helps you reach 112 immediately.",
+    body: "One tap on SOS shares your exact location with your guardians and keeps updating it. The app also helps you call 112 straight away.",
     ember: true,
   },
 ];
@@ -43,7 +43,7 @@ export default function Safety() {
                 <strong className="font-semibold">Every protection here is free, for every rider.</strong>
               </p>
               <p className="mt-2 max-w-[42ch] text-[15.5px] leading-[1.65] text-dusk-dim">
-                None of it costs money, because keeping people safe is the reason Nexstopp exists.
+                None of this costs money, because keeping people safe is the reason Nexstopp exists.
               </p>
 
               {/* guardian motif — framed, not floating */}

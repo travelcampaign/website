@@ -30,7 +30,7 @@ const PHASES = [
     eyebrow: "The start",
     title: "Post your",
     accent: "route.",
-    sub: "Where you start, where you land, when you leave. Once, or every weekday.",
+    sub: "Where you start from, where you're going, and when you leave. Post it once, or for every weekday.",
     ember: false,
   },
   {
@@ -46,7 +46,7 @@ const PHASES = [
     eyebrow: "The watch",
     title: "Watched the",
     accent: "whole way.",
-    sub: "Live GPS for the people you chose, and a check-in the moment anything goes quiet.",
+    sub: "The people you trust can watch your ride live, and the app checks on you the moment anything goes quiet.",
     ember: true,
   },
   {

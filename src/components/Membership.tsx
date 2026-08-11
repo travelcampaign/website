@@ -34,9 +34,9 @@ export default function Membership() {
             </div>
             <ul className="mt-7 flex flex-col gap-3.5">
               {[
-                "Post your daily route, join others",
-                "Matched with verified riders on your way",
-                "Live GPS, guardians and SOS, all of it",
+                "Post your daily route or join someone else's",
+                "Get matched with verified riders going your way",
+                "Every safety feature: live GPS, guardians, SOS",
                 "Fair fuel-cost splitting",
               ].map((f) => (
                 <li key={f} className="flex items-start gap-3 text-[15px] leading-snug text-ink">

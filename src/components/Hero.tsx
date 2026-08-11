@@ -32,7 +32,7 @@ export default function Hero() {
           className="hero-enter mt-7 max-w-[47ch] text-lg leading-[1.65] text-dusk-dim"
           style={{ "--enter-delay": "280ms" } as React.CSSProperties}
         >
-          Share your daily commute with verified neighbours. Share the fuel
+          Share your daily commute with verified neighbours. Split the fuel
           cost, pay no commission, and someone you trust watches every
           kilometre until you say you&apos;re home.
         </p>
