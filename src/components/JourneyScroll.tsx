@@ -110,14 +110,7 @@ export default function JourneyScroll() {
           interactive: false,
           attributionControl: false,
         });
-        const attrib = new ml.AttributionControl({ compact: true });
-        map.addControl(attrib, "bottom-right");
-        // start collapsed to the ⓘ — full credit also lives in the footer
-        setTimeout(() => {
-          mapContRef.current
-            ?.querySelector(".maplibregl-ctrl-attrib")
-            ?.classList.remove("maplibregl-compact-show");
-        }, 0);
+        map.addControl(new ml.AttributionControl({ compact: true }), "bottom-right");
       } catch {
         return; // no WebGL: the night gradient stays
       }
@@ -144,6 +137,14 @@ export default function JourneyScroll() {
           window.addEventListener("resize", frame);
 
           mapContRef.current!.style.opacity = "1";
+
+          // collapse the attribution to its ⓘ once the control exists;
+          // the full credit lives in the footer
+          requestAnimationFrame(() => {
+            mapContRef.current
+              ?.querySelector(".maplibregl-ctrl-attrib")
+              ?.classList.remove("maplibregl-compact-show");
+          });
 
           map.addSource("ghost", {
             type: "geojson",
