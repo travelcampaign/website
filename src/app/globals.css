@@ -181,3 +181,9 @@ body {
   .ride-pill { font-size: 11.5px !important; padding: 5px 10px !important; gap: 6px !important; }
   .ride-pill-co { display: none !important; }
 }
+
+/* Fraunces: disable the wonky alternates (descending f, leaning caps).
+   Elegant to typographers, "broken" to everyone else. */
+h1, h2, h3, h4, .font-display-tame {
+  font-variation-settings: "WONK" 0, "SOFT" 0;
+}
