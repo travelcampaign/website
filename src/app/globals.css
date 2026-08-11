@@ -168,3 +168,12 @@ body {
   .ride-pill { font-size: 11.5px !important; padding: 5px 10px !important; gap: 6px !important; }
   .ride-pill-co { display: none !important; }
 }
+
+/* pact ledger spotlight — rows are visible by default; once JS runs,
+   the row in the reading band is lit and the rest recede */
+.pact-row { transition: opacity 0.45s ease; }
+[data-pact-row]:not(.pact-lit):has(~ .pact-lit),
+.pact-lit ~ [data-pact-row]:not(.pact-lit) { opacity: 0.38; }
+@media (prefers-reduced-motion: reduce) {
+  .pact-row { transition: none; opacity: 1 !important; }
+}
