@@ -111,7 +111,7 @@ body {
   from { opacity: 0; transform: translateY(22px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.fade-up { animation: fade-up 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; }
+.fade-up { animation: fade-up 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
 
 /* hero entrance — pure CSS, staggered via --enter-delay. Content is only
    hidden DURING the animation (backwards fill), never before or after,
@@ -121,7 +121,7 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 .hero-enter {
-  animation: hero-enter 0.7s cubic-bezier(0.25, 0.1, 0.25, 1) both;
+  animation: hero-enter 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
   animation-delay: var(--enter-delay, 0ms);
 }
 @media (prefers-reduced-motion: reduce) {
@@ -152,8 +152,8 @@ body {
 
 /* ── Membership card hover (cream section) ────────────────── */
 .plan-card {
-  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
-              box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+              box-shadow 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 .plan-card:hover {
   transform: translateY(-6px);
@@ -171,9 +171,21 @@ body {
 
 /* pact ledger spotlight — rows are visible by default; once JS runs,
    the row in the reading band is lit and the rest recede */
-.pact-row { transition: opacity 0.45s ease; }
+.pact-row { transition: opacity 0.6s cubic-bezier(0.33, 1, 0.68, 1); }
 [data-pact-row]:not(.pact-lit):has(~ .pact-lit),
 .pact-lit ~ [data-pact-row]:not(.pact-lit) { opacity: 0.38; }
 @media (prefers-reduced-motion: reduce) {
   .pact-row { transition: none; opacity: 1 !important; }
+}
+
+/* smooth accordion open where the browser supports it (progressive) */
+:root { interpolate-size: allow-keywords; }
+details::details-content {
+  transition: content-visibility 0.4s allow-discrete, height 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  height: 0;
+  overflow: clip;
+}
+details[open]::details-content { height: auto; }
+@media (prefers-reduced-motion: reduce) {
+  details::details-content { transition: none; }
 }

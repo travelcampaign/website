@@ -184,7 +184,7 @@ export default function JourneyScroll() {
           let carP = 0;
           const tick = () => {
             const target = Math.min(1, Math.max(0, (progressRef.current - 0.04) / 0.88));
-            carP = reduced ? target : carP + (target - carP) * 0.08;
+            carP = reduced ? target : carP + (target - carP) * 0.055;
             if (Math.abs(target - carP) < 0.0004) carP = target;
             const line = sliceTo(ROUTE.coords, carP);
             (map.getSource("route") as import("maplibre-gl").GeoJSONSource)?.setData({
