@@ -62,8 +62,9 @@ function bearingAt(coords: [number, number][], p: number): number {
   return (Math.atan2(b[0] - a[0], b[1] - a[1]) * 180) / Math.PI;
 }
 
-function stopPill(opts: { dot: string; label: string; sub: string; ring?: boolean }) {
+function stopPill(opts: { dot: string; label: string; sub: string; ring?: boolean; extraClass?: string }) {
   const el = document.createElement("div");
+  el.className = "ride-pill" + (opts.extraClass ? ` ${opts.extraClass}` : "");
   el.style.cssText =
     "display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;" +
     "background:rgba(16,25,24,0.88);border:1px solid rgba(242,238,229,0.16);" +
@@ -90,6 +91,7 @@ export default function RideMap() {
     if (!containerRef.current || cleanupRef.current) return;
     let cancelled = false;
     let raf = 0;
+    const cleanupFns: (() => void)[] = [];
 
     (async () => {
       const ml = await import("maplibre-gl");
@@ -121,7 +123,7 @@ export default function RideMap() {
                   "raster-opacity": 1,
                   "raster-saturation": -0.6,
                   "raster-brightness-min": 0,
-                  "raster-brightness-max": 0.56,
+                  "raster-brightness-max": 0.62,
                   "raster-hue-rotate": 175,
                 },
               },
@@ -130,7 +132,7 @@ export default function RideMap() {
           center: ROUTE.center,
           zoom: ROUTE.zoom,
           pitch: 38,
-          bearing: -10,
+          bearing: 45,
           interactive: false,
           attributionControl: false,
         });
@@ -144,6 +146,24 @@ export default function RideMap() {
           map.remove();
           return;
         }
+        try {
+
+        // frame the corridor: bearing 45 lays the route across the strip's
+        // width; zoom scales with container width (clamped for phones)
+        const lngs = ROUTE.coords.map((c) => c[0]);
+        const lats = ROUTE.coords.map((c) => c[1]);
+        const center: [number, number] = [
+          (Math.min(...lngs) + Math.max(...lngs)) / 2,
+          (Math.min(...lats) + Math.max(...lats)) / 2,
+        ];
+        const frame = () => {
+          const w = containerRef.current?.clientWidth ?? 1440;
+          const zoom = Math.min(14.6, Math.max(12.8, 14.3 + Math.log2(w / 1440)));
+          map.jumpTo({ center, zoom, bearing: 45, pitch: 38 });
+        };
+        frame();
+        window.addEventListener("resize", frame);
+        cleanupFns.push(() => window.removeEventListener("resize", frame));
 
         // fade the real map in over the SVG fallback
         containerRef.current!.style.opacity = "1";
@@ -185,13 +205,15 @@ export default function RideMap() {
           paint: { "line-color": "#6FB499", "line-width": 4, "line-opacity": 0.95 },
         });
 
-        // markers — the app's language: solid discs, pill labels
+        // markers — the app's language: solid discs, pill labels.
+        // Phones: labels stack above/below their discs so they never collide.
+        const compact = (containerRef.current?.clientWidth ?? 1440) < 640;
         const originDisc = document.createElement("div");
         originDisc.style.cssText =
           "width:16px;height:16px;border-radius:50%;background:#568F7A;border:3px solid #F2EEE5;" +
           "box-shadow:0 0 0 6px rgba(86,143,122,0.22),0 0 24px rgba(86,143,122,0.6);";
         new ml.Marker({ element: originDisc }).setLngLat([ROUTE.pickup.lng, ROUTE.pickup.lat]).addTo(map);
-        new ml.Marker({ element: stopPill({ dot: "#6FB499", label: ROUTE.pickup.name, sub: "picked up" }), anchor: "left", offset: [14, -18] })
+        new ml.Marker({ element: stopPill({ dot: "#6FB499", label: ROUTE.pickup.name, sub: "picked up" }), anchor: compact ? "bottom" : "left", offset: compact ? [16, -16] : [14, -18] })
           .setLngLat([ROUTE.pickup.lng, ROUTE.pickup.lat])
           .addTo(map);
 
@@ -200,12 +222,12 @@ export default function RideMap() {
           "width:16px;height:16px;border-radius:50%;background:#F97316;border:3px solid #F2EEE5;" +
           "box-shadow:0 0 0 6px rgba(249,115,22,0.22),0 0 24px rgba(249,115,22,0.5);";
         new ml.Marker({ element: destDisc }).setLngLat([ROUTE.dropoff.lng, ROUTE.dropoff.lat]).addTo(map);
-        new ml.Marker({ element: stopPill({ dot: "#F97316", label: ROUTE.dropoff.name, sub: "12 min" }), anchor: "left", offset: [14, -18] })
+        new ml.Marker({ element: stopPill({ dot: "#F97316", label: ROUTE.dropoff.name, sub: "12 min" }), anchor: compact ? "top" : "right", offset: compact ? [-16, 16] : [-14, -18] })
           .setLngLat([ROUTE.dropoff.lng, ROUTE.dropoff.lat])
           .addTo(map);
 
         const co = ROUTE.coords[ROUTE.coRiderAt];
-        new ml.Marker({ element: stopPill({ dot: "#6FB499", label: "Co-rider joins", sub: "on the route", ring: true }), anchor: "right", offset: [-12, -6] })
+        new ml.Marker({ element: stopPill({ dot: "#6FB499", label: "Co-rider joins", sub: "on the route", ring: true, extraClass: "ride-pill-co" }), anchor: "top", offset: [0, 14] })
           .setLngLat(co)
           .addTo(map);
 
@@ -229,7 +251,7 @@ export default function RideMap() {
             type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: line },
           });
           car.setLngLat(pointAt(ROUTE.coords, p));
-          car.setRotation(bearingAt(ROUTE.coords, p) + 10); // +10 offsets map bearing
+          car.setRotation(bearingAt(ROUTE.coords, p) - 45); // minus map bearing
         };
 
         const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -251,10 +273,16 @@ export default function RideMap() {
           raf = requestAnimationFrame(tick);
         };
         raf = requestAnimationFrame(tick);
+        } catch (err) {
+          // leave the SVG fallback visible rather than a half-drawn map
+          console.error("RideMap setup failed:", err);
+          containerRef.current!.style.opacity = "0";
+        }
       });
 
       cleanupRef.current = () => {
         cancelAnimationFrame(raf);
+        cleanupFns.forEach((fn) => fn());
         map.remove();
       };
     })();

@@ -25,7 +25,7 @@ export default function Pact() {
             ))}
           </div>
 
-          <p className="mt-10 text-center text-[15px] leading-relaxed text-dusk-dim">
+          <p className="mx-auto mt-10 max-w-[52ch] text-center text-[15px] leading-relaxed text-dusk-dim">
             Written into how Nexstopp is built — shaped by{" "}
             <span className="font-semibold text-dusk-text">268 commuters</span> who told us
             what shared travel in India should feel like.
