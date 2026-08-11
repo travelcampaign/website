@@ -75,11 +75,11 @@ export default function LegalPage({
               <p>
                 Questions about this page? Email us at{" "}
                 <a
-                  href="mailto:travelcampaign.info@gmail.com"
+                  href="mailto:hello@nexstopp.com"
                   className="font-semibold underline"
                   style={{ color: "#568F7A" }}
                 >
-                  travelcampaign.info@gmail.com
+                  hello@nexstopp.com
                 </a>
                 .
               </p>

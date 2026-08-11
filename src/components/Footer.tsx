@@ -21,7 +21,7 @@ const COLUMNS = [
   {
     heading: "Contact",
     links: [
-      { label: "travelcampaign.info@gmail.com", href: "mailto:travelcampaign.info@gmail.com" },
+      { label: "hello@nexstopp.com", href: "mailto:hello@nexstopp.com" },
     ],
   },
 ];
