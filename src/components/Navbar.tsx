@@ -9,9 +9,9 @@ const WAITLIST_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSe0aPYcXW-4CyYuc74YEHl9zM_Ni7QDyVZBFhqm2Y69ZC0aiw/viewform";
 
 const LINKS = [
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Safety", href: "#safety" },
-  { label: "Membership", href: "#membership" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Safety", href: "/#safety" },
+  { label: "Membership", href: "/#membership" },
 ];
 
 export default function Navbar() {
@@ -35,7 +35,7 @@ export default function Navbar() {
     >
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-5 sm:px-12">
         <a
-          href="#"
+          href="/"
           className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-[-0.02em] text-dusk-text"
         >
           nexstopp<span className="italic text-sage">.</span>

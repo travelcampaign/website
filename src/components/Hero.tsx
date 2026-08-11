@@ -1,9 +1,12 @@
+import RideMap from "./RideMap";
 
 /* ─────────────────────────────────────────────────────────────
    Hero — "The Evening Commute"
    Dusk ground, Fraunces headline, and the live-ride panel:
-   a framed night-map card showing an illustrative ride with a
-   guardian watching. All labels generic — no invented personas.
+   a REAL dark map of the Kondapur → Hitec City corridor with the
+   canonical sedan driving it (RideMap). The SVG night map beneath
+   is the no-WebGL/while-loading fallback. All labels generic —
+   no invented personas.
    ───────────────────────────────────────────────────────────── */
 
 const WAITLIST_URL =
@@ -155,19 +158,8 @@ function RidePanel() {
           </g>
         </svg>
 
-        {/* stop pills */}
-        <div className="absolute bottom-[8%] left-[4%] flex items-center gap-2 rounded-full border border-[rgba(242,238,229,0.14)] bg-[rgba(16,25,24,0.85)] px-4 py-2 text-[13px] font-medium text-dusk-text backdrop-blur-sm">
-          <span className="h-[7px] w-[7px] rounded-full bg-sage" />
-          Madhapur <span className="font-normal text-dusk-mute">· picked up</span>
-        </div>
-        <div className="absolute left-[38%] top-[28%] hidden items-center gap-2 rounded-full border border-[rgba(111,180,153,0.28)] bg-[rgba(16,25,24,0.85)] px-3.5 py-1.5 text-[12px] font-medium text-dusk-text backdrop-blur-sm sm:flex">
-          <span className="h-[6px] w-[6px] rounded-full border-[1.5px] border-sage" />
-          Co-rider joins <span className="font-normal text-dusk-mute">· on your route</span>
-        </div>
-        <div className="absolute right-[4%] top-[10%] flex items-center gap-2 rounded-full border border-[rgba(242,238,229,0.14)] bg-[rgba(16,25,24,0.85)] px-4 py-2 text-[13px] font-medium text-dusk-text backdrop-blur-sm">
-          <span className="h-[7px] w-[7px] rounded-full bg-ember" />
-          Hitec City <span className="font-normal text-dusk-mute">· 12 min</span>
-        </div>
+        {/* the real map fades in over the SVG once tiles are ready */}
+        <RideMap />
       </div>
 
       {/* value row */}

@@ -27,29 +27,29 @@ export default function LegalPage({
     <>
       <Navbar />
       <main>
-        {/* Charcoal header band — keeps the transparent navbar readable */}
-        <header style={{ background: "#2C3A3A" }}>
+        {/* Night header band — keeps the transparent navbar readable */}
+        <header className="dusk-ground">
           <div className="mx-auto max-w-3xl px-6 pt-32 pb-14">
-            <p
-              className="text-[11px] font-bold uppercase tracking-[0.24em] mb-4"
-              style={{ color: "#568F7A" }}
+            <a
+              href="/"
+              className="mb-6 inline-flex items-center gap-2 font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.18em] text-dusk-dim transition-colors hover:text-dusk-text"
             >
+              <span aria-hidden="true">←</span> Back to home
+            </a>
+            <p className="mb-4 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.24em] text-sage">
               Legal
             </p>
-            <h1
-              className="text-3xl sm:text-4xl font-extrabold leading-tight"
-              style={{ color: "#F7F6F4", fontFamily: "var(--font-bricolage)" }}
-            >
+            <h1 className="font-[family-name:var(--font-display)] text-4xl font-normal leading-tight text-dusk-text sm:text-5xl">
               {title}
             </h1>
-            <p className="text-[13px] mt-4" style={{ color: "rgba(247,246,244,0.5)" }}>
+            <p className="mt-4 text-[13px] text-dusk-mute">
               Last updated: {lastUpdated}
             </p>
           </div>
         </header>
 
         {/* Body */}
-        <div style={{ background: "#F7F6F4" }}>
+        <div style={{ background: "#F5F1E8" }}>
           <div
             className="mx-auto max-w-3xl px-6 py-14"
             style={{ fontFamily: "var(--font-dm-sans)", color: "#3D4F4F" }}
@@ -60,7 +60,7 @@ export default function LegalPage({
               <section key={i} className="mt-10">
                 <h2
                   className="text-xl font-bold mb-3"
-                  style={{ color: "#2C3A3A", fontFamily: "var(--font-bricolage)" }}
+                  style={{ color: "#232C2A", fontFamily: "var(--font-fraunces)" }}
                 >
                   {s.heading}
                 </h2>

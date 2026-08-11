@@ -91,7 +91,7 @@ export default function HowItWorks() {
           {/* ticket footer — grounds the card, mirrors the hero panel's value row */}
           <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#EDE8DC] bg-[#FBF9F4] px-9 py-5">
             <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.18em] text-ink-soft">
-              Madhapur → Hitec City · illustrative commute
+              Kondapur → Hitec City · illustrative commute
             </p>
             <p className="text-[13.5px] text-ink-soft">
               No detours. No cash awkwardness. No strangers nobody vouches for.
