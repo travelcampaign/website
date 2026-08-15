@@ -27,11 +27,12 @@ const FUEL_TYPES = ['PETROL', 'DIESEL', 'CNG', 'ELECTRIC'] as const
 
 /**
  * The app stops using a price once it is older than this and shows riders no
- * cost at all, which is deliberate: a stale price produces the same false
- * savings as a hardcoded one. Keep in step with
+ * cost at all. There is no falling back to an older one: pump prices move, so
+ * an out-of-date price is not a safer answer than none. Two sync cycles, so a
+ * single failed run is survivable. Keep in step with
  * app.cost.fuel-price-max-age-days on the backend.
  */
-const MAX_AGE_DAYS = 45
+const MAX_AGE_DAYS = 14
 
 function ageInDays(date: string): number {
   const then = new Date(date + 'T00:00:00')
