@@ -48,3 +48,20 @@ export async function adminPut(path: string, body: unknown) {
   if (!res.ok) throw new Error(`API error ${res.status}`)
   return res.json()
 }
+
+export async function adminDelete(path: string) {
+  const res = await fetch(`${BASE}${path}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${getAdminToken()}` },
+    cache: 'no-store',
+  })
+  if (!res.ok) throw new Error(`API error ${res.status}`)
+  return res.json()
+}
+
+/** The signed-in admin's role. Pricing is ADMIN-only; agents handle tickets. */
+export function getAdminRole(): string {
+  if (typeof document === 'undefined') return ''
+  const match = document.cookie.match(/adminRole=([^;]+)/)
+  return match ? decodeURIComponent(match[1]) : ''
+}

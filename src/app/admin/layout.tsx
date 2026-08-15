@@ -1,23 +1,28 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard,
   Users,
   MessageSquare,
   Flag,
+  IndianRupee,
   LogOut,
   PanelLeftClose,
   PanelLeftOpen,
 } from 'lucide-react'
 import { NexstoppWordmark } from '@/components/NexstoppWordmark'
+import { getAdminRole } from '@/lib/adminApi'
 
+// adminOnly items are hidden from support accounts. The backend enforces this
+// regardless; hiding the link just avoids offering a door that will not open.
 const NAV = [
   { href: '/admin',          label: 'Dashboard',    Icon: LayoutDashboard },
   { href: '/admin/users',    label: 'Users',         Icon: Users },
   { href: '/admin/support',  label: 'Support',       Icon: MessageSquare },
+  { href: '/admin/pricing',  label: 'Fuel Prices',   Icon: IndianRupee, adminOnly: true },
   { href: '/admin/features', label: 'Feature Flags', Icon: Flag },
 ]
 
@@ -25,6 +30,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname()
   const router = useRouter()
   const [open, setOpen] = useState(true)
+  // Read on the client only; the cookie is not available during SSR.
+  const [role, setRole] = useState('')
+  useEffect(() => setRole(getAdminRole()), [])
 
   // Login page gets no chrome
   if (pathname === '/admin/login') {
@@ -54,7 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
           {/* Nav */}
           <nav className="flex-1 px-3 py-4 space-y-0.5">
-            {NAV.map(({ href, label, Icon }) => {
+            {NAV.filter((n) => !n.adminOnly || role !== 'AGENT').map(({ href, label, Icon }) => {
               const isActive = href === '/admin' ? pathname === '/admin' : pathname.startsWith(href)
               return (
                 <Link
