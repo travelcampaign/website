@@ -25,6 +25,19 @@ interface FuelPrice {
 
 const FUEL_TYPES = ['PETROL', 'DIESEL', 'CNG', 'ELECTRIC'] as const
 
+/**
+ * The app stops using a price once it is older than this and shows riders no
+ * cost at all, which is deliberate: a stale price produces the same false
+ * savings as a hardcoded one. Keep in step with
+ * app.cost.fuel-price-max-age-days on the backend.
+ */
+const MAX_AGE_DAYS = 45
+
+function ageInDays(date: string): number {
+  const then = new Date(date + 'T00:00:00')
+  return Math.floor((Date.now() - then.getTime()) / 86_400_000)
+}
+
 const emptyDraft = {
   city: '',
   fuelType: 'PETROL',
@@ -284,7 +297,20 @@ export default function PricingPage() {
                         <td className="px-4 py-2.5 text-right tabular-nums text-neutral-900">
                           ₹{Number(p.pricePerLitre).toFixed(2)}
                         </td>
-                        <td className="px-4 py-2.5 text-neutral-600">{p.effectiveDate}</td>
+                        <td className="px-4 py-2.5 text-neutral-600">
+                          {p.effectiveDate}
+                          {i === 0 && ageInDays(p.effectiveDate) > MAX_AGE_DAYS && (
+                            <span className="ml-2 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-medium text-amber-700">
+                              too old to use
+                            </span>
+                          )}
+                          {i === 0 && ageInDays(p.effectiveDate) > MAX_AGE_DAYS - 14
+                            && ageInDays(p.effectiveDate) <= MAX_AGE_DAYS && (
+                            <span className="ml-2 rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] font-medium text-neutral-600">
+                              {ageInDays(p.effectiveDate)} days old
+                            </span>
+                          )}
+                        </td>
                         <td className="px-4 py-2.5 text-neutral-500">{p.source || '—'}</td>
                         <td className="px-4 py-2.5">
                           <div className="flex justify-end gap-1">
@@ -310,7 +336,9 @@ export default function PricingPage() {
                 </table>
               </div>
               <p className="mt-1.5 text-xs text-neutral-500">
-                The newest date for each fuel is the one the app uses.
+                The newest date for each fuel is the one the app uses, and only
+                while it is under {MAX_AGE_DAYS} days old. After that riders see
+                no cost rather than a stale one.
               </p>
             </section>
           ))}
