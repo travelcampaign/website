@@ -15,7 +15,7 @@ export default function Hero() {
           className="hero-enter font-[family-name:var(--font-mono)] text-[12px] tracking-[0.06em] text-sage"
           style={{ "--enter-delay": "50ms" } as React.CSSProperties}
         >
-          Carpooling for India · Starting in Hyderabad
+          Shared rides for India · Starting in Hyderabad
         </p>
 
         {/* headline */}

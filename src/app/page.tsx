@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import JourneyScroll from "@/components/JourneyScroll";
+import TwoSides from "@/components/TwoSides";
 import Safety from "@/components/Safety";
 import Membership from "@/components/Membership";
 import Pact from "@/components/Pact";
@@ -28,6 +29,7 @@ export default function Home() {
       <main id="main">
         <Hero />
         <JourneyScroll />
+        <TwoSides />
         <Safety />
         <Membership />
         <Pact />

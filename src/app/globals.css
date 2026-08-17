@@ -95,16 +95,6 @@ body {
   .press, .press:hover, .press:active { transform: none; }
 }
 
-/* mobile menu sheet slides down from the bar */
-@keyframes sheet-in {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.menu-sheet { animation: sheet-in 0.25s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
-@media (prefers-reduced-motion: reduce) {
-  .menu-sheet { animation: none; }
-}
-
 /* hairlines on dark */
 .hairline       { border-color: rgba(242, 238, 229, 0.10); }
 .hairline-soft  { border-color: rgba(242, 238, 229, 0.07); }
@@ -159,6 +149,16 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(111, 180, 153, 0); }
 }
 .guardian-beat { animation: guardian-beat 2.2s ease-out infinite; }
+
+@keyframes guardian-beat-ember {
+  0%   { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.45); }
+  70%  { box-shadow: 0 0 0 11px rgba(249, 115, 22, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+}
+.guardian-ember { animation: guardian-beat-ember 2.2s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .guardian-ember { animation: none; }
+}
 
 @keyframes ring-pulse {
   0%   { opacity: 0.6; transform: scale(1); }
@@ -249,6 +249,19 @@ details::details-content {
 details[open]::details-content { height: auto; }
 @media (prefers-reduced-motion: reduce) {
   details::details-content { transition: none; }
+}
+
+/* the footer egg: the sedan crosses the giant wordmark once and fades
+   at the kerb. Pure transform + opacity; runs only when summoned. */
+@keyframes egg-drive {
+  0%   { transform: translateX(-40px); opacity: 0; }
+  6%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { transform: translateX(min(92vw, 1100px)); opacity: 0; }
+}
+.egg-drive { animation: egg-drive 2.6s cubic-bezier(0.45, 0, 0.3, 1) forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .egg-drive { animation: none; opacity: 0; }
 }
 
 /* ── Section bridges ──────────────────────────────────────────

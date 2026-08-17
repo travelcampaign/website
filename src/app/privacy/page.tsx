@@ -15,7 +15,7 @@ const sections: LegalSection[] = [
     heading: "1. Who we are",
     body: (
       <p>
-        Nexstopp is a carpooling platform for India built around community and
+        Nexstopp is a ride-sharing platform for India built around community and
         safety. We are currently running a pilot in Hyderabad. We connect
         verified community members who are already travelling the same way so
         they can share the ride. We are a technology platform, not a taxi
@@ -27,7 +27,7 @@ const sections: LegalSection[] = [
     heading: "2. Information we collect",
     body: (
       <>
-        <p>We collect only what we need to run a safe carpool:</p>
+        <p>We collect only what we need to run safe shared rides:</p>
         <ul className={list}>
           <li>
             <strong>Account details</strong>: your mobile number (verified by a
@@ -210,7 +210,7 @@ export default function PrivacyPage() {
       intro={
         <p>
           This policy explains what information Nexstopp collects, how we use
-          it, and the choices you have. We collect only what a safe carpool
+          it, and the choices you have. We collect only what safe shared rides
           needs, and we never sell your data.
         </p>
       }

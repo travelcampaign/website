@@ -2,6 +2,8 @@
    dead "#" placeholders (About/Blog/Press, empty socials) were removed
    per honest-or-hidden — they return when the destinations exist. */
 
+import FooterEgg from "./FooterEgg";
+
 const COLUMNS = [
   {
     heading: "Product",
@@ -38,7 +40,7 @@ export default function Footer() {
               nexstopp<span className="italic text-sage">.</span>
             </p>
             <p className="mt-4 max-w-[34ch] text-[14.5px] leading-[1.7] text-dusk-mute">
-              Community-run carpooling for India, with safety built in and
+              Community-run ride sharing for India, with safety built in and
               zero commission.
             </p>
           </div>
@@ -66,14 +68,9 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* the brand, at architectural scale. Clipped to the footer, faint
-            enough to be a texture. The page ends on the name. */}
-        <p
-          aria-hidden="true"
-          className="pointer-events-none mt-20 select-none overflow-hidden whitespace-nowrap font-[family-name:var(--font-display)] text-[clamp(88px,14vw,190px)] leading-[0.85] tracking-[-0.03em] text-[rgba(242,238,229,0.045)]"
-        >
-          nexstopp<span className="text-[rgba(111,180,153,0.10)]">.</span>
-        </p>
+        {/* the brand, at architectural scale, with a secret inside.
+            See FooterEgg for what the full stop does. */}
+        <FooterEgg />
 
         <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-[rgba(242,238,229,0.08)] pt-8">
           <p className="text-[13px] text-dusk-mute">

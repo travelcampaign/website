@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "About",
   alternates: { canonical: "/about" },
   description:
-    "Why Nexstopp exists: community-run carpooling for India where the platform only does well when riders do. Zero commission, safety free for everyone, starting in Hyderabad.",
+    "Why Nexstopp exists: community-run ride sharing for India where the platform only does well when riders do. Zero commission, safety free for everyone, starting in Hyderabad.",
 };
 
 /* Every sentence here is a commitment the product already keeps. No team
@@ -35,7 +35,7 @@ const STANCES = [
   },
   {
     title: "One city, done properly",
-    body: "We are starting in Hyderabad, on a handful of busy routes, so that rides actually fill. A carpool app with no one on your route is a brochure. Depth first, then the next city.",
+    body: "We are starting in Hyderabad, on a handful of busy routes, so that rides actually fill. A ride app with no one on your route is a brochure. Depth first, then the next city.",
     tone: "paper" as const,
   },
 ];

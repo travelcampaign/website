@@ -62,9 +62,11 @@ export default function Navbar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled
-          ? "border-b border-[rgba(242,238,229,0.08)] bg-[rgba(16,25,24,0.82)] backdrop-blur-md"
-          : "bg-transparent"
+        open
+          ? "bg-night-0"
+          : scrolled
+            ? "border-b border-[rgba(242,238,229,0.08)] bg-[rgba(16,25,24,0.82)] backdrop-blur-md"
+            : "bg-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-5 sm:px-12">
@@ -121,31 +123,42 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* mobile sheet — animated open so it reads as part of the bar */}
-      {open && (
-        <nav className="menu-sheet border-t border-[rgba(242,238,229,0.08)] bg-[rgba(16,25,24,0.96)] px-6 py-6 backdrop-blur-md md:hidden">
-          <div className="flex flex-col gap-5">
-            {LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="py-1 text-[16px] text-dusk-dim transition-colors hover:text-dusk-text"
-              >
-                {l.label}
-              </a>
-            ))}
+      {/* mobile menu: always mounted, faded and slid by state. Mounting on
+          open gave it no way to animate out, which read as a blink; a
+          transition needs both ends of the journey to exist. */}
+      <nav
+        inert={!open}
+        aria-hidden={!open}
+        className={`fixed inset-0 top-[72px] z-40 flex flex-col bg-night-0 px-6 pb-8 pt-6 transition-[opacity,transform] duration-300 ease-[cubic-bezier(0.22,0.61,0.36,1)] md:hidden ${
+          open
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none -translate-y-2 opacity-0"
+        }`}
+      >
+        <div className="flex flex-col">
+          {LINKS.map((l) => (
             <a
-              href={WAITLIST_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-1 rounded-full bg-sage px-5 py-3 text-center text-sm font-semibold text-night-0"
+              key={l.href}
+              href={l.href}
+              onClick={() => setOpen(false)}
+              className="border-b border-[rgba(242,238,229,0.08)] py-5 font-[family-name:var(--font-display)] text-[28px] text-dusk-text transition-colors hover:text-sage"
             >
-              Join the waitlist
+              {l.label}
             </a>
-          </div>
-        </nav>
-      )}
+          ))}
+        </div>
+        <div className="mt-auto">
+          <a
+            href={WAITLIST_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+            className="press block rounded-full bg-sage px-5 py-4 text-center text-[16px] font-semibold text-night-0"
+          >
+            Join the waitlist
+          </a>
+        </div>
+      </nav>
     </header>
   );
 }

@@ -5,7 +5,7 @@
 export const QA: { q: string; a: string }[] = [
   {
     q: "How do I know who I'm riding with?",
-    a: "Everyone on Nexstopp signs up with a verified phone number, and the Verified badge appears only after we review their identity documents. You are only matched with commuters whose route genuinely overlaps yours. Hosts see who is asking to join, riders see who is driving, and nobody is confirmed until both say yes.",
+    a: "Everyone on Nexstopp signs up with a verified phone number, and the Verified badge appears only after we review their identity documents. You are only matched with commuters whose route genuinely overlaps yours. Drivers see who is asking to join, riders see who is driving, and nobody is confirmed until both say yes.",
   },
   {
     q: "Who watches over my ride?",

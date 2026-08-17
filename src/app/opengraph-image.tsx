@@ -76,7 +76,7 @@ export default async function OgImage() {
                 "ui-sans-serif, system-ui, -apple-system, sans-serif",
             }}
           >
-            Zero-commission carpooling for India, watched over by people you trust
+            Zero-commission shared rides for India, watched over by people you trust
           </span>
         </div>
       </div>

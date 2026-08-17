@@ -38,7 +38,7 @@ const PHASES = [
     eyebrow: "The match",
     title: "Matched along",
     accent: "the way.",
-    sub: "Verified commuters already driving your way. Pickup points fall on the driver's existing route, so nobody goes out of their way.",
+    sub: "Verified commuters already driving your way. Pickup points sit on the route the driver was taking anyway, so nobody drives extra.",
     ember: false,
   },
   {

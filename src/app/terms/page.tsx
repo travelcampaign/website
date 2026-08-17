@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Terms of Service",
   alternates: { canonical: "/terms" },
   description:
-    "The terms for using Nexstopp, a community carpooling platform. Members share costs directly with each other, and Nexstopp takes no commission.",
+    "The terms for using Nexstopp, a community ride-sharing platform. Members share costs directly with each other, and Nexstopp takes no commission.",
 };
 
 const list = "list-disc pl-5 space-y-2";

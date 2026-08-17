@@ -89,16 +89,22 @@ export default function Membership() {
           </div>
         </div>
 
-        {/* zero commission strip */}
-        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-[18px] border border-[#E2DBCB] bg-cream-deep px-8 py-6 lg:max-w-[880px]">
-          <p className="font-[family-name:var(--font-display)] text-[22px] text-ink">
-            ₹0 commission, <span className="text-sage-deep">ever.</span>
+        {/* the commission statement, at the scale it deserves. The numeral
+            is the argument; everything else supports it. */}
+        <div className="mt-16 grid items-center gap-8 rounded-[18px] border border-[#E2DBCB] bg-cream-deep px-8 py-10 sm:grid-cols-[auto_1fr] sm:gap-12 sm:px-12 lg:max-w-[880px]">
+          <p className="font-[family-name:var(--font-display)] text-[clamp(72px,10vw,120px)] leading-[0.9] tracking-[-0.02em] text-ink">
+            ₹0
           </p>
-          <p className="max-w-[52ch] text-[14.5px] leading-relaxed text-ink-soft">
-            Riders pay each other for fuel directly. Nexstopp never touches
-            that money and never takes a percentage. Membership is our only
-            income.
-          </p>
+          <div>
+            <p className="font-[family-name:var(--font-display)] text-[24px] leading-snug text-ink">
+              commission, <span className="text-sage-deep">ever.</span>
+            </p>
+            <p className="mt-3 max-w-[46ch] text-[15px] leading-[1.7] text-ink-soft">
+              Riders pay each other for fuel directly. Nexstopp never touches
+              that money and never takes a percentage. Membership is our only
+              income.
+            </p>
+          </div>
         </div>
       </div>
     </section>

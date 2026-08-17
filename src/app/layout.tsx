@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   // line of SEO on the site.
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Nexstopp | Carpooling for India, with safety built in",
+    default: "Nexstopp | Shared rides for India, with safety built in",
     template: "%s | Nexstopp",
   },
   description:
@@ -64,13 +64,13 @@ export const metadata: Metadata = {
     locale: "en_IN",
     title: "Nexstopp | The city goes home together",
     description:
-      "Carpooling for India with safety built in. Riders split fuel costs directly and Nexstopp takes no commission.",
+      "Shared rides for India with safety built in. Riders split fuel costs directly and Nexstopp takes no commission.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Nexstopp | The city goes home together",
     description:
-      "Carpooling for India with safety built in. Zero commission, and someone you trust watches over the ride.",
+      "Shared rides for India with safety built in. Zero commission, and someone you trust watches over the ride.",
   },
   robots: {
     index: true,
@@ -96,7 +96,7 @@ const ORG_JSONLD = {
       url: SITE_URL,
       email: CONTACT_EMAIL,
       description:
-        "Community-run carpooling for India with safety built in and zero commission.",
+        "Community-run ride sharing for India with safety built in and zero commission.",
       foundingLocation: { "@type": "Place", name: "Hyderabad, India" },
       logo: `${SITE_URL}/apple-touch-icon.svg`,
     },
