@@ -247,16 +247,26 @@ export default function JourneyScroll() {
             }}
           />
 
-          {/* corridor pills */}
+          {/* corridor pills — they arrive in ride order: origin first, the
+              road between, then the destination. Small theatre, no library. */}
           <div className="absolute left-6 top-24 z-10 flex items-center gap-2 sm:left-12">
-            <span className="flex items-center gap-2 rounded-full border border-[rgba(242,238,229,0.16)] bg-[rgba(16,25,24,0.85)] px-3.5 py-1.5 text-[12.5px] font-medium text-dusk-text backdrop-blur-sm">
+            <span
+              className="scene-in flex items-center gap-2 rounded-full border border-[rgba(242,238,229,0.16)] bg-[rgba(16,25,24,0.85)] px-3.5 py-1.5 text-[12.5px] font-medium text-dusk-text backdrop-blur-sm"
+              style={{ "--scene-delay": "250ms" } as React.CSSProperties}
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-sage" />
               {ROUTE.pickup.name}
             </span>
-            <span className="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] text-dusk-mute">
+            <span
+              className="scene-in font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] text-dusk-mute"
+              style={{ "--scene-delay": "550ms" } as React.CSSProperties}
+            >
               ·····
             </span>
-            <span className="flex items-center gap-2 rounded-full border border-[rgba(249,115,22,0.3)] bg-[rgba(16,25,24,0.85)] px-3.5 py-1.5 text-[12.5px] font-medium text-[#F5B98C] backdrop-blur-sm">
+            <span
+              className="scene-in flex items-center gap-2 rounded-full border border-[rgba(249,115,22,0.3)] bg-[rgba(16,25,24,0.85)] px-3.5 py-1.5 text-[12.5px] font-medium text-[#F5B98C] backdrop-blur-sm"
+              style={{ "--scene-delay": "850ms" } as React.CSSProperties}
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-ember" />
               {ROUTE.dropoff.name}
             </span>
