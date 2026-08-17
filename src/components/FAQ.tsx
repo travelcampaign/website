@@ -2,7 +2,7 @@
    <details>/<summary> accordion: zero JS, works everywhere.
    Every answer states only what the product actually does. */
 
-const QA: { q: string; a: string }[] = [
+export const QA: { q: string; a: string }[] = [
   {
     q: "How do I know who I'm riding with?",
     a: "Everyone on Nexstopp signs up with a verified phone number, and the Verified badge appears only after we review their identity documents. You are only matched with commuters whose route genuinely overlaps yours. Hosts see who is asking to join, riders see who is driving, and nobody is confirmed until both say yes.",
@@ -40,7 +40,7 @@ export default function FAQ() {
           {QA.map((item) => (
             <details
               key={item.q}
-              className="group rounded-[18px] border border-[#E2DBCB] bg-white transition-shadow duration-300 open:border-sage-deep/40 open:shadow-[0_18px_44px_rgba(35,44,42,0.10)]"
+              className="group rounded-[18px] border border-[#E2DBCB] bg-white transition-[border-color,box-shadow] duration-300 hover:border-[#CDC4AE] open:border-sage-deep/40 open:shadow-[0_18px_44px_rgba(35,44,42,0.10)] open:hover:border-sage-deep/40"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-7 py-5 [&::-webkit-details-marker]:hidden">
                 <span className="text-[16.5px] font-semibold leading-snug text-ink">

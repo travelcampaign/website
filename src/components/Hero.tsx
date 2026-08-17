@@ -4,8 +4,7 @@
    row. The map story lives once, in JourneyScroll below.
    ───────────────────────────────────────────────────────────── */
 
-const WAITLIST_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSe0aPYcXW-4CyYuc74YEHl9zM_Ni7QDyVZBFhqm2Y69ZC0aiw/viewform";
+import { WAITLIST_URL } from "@/lib/site";
 
 export default function Hero() {
   return (
@@ -46,18 +45,17 @@ export default function Hero() {
             href={WAITLIST_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full bg-sage px-8 py-4 text-base font-semibold text-night-0 transition-colors hover:bg-[#7FC0A6]"
+            className="press rounded-full bg-sage px-8 py-4 text-base font-semibold text-night-0 transition-colors hover:bg-[#7FC0A6]"
           >
             Join the waitlist
           </a>
           <a
             href="#how-it-works"
-            className="hairline rounded-full border px-7 py-4 text-base text-dusk-text transition-colors hover:border-[rgba(242,238,229,0.28)]"
+            className="press hairline rounded-full border px-7 py-4 text-base text-dusk-text transition-colors hover:border-[rgba(242,238,229,0.28)]"
           >
             See how it works
           </a>
         </div>
-
 
       </div>
 

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Nexstopp",
+  title: "Terms of Service",
+  alternates: { canonical: "/terms" },
   description:
     "The terms for using Nexstopp, a community carpooling platform. Members share costs directly with each other, and Nexstopp takes no commission.",
 };

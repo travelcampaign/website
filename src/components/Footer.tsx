@@ -7,8 +7,9 @@ const COLUMNS = [
     heading: "Product",
     links: [
       { label: "How it works", href: "/#how-it-works" },
-      { label: "Safety", href: "/#safety" },
+      { label: "Safety", href: "/safety" },
       { label: "Membership", href: "/#membership" },
+      { label: "About", href: "/about" },
     ],
   },
   {
@@ -16,6 +17,7 @@ const COLUMNS = [
     links: [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms of Service", href: "/terms" },
+      { label: "Refunds & Cancellation", href: "/refunds" },
     ],
   },
   {
@@ -64,7 +66,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-[rgba(242,238,229,0.08)] pt-8">
+        {/* the brand, at architectural scale. Clipped to the footer, faint
+            enough to be a texture. The page ends on the name. */}
+        <p
+          aria-hidden="true"
+          className="pointer-events-none mt-20 select-none overflow-hidden whitespace-nowrap font-[family-name:var(--font-display)] text-[clamp(88px,14vw,190px)] leading-[0.85] tracking-[-0.03em] text-[rgba(242,238,229,0.045)]"
+        >
+          nexstopp<span className="text-[rgba(111,180,153,0.10)]">.</span>
+        </p>
+
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-[rgba(242,238,229,0.08)] pt-8">
           <p className="text-[13px] text-dusk-mute">
             © 2026 Nexstopp. Built in Hyderabad.
           </p>

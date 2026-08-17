@@ -51,6 +51,60 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── Keyboard focus ───────────────────────────────────────────
+   sage-deep reads on both grounds: ~4:1 on night, strong on cream.
+   Mouse users never see it; keyboard users always do. */
+:focus-visible {
+  outline: 2px solid var(--color-sage-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* fixed navbar is ~76px tall; without this, anchor jumps bury the
+   section heading underneath it */
+[id] { scroll-margin-top: 96px; }
+
+/* skip link — invisible until focused, then unmissable */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--color-sage);
+  color: var(--color-night-0);
+  font-weight: 600;
+  font-size: 14px;
+  transition: top 0.2s ease;
+}
+.skip-link:focus-visible { top: 12px; }
+
+/* ── CTA press feedback ───────────────────────────────────────
+   Buttons acknowledge the hand: a light lift on hover, a settle on
+   press. Motion as feedback, not decoration. */
+.press {
+  transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
+              background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease;
+  will-change: transform;
+}
+.press:hover  { transform: translateY(-1px); }
+.press:active { transform: translateY(0) scale(0.98); }
+@media (prefers-reduced-motion: reduce) {
+  .press, .press:hover, .press:active { transform: none; }
+}
+
+/* mobile menu sheet slides down from the bar */
+@keyframes sheet-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.menu-sheet { animation: sheet-in 0.25s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .menu-sheet { animation: none; }
+}
+
 /* hairlines on dark */
 .hairline       { border-color: rgba(242, 238, 229, 0.10); }
 .hairline-soft  { border-color: rgba(242, 238, 229, 0.07); }
@@ -76,6 +130,13 @@ body {
   pointer-events: none;
   z-index: 1;
   mix-blend-mode: overlay;
+}
+
+/* On small touch devices the grain's mix-blend repaint is the most
+   expensive paint on the page, and at phone DPI the texture is barely
+   perceptible anyway. The dusk gradient carries the mood alone. */
+@media (max-width: 767px) and (pointer: coarse) {
+  .grain::after { display: none; }
 }
 
 /* ── Route motion ─────────────────────────────────────────── */

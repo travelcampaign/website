@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import LegalPage, { type LegalSection } from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Nexstopp",
+  title: "Privacy Policy",
+  alternates: { canonical: "/privacy" },
   description:
     "How Nexstopp collects, uses, and protects your data. We never sell your personal information.",
 };

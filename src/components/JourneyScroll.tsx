@@ -100,6 +100,13 @@ export default function JourneyScroll() {
       const ml = await import("maplibre-gl");
       if (cancelled || !mapContRef.current) return;
 
+      // 2GB-class Android phones report deviceMemory <= 2 (Chrome, which is
+      // exactly the phone this product serves). A WebGL map plus tiles there
+      // costs more jank than the story is worth; the SVG night fallback
+      // tells it without the GPU.
+      const mem = (navigator as { deviceMemory?: number }).deviceMemory;
+      if (mem !== undefined && mem <= 2) return;
+
       let map: import("maplibre-gl").Map;
       try {
         map = new ml.Map({
@@ -218,7 +225,10 @@ export default function JourneyScroll() {
   const ph = PHASES[phase];
 
   return (
-    <section id="how-it-works" aria-label="How it works">
+    <section id="how-it-works">
+      {/* Real heading for the h1→h2→h3 chain; the phase titles below are
+          h3s, and without this the document skipped a level. */}
+      <h2 className="sr-only">How it works</h2>
       <div ref={trackRef} className="relative h-[420vh]">
         <div className="sticky top-0 h-screen overflow-hidden bg-[linear-gradient(180deg,#101918_0%,#141D1C_100%)]">
           {/* real map */}

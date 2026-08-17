@@ -1,8 +1,7 @@
 /* Membership — cream. Launch reality only: FREE + ₹99.
    The headline IS the safety promise: it's never paywalled. */
 
-const WAITLIST_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSe0aPYcXW-4CyYuc74YEHl9zM_Ni7QDyVZBFhqm2Y69ZC0aiw/viewform";
+import { WAITLIST_URL } from "@/lib/site";
 
 export default function Membership() {
   return (
@@ -45,6 +44,9 @@ export default function Membership() {
                 </li>
               ))}
             </ul>
+            <p className="mt-8 text-[13.5px] leading-relaxed text-ink-soft">
+              This is the default. Nobody is nudged off it.
+            </p>
           </div>
 
           {/* ₹99 */}
@@ -72,7 +74,15 @@ export default function Membership() {
                 </li>
               ))}
             </ul>
-            <p className="mt-6 text-[13px] leading-relaxed text-ink-soft">
+            <a
+              href={WAITLIST_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="press mt-8 block rounded-full bg-sage-deep px-6 py-3.5 text-center text-[15px] font-semibold text-white transition-colors hover:bg-[#4A7D6A]"
+            >
+              Join the waitlist
+            </a>
+            <p className="mt-5 text-[13px] leading-relaxed text-ink-soft">
               The maths: one shared 20&nbsp;km commute usually saves more than the
               fee. If it doesn&apos;t pay for itself, stay on the free plan.
             </p>
