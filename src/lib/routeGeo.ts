@@ -71,3 +71,26 @@ export function nightRasterStyle() {
     ],
   };
 }
+
+/* The convergence story: two riders start on side streets and walk to
+   points on the driver's corridor. Each feeder's last coordinate lies ON
+   the main route, and joinF is that point's fraction along it, so the car
+   visibly passes through the exact spot where each rider is waiting. */
+export const FEEDERS: { path: LngLat[]; joinF: number }[] = [
+  {
+    path: [
+      [78.3512, 17.4368],
+      [78.3542, 17.4412],
+      [78.3565, 17.4445],
+    ],
+    joinF: 2 / 7,
+  },
+  {
+    path: [
+      [78.3762, 17.4528],
+      [78.3785, 17.4502],
+      [78.38, 17.4476],
+    ],
+    joinF: 5 / 7,
+  },
+];

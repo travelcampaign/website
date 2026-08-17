@@ -7,6 +7,7 @@ import {
   sliceTo,
   bearingAt,
   nightRasterStyle,
+  FEEDERS,
 } from "@/lib/routeGeo";
 
 /* How it works, told as a drive. The section pins a real night map of the
@@ -177,6 +178,34 @@ export default function JourneyScroll() {
           new ml.Marker({ element: disc("#568F7A") }).setLngLat(ROUTE.pickup.at).addTo(map);
           new ml.Marker({ element: disc("#F97316") }).setLngLat(ROUTE.dropoff.at).addTo(map);
 
+          // the feeders: thinner, dashed, quieter than the corridor. They
+          // grow during the match phase, so "matched along the way" is
+          // something the map does rather than something the copy claims.
+          FEEDERS.forEach((f, i) => {
+            map.addSource(`feeder${i}`, {
+              type: "geojson",
+              data: { type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: [] } },
+            });
+            map.addLayer({
+              id: `feeder${i}`, type: "line", source: `feeder${i}`,
+              layout: { "line-cap": "round", "line-join": "round" },
+              paint: { "line-color": "#6FB499", "line-width": 2.5, "line-opacity": 0.7, "line-dasharray": [0.2, 2.2] },
+            });
+          });
+
+          // one rider per feeder, walking to their pickup point
+          const riderEls = FEEDERS.map(() => {
+            const el = document.createElement("span");
+            el.style.cssText =
+              "display:block;width:11px;height:11px;border-radius:9999px;" +
+              "background:#F2EEE5;box-shadow:0 0 0 3px rgba(242,238,229,0.18);" +
+              "opacity:0;transition:opacity 0.4s ease;";
+            return el;
+          });
+          const riders = riderEls.map((el, i) =>
+            new ml.Marker({ element: el }).setLngLat(FEEDERS[i].path[0]).addTo(map)
+          );
+
           const carEl = document.createElement("img");
           carEl.src = "/car-marker.png";
           carEl.alt = "";
@@ -199,6 +228,20 @@ export default function JourneyScroll() {
             });
             car.setLngLat(pointAt(ROUTE.coords, carP));
             car.setRotation(bearingAt(ROUTE.coords, carP)); // sprite nose points up (taillights at bottom)
+
+            // the convergence: riders walk their feeders during the match
+            // phase, wait at the corridor, and vanish into the car as it
+            // passes their pickup point
+            const walkT = Math.min(1, Math.max(0, (progressRef.current - 0.2) / 0.18));
+            FEEDERS.forEach((f, i) => {
+              (map.getSource(`feeder${i}`) as import("maplibre-gl").GeoJSONSource)?.setData({
+                type: "Feature", properties: {},
+                geometry: { type: "LineString", coordinates: sliceTo(f.path, walkT) },
+              });
+              const boarded = carP >= f.joinF;
+              riderEls[i].style.opacity = walkT > 0.02 && !boarded ? "1" : "0";
+              if (!boarded) riders[i].setLngLat(pointAt(f.path, walkT));
+            });
             raf = requestAnimationFrame(tick);
           };
           raf = requestAnimationFrame(tick);
