@@ -2,12 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  type LngLat,
-  pointAt,
-  sliceTo,
-  bearingAt,
   nightRasterStyle,
-  FEEDERS,
+  ROUTE_COORDS,
+  MAIN_TRACK,
+  FEEDER_TRACKS,
+  NETWORK_ROUTES,
+  trackPointAt,
+  trackSliceTo,
+  trackBearingAt,
 } from "@/lib/routeGeo";
 
 /* How it works, told as a drive. The section pins a real night map of the
@@ -15,14 +17,12 @@ import {
    the story advances through four stops. Scroll speed stays native. The old
    site's journey, retold in the Evening Commute voice. */
 
+// The corridor now lives in routeGeo as ROUTE_COORDS: the real drive,
+// snapped to roads, so the highlighted line IS the road underneath it.
 const ROUTE = {
-  pickup: { name: "Gachibowli", at: [78.339, 17.4401] as LngLat },
-  dropoff: { name: "Madhapur", at: [78.3965, 17.4483] as LngLat },
-  coords: [
-    [78.339, 17.4401], [78.348, 17.4422], [78.3565, 17.4445],
-    [78.3645, 17.446], [78.372, 17.447], [78.38, 17.4476],
-    [78.388, 17.448], [78.3965, 17.4483],
-  ] as LngLat[],
+  pickup: { name: "Gachibowli", at: ROUTE_COORDS[0] },
+  dropoff: { name: "Madhapur", at: ROUTE_COORDS[ROUTE_COORDS.length - 1] },
+  coords: ROUTE_COORDS,
 };
 
 const PHASES = [
@@ -181,7 +181,7 @@ export default function JourneyScroll() {
           // the feeders: thinner, dashed, quieter than the corridor. They
           // grow during the match phase, so "matched along the way" is
           // something the map does rather than something the copy claims.
-          FEEDERS.forEach((f, i) => {
+          FEEDER_TRACKS.forEach((_, i) => {
             map.addSource(`feeder${i}`, {
               type: "geojson",
               data: { type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: [] } },
@@ -193,55 +193,189 @@ export default function JourneyScroll() {
             });
           });
 
-          // one rider per feeder, walking to their pickup point
-          const riderEls = FEEDERS.map(() => {
+          // one rider per feeder: a small person, not a dot. Minimal
+          // figure on a night disc, one ringed sage and one cream so they
+          // read as two different people.
+          const personSvg = (tint: string) =>
+            `<svg viewBox="0 0 24 24" width="13" height="13" fill="${tint}" aria-hidden="true">` +
+            `<circle cx="12" cy="7.2" r="3.4"/>` +
+            `<path d="M5.5 20.5c0-3.7 2.9-6.3 6.5-6.3s6.5 2.6 6.5 6.3z"/></svg>`;
+          const riderEls = FEEDER_TRACKS.map((_, i) => {
             const el = document.createElement("span");
             el.style.cssText =
-              "display:block;width:11px;height:11px;border-radius:9999px;" +
-              "background:#F2EEE5;box-shadow:0 0 0 3px rgba(242,238,229,0.18);" +
+              "display:flex;align-items:center;justify-content:center;" +
+              "width:24px;height:24px;border-radius:9999px;" +
+              "background:rgba(16,25,24,0.92);" +
+              `box-shadow:0 0 0 2px ${i === 0 ? "rgba(111,180,153,0.55)" : "rgba(242,238,229,0.45)"}, 0 3px 10px rgba(0,0,0,0.5);` +
               "opacity:0;transition:opacity 0.4s ease;";
+            el.innerHTML = personSvg(i === 0 ? "#6FB499" : "#F2EEE5");
             return el;
           });
           const riders = riderEls.map((el, i) =>
-            new ml.Marker({ element: el }).setLngLat(FEEDERS[i].path[0]).addTo(map)
+            new ml.Marker({ element: el })
+              .setLngLat(FEEDER_TRACKS[i].track.coords[0])
+              .addTo(map)
           );
+
+          // meeting points: a quiet pulse where each rider will be picked
+          // up, alive only while someone is actually waiting there
+          const meetEls = FEEDER_TRACKS.map(() => {
+            const el = document.createElement("span");
+            el.className = "meet-pulse";
+            el.style.opacity = "0";
+            return el;
+          });
+          const meets = meetEls.map((el, i) => {
+            const holder = document.createElement("div");
+            holder.appendChild(el);
+            return new ml.Marker({ element: holder })
+              .setLngLat(FEEDER_TRACKS[i].track.coords[FEEDER_TRACKS[i].track.coords.length - 1])
+              .addTo(map);
+          });
+
+          // the conversation: two strangers coordinating one ride. Short,
+          // human, Hyderabad-plain. Each bubble follows its speaker.
+          type Beat = {
+            from: number; to: number;
+            speaker: "a" | "b" | "car" | "meet0" | "meet1";
+            text: string; dy: number;
+          };
+          const BEATS: Beat[] = [
+            { from: 0.11, to: 0.17, speaker: "a", text: "Madhapur side?", dy: -30 },
+            { from: 0.175, to: 0.235, speaker: "b", text: "Haan. Leaving at 8:30.", dy: -30 },
+            { from: 0.24, to: 0.30, speaker: "a", text: "Same route. See you at the pickup.", dy: -30 },
+            { from: 0.40, to: 0.475, speaker: "meet0", text: "Ready?", dy: -26 },
+            { from: 0.58, to: 0.66, speaker: "car", text: "Thanks for sharing the ride.", dy: -34 },
+          ];
+          // MapLibre positions the marker element itself via an inline
+          // transform, and a CSS animation on transform OVERRIDES inline
+          // styles, so the float must live on an inner child or every
+          // bubble snaps to the pane origin. Learned the hard way.
+          const beatEls = BEATS.map((b) => {
+            const el = document.createElement("span");
+            el.className = "map-bubble";
+            el.textContent = b.text;
+            el.style.opacity = "0";
+            return el;
+          });
+          const beatMarkers = beatEls.map((el, i) => {
+            const holder = document.createElement("div");
+            holder.appendChild(el);
+            return new ml.Marker({ element: holder, anchor: "bottom", offset: [0, BEATS[i].dy] })
+              .setLngLat(MAIN_TRACK.coords[0])
+              .addTo(map);
+          });
+
+          // the network: other shared journeys already happening, revealed
+          // in the last beat so this ride reads as one of many
+          NETWORK_ROUTES.forEach((coords, i) => {
+            map.addSource(`net${i}`, {
+              type: "geojson",
+              data: { type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: coords } },
+            });
+            map.addLayer({
+              id: `net${i}`, type: "line", source: `net${i}`,
+              layout: { "line-cap": "round", "line-join": "round" },
+              paint: { "line-color": "#6FB499", "line-width": 2, "line-opacity": 0 },
+            });
+          });
+          let netShown = false;
 
           const carEl = document.createElement("img");
           carEl.src = "/car-marker.png";
           carEl.alt = "";
           carEl.style.cssText =
             "width:34px;height:auto;display:block;user-select:none;pointer-events:none;" +
-            "filter:drop-shadow(0 3px 10px rgba(0,0,0,0.65));";
+            "filter:drop-shadow(0 3px 10px rgba(0,0,0,0.65));" +
+            "opacity:0;transition:opacity 0.6s ease;";
           const car = new ml.Marker({ element: carEl, anchor: "center", rotationAlignment: "viewport" })
             .setLngLat(ROUTE.coords[0])
             .addTo(map);
 
           const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
           let carP = 0;
+          // displayed bearing chases the road's bearing along the shortest
+          // arc, so vertex wobble in the snapped geometry never twitches
+          // the sprite
+          let shownBearing = trackBearingAt(MAIN_TRACK, 0);
+          let lastWalkT = -1;
+          const lastFeederOpacity = FEEDER_TRACKS.map(() => -1);
           const tick = () => {
-            const target = Math.min(1, Math.max(0, (progressRef.current - 0.04) / 0.88));
+            // the car may not move until the people have met their route:
+            // journeys exist first, the shared drive is the consequence
+            const target = Math.min(1, Math.max(0, (progressRef.current - 0.34) / 0.58));
             carP = reduced ? target : carP + (target - carP) * 0.055;
             if (Math.abs(target - carP) < 0.0004) carP = target;
-            const line = sliceTo(ROUTE.coords, carP);
             (map.getSource("route") as import("maplibre-gl").GeoJSONSource)?.setData({
-              type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: line },
+              type: "Feature", properties: {},
+              geometry: { type: "LineString", coordinates: trackSliceTo(MAIN_TRACK, carP) },
             });
-            car.setLngLat(pointAt(ROUTE.coords, carP));
-            car.setRotation(bearingAt(ROUTE.coords, carP)); // sprite nose points up (taillights at bottom)
+            car.setLngLat(trackPointAt(MAIN_TRACK, carP));
+            // no taxi waiting at the kerb: the car exists only once the
+            // riders are on their way to the route
+            carEl.style.opacity = progressRef.current > 0.3 ? "1" : "0";
+            // face the direction of travel, both ways. Without the flip a
+            // backward scroll made the car reverse down the corridor.
+            const forward = target >= carP - 0.0005;
+            const wanted =
+              trackBearingAt(MAIN_TRACK, carP) + (forward ? 0 : 180);
+            let delta = ((wanted - shownBearing + 540) % 360) - 180;
+            shownBearing += reduced ? delta : delta * 0.18;
+            car.setRotation(shownBearing); // sprite nose points up (taillights at bottom)
 
             // the convergence: riders walk their feeders during the match
             // phase, wait at the corridor, and vanish into the car as it
             // passes their pickup point
-            const walkT = Math.min(1, Math.max(0, (progressRef.current - 0.2) / 0.18));
-            FEEDERS.forEach((f, i) => {
-              (map.getSource(`feeder${i}`) as import("maplibre-gl").GeoJSONSource)?.setData({
-                type: "Feature", properties: {},
-                geometry: { type: "LineString", coordinates: sliceTo(f.path, walkT) },
-              });
+            const p = progressRef.current;
+            const walkT = Math.min(1, Math.max(0, (p - 0.1) / 0.16));
+            FEEDER_TRACKS.forEach((f, i) => {
+              if (walkT !== lastWalkT) {
+                (map.getSource(`feeder${i}`) as import("maplibre-gl").GeoJSONSource)?.setData({
+                  type: "Feature", properties: {},
+                  geometry: { type: "LineString", coordinates: trackSliceTo(f.track, walkT) },
+                });
+                if (walkT < 1) riders[i].setLngLat(trackPointAt(f.track, walkT));
+              }
               const boarded = carP >= f.joinF;
-              riderEls[i].style.opacity = walkT > 0.02 && !boarded ? "1" : "0";
-              if (!boarded) riders[i].setLngLat(pointAt(f.path, walkT));
+              riderEls[i].style.opacity = p > 0.06 && !boarded ? "1" : "0";
+              // the meeting point breathes only while its rider stands there
+              meetEls[i].style.opacity = walkT > 0.85 && !boarded ? "1" : "0";
+              // once its rider is in the car the path has no story left to
+              // tell; left on screen it reads as an unexplained scribble.
+              // Guarded write: setPaintProperty every frame is a style churn.
+              const op = boarded ? Math.max(0, 0.7 - (carP - f.joinF) * 4) : 0.7;
+              if (Math.abs(op - lastFeederOpacity[i]) > 0.02) {
+                map.setPaintProperty(`feeder${i}`, "line-opacity", op);
+                lastFeederOpacity[i] = op;
+              }
             });
+            lastWalkT = walkT;
+
+            // conversation beats follow their speakers
+            BEATS.forEach((b, i) => {
+              const on = p >= b.from && p <= b.to;
+              beatEls[i].style.opacity = on ? "1" : "0";
+              if (!on) return;
+              const pos =
+                b.speaker === "a" ? riders[0].getLngLat()
+                : b.speaker === "b" ? riders[1].getLngLat()
+                : b.speaker === "car" ? car.getLngLat()
+                : meets[b.speaker === "meet0" ? 0 : 1].getLngLat();
+              beatMarkers[i].setLngLat(pos);
+            });
+
+            // the wider city: other shared rides fade in for the last beat
+            if (p > 0.8 && !netShown) {
+              netShown = true;
+              NETWORK_ROUTES.forEach((_, i) =>
+                map.setPaintProperty(`net${i}`, "line-opacity", 0.35)
+              );
+            } else if (p <= 0.78 && netShown) {
+              netShown = false;
+              NETWORK_ROUTES.forEach((_, i) =>
+                map.setPaintProperty(`net${i}`, "line-opacity", 0)
+              );
+            }
             raf = requestAnimationFrame(tick);
           };
           raf = requestAnimationFrame(tick);
@@ -300,11 +434,13 @@ export default function JourneyScroll() {
               <span className="h-1.5 w-1.5 rounded-full bg-sage" />
               {ROUTE.pickup.name}
             </span>
+            {/* the road between them, measured: km from the snapped
+                geometry itself, so it can never drift from the drawn route */}
             <span
-              className="scene-in font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] text-dusk-mute"
+              className="scene-in font-[family-name:var(--font-mono)] text-[10.5px] tracking-[0.14em] text-dusk-mute"
               style={{ "--scene-delay": "550ms" } as React.CSSProperties}
             >
-              ·····
+              · {(MAIN_TRACK.total / 1000).toFixed(1)} km ·
             </span>
             <span
               className="scene-in flex items-center gap-2 rounded-full border border-[rgba(249,115,22,0.3)] bg-[rgba(16,25,24,0.85)] px-3.5 py-1.5 text-[12.5px] font-medium text-[#F5B98C] backdrop-blur-sm"
