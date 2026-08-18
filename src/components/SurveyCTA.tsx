@@ -1,8 +1,7 @@
 /* Waitlist close — the night deepens to its darkest and hands over
    to the footer. One line, one action. */
 
-const WAITLIST_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSe0aPYcXW-4CyYuc74YEHl9zM_Ni7QDyVZBFhqm2Y69ZC0aiw/viewform";
+import { WAITLIST_URL } from "@/lib/site";
 
 export default function SurveyCTA() {
   return (
@@ -22,7 +21,7 @@ export default function SurveyCTA() {
               href={WAITLIST_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block rounded-full bg-sage px-10 py-4.5 text-[17px] font-semibold text-night-0 transition-colors hover:bg-[#7FC0A6]"
+              className="press inline-block rounded-full bg-sage px-10 py-4.5 text-[17px] font-semibold text-night-0 transition-colors hover:bg-[#7FC0A6]"
             >
               Join the waitlist
             </a>

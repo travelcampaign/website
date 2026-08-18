@@ -2,13 +2,16 @@
    dead "#" placeholders (About/Blog/Press, empty socials) were removed
    per honest-or-hidden — they return when the destinations exist. */
 
+import FooterEgg from "./FooterEgg";
+
 const COLUMNS = [
   {
     heading: "Product",
     links: [
       { label: "How it works", href: "/#how-it-works" },
-      { label: "Safety", href: "/#safety" },
+      { label: "Safety", href: "/safety" },
       { label: "Membership", href: "/#membership" },
+      { label: "About", href: "/about" },
     ],
   },
   {
@@ -16,6 +19,7 @@ const COLUMNS = [
     links: [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms of Service", href: "/terms" },
+      { label: "Refunds & Cancellation", href: "/refunds" },
     ],
   },
   {
@@ -36,7 +40,7 @@ export default function Footer() {
               nexstopp<span className="italic text-sage">.</span>
             </p>
             <p className="mt-4 max-w-[34ch] text-[14.5px] leading-[1.7] text-dusk-mute">
-              Community-run carpooling for India, with safety built in and
+              Community-run ride sharing for India, with safety built in and
               zero commission.
             </p>
           </div>
@@ -64,7 +68,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-wrap items-center justify-between gap-4 border-t border-[rgba(242,238,229,0.08)] pt-8">
+        {/* the brand, at architectural scale, with a secret inside.
+            See FooterEgg for what the full stop does. */}
+        <FooterEgg />
+
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-[rgba(242,238,229,0.08)] pt-8">
           <p className="text-[13px] text-dusk-mute">
             © 2026 Nexstopp. Built in Hyderabad.
           </p>
@@ -73,7 +81,10 @@ export default function Footer() {
           </p>
         </div>
         {/* map licenses require this credit; kept as quiet as legally sensible */}
-        <p className="mt-4 text-[10.5px] leading-relaxed text-[rgba(126,143,137,0.55)]">
+        {/* The OSM/CARTO credit is a licence requirement, so it has to be
+            readable. At rgba(126,143,137,0.55) it measured 2.49:1; the
+            solid token measures 5.53:1 and still reads as a whisper. */}
+        <p className="mt-4 text-[11px] leading-relaxed text-dusk-mute">
           Maps:{" "}
           <a href="https://www.openstreetmap.org/copyright" className="hover:text-dusk-mute" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a>
           {" "}·{" "}

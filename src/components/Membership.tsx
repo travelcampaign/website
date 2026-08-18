@@ -1,8 +1,7 @@
 /* Membership — cream. Launch reality only: FREE + ₹99.
    The headline IS the safety promise: it's never paywalled. */
 
-const WAITLIST_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSe0aPYcXW-4CyYuc74YEHl9zM_Ni7QDyVZBFhqm2Y69ZC0aiw/viewform";
+import { WAITLIST_URL } from "@/lib/site";
 
 export default function Membership() {
   return (
@@ -45,6 +44,9 @@ export default function Membership() {
                 </li>
               ))}
             </ul>
+            <p className="mt-8 text-[13.5px] leading-relaxed text-ink-soft">
+              This is the default. Nobody is nudged off it.
+            </p>
           </div>
 
           {/* ₹99 */}
@@ -72,23 +74,37 @@ export default function Membership() {
                 </li>
               ))}
             </ul>
-            <p className="mt-6 text-[13px] leading-relaxed text-ink-soft">
+            <a
+              href={WAITLIST_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="press mt-8 block rounded-full bg-sage-deep px-6 py-3.5 text-center text-[15px] font-semibold text-white transition-colors hover:bg-[#4A7D6A]"
+            >
+              Join the waitlist
+            </a>
+            <p className="mt-5 text-[13px] leading-relaxed text-ink-soft">
               The maths: one shared 20&nbsp;km commute usually saves more than the
               fee. If it doesn&apos;t pay for itself, stay on the free plan.
             </p>
           </div>
         </div>
 
-        {/* zero commission strip */}
-        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 rounded-[18px] border border-[#E2DBCB] bg-cream-deep px-8 py-6 lg:max-w-[880px]">
-          <p className="font-[family-name:var(--font-display)] text-[22px] text-ink">
-            ₹0 commission, <span className="text-sage-deep">ever.</span>
+        {/* the commission statement, at the scale it deserves. The numeral
+            is the argument; everything else supports it. */}
+        <div className="mt-16 grid items-center gap-8 rounded-[18px] border border-[#E2DBCB] bg-cream-deep px-8 py-10 sm:grid-cols-[auto_1fr] sm:gap-12 sm:px-12 lg:max-w-[880px]">
+          <p className="font-[family-name:var(--font-display)] text-[clamp(72px,10vw,120px)] leading-[0.9] tracking-[-0.02em] text-ink">
+            ₹0
           </p>
-          <p className="max-w-[52ch] text-[14.5px] leading-relaxed text-ink-soft">
-            Riders pay each other for fuel directly. Nexstopp never touches
-            that money and never takes a percentage. Membership is our only
-            income.
-          </p>
+          <div>
+            <p className="font-[family-name:var(--font-display)] text-[24px] leading-snug text-ink">
+              commission, <span className="text-sage-deep">ever.</span>
+            </p>
+            <p className="mt-3 max-w-[46ch] text-[15px] leading-[1.7] text-ink-soft">
+              Riders pay the driver directly for fuel. Nexstopp never touches
+              that money and never takes a percentage. Membership is our only
+              income.
+            </p>
+          </div>
         </div>
       </div>
     </section>

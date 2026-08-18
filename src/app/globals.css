@@ -24,7 +24,13 @@
 
   /* accents */
   --color-sage:       #6FB499;
-  --color-sage-deep:  #568F7A;
+  /* Darkened from #568F7A after a Lighthouse contrast audit. The old
+     value measured 3.32:1 for small text on cream and 3.75:1 for white
+     text on it, so every mono eyebrow and every filled sage button was
+     failing AA. This clears 4.5:1 in all three directions (4.67 on cream,
+     5.26 on white, 5.26 for white on it) and reads as the same colour,
+     just more authoritative. */
+  --color-sage-deep:  #467564;
   --color-ember:      #F97316;   /* guardian / safety moments ONLY */
 
   /* legacy aliases still referenced by the admin panel + legal shell */
@@ -49,6 +55,50 @@ body {
   color: var(--color-ink);
   font-family: var(--font-body), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ── Keyboard focus ───────────────────────────────────────────
+   sage-deep reads on both grounds and clears AA on cream and white.
+   Mouse users never see it; keyboard users always do. */
+:focus-visible {
+  outline: 2px solid var(--color-sage-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* fixed navbar is ~76px tall; without this, anchor jumps bury the
+   section heading underneath it */
+[id] { scroll-margin-top: 96px; }
+
+/* skip link — invisible until focused, then unmissable */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--color-sage);
+  color: var(--color-night-0);
+  font-weight: 600;
+  font-size: 14px;
+  transition: top 0.2s ease;
+}
+.skip-link:focus-visible { top: 12px; }
+
+/* ── CTA press feedback ───────────────────────────────────────
+   Buttons acknowledge the hand: a light lift on hover, a settle on
+   press. Motion as feedback, not decoration. */
+.press {
+  transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
+              background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease;
+  will-change: transform;
+}
+.press:hover  { transform: translateY(-1px); }
+.press:active { transform: translateY(0) scale(0.98); }
+@media (prefers-reduced-motion: reduce) {
+  .press, .press:hover, .press:active { transform: none; }
 }
 
 /* hairlines on dark */
@@ -78,6 +128,29 @@ body {
   mix-blend-mode: overlay;
 }
 
+/* On small touch devices the grain's mix-blend repaint is the most
+   expensive paint on the page, and at phone DPI the texture is barely
+   perceptible anyway. The dusk gradient carries the mood alone. */
+@media (max-width: 767px) and (pointer: coarse) {
+  .grain::after { display: none; }
+}
+
+/* scene entrance for the journey map's labels: driven by the scroll
+   timeline where supported, so the sequence plays as the section enters
+   the viewport. Where view() is unsupported it falls back to a plain
+   time-based entrance. Both end fully visible. */
+@keyframes scene-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.scene-in {
+  animation: scene-in 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: var(--scene-delay, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-in { animation: none; }
+}
+
 /* ── Route motion ─────────────────────────────────────────── */
 @keyframes route-draw {
   to { stroke-dashoffset: 0; }
@@ -98,6 +171,16 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(111, 180, 153, 0); }
 }
 .guardian-beat { animation: guardian-beat 2.2s ease-out infinite; }
+
+@keyframes guardian-beat-ember {
+  0%   { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.45); }
+  70%  { box-shadow: 0 0 0 11px rgba(249, 115, 22, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+}
+.guardian-ember { animation: guardian-beat-ember 2.2s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .guardian-ember { animation: none; }
+}
 
 @keyframes ring-pulse {
   0%   { opacity: 0.6; transform: scale(1); }
@@ -190,12 +273,122 @@ details[open]::details-content { height: auto; }
   details::details-content { transition: none; }
 }
 
+/* conversation bubbles on the journey map: night glass, one soft
+   corner tucked toward the speaker, gentle float. They belong to the
+   scene, not to a chat app. */
+.map-bubble {
+  display: block;
+  max-width: 190px;
+  padding: 8px 13px;
+  border-radius: 14px 14px 14px 4px;
+  border: 1px solid rgba(242, 238, 229, 0.22);
+  background: rgba(24, 36, 34, 0.96);
+  backdrop-filter: blur(6px);
+  color: #F2EEE5;
+  font-size: 12.5px;
+  line-height: 1.45;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  transition: opacity 0.45s ease;
+  animation: bubble-float 3.2s ease-in-out infinite;
+  white-space: nowrap;
+}
+@keyframes bubble-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+@media (max-width: 640px) {
+  .map-bubble { font-size: 11.5px; max-width: 160px; white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-bubble { animation: none; }
+}
+
+/* the meeting point: a soft ring breathing where someone waits */
+.meet-pulse {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: rgba(111, 180, 153, 0.25);
+  box-shadow: 0 0 0 2px rgba(111, 180, 153, 0.5);
+  transition: opacity 0.4s ease;
+  animation: guardian-beat 2.2s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .meet-pulse { animation: none; }
+}
+
+/* the trust chip that rides with the car: a badge, not a bubble */
+.map-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  /* Sage at 0.35 alpha is dimmer than the bubbles' cream hairline, so the
+     one badge that asserts verification read as the faintest thing on the
+     map. It now sits on a lighter sage-biased ground with a brighter edge
+     and a soft halo: distinctly a badge, not a whisper. */
+  border: 1px solid rgba(111, 180, 153, 0.62);
+  background: rgba(31, 48, 43, 0.97);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  box-shadow:
+    0 0 0 4px rgba(111, 180, 153, 0.09),
+    0 10px 30px rgba(0, 0, 0, 0.6);
+  transition: opacity 0.45s ease;
+}
+/* the claim carries the accent; the location note stays secondary */
+.map-chip-strong { color: #8FCBB1; }
+.map-chip-note   { color: #A9B5B0; font-weight: 500; }
+
+/* the speaker's colour inside their bubble, so voice and person
+   visibly belong to each other */
+.map-bubble-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 9999px;
+  vertical-align: 1px;
+}
+
+/* the instant of meeting: the waiting ring blooms once and lets go */
+@keyframes meet-bloom {
+  0%   { box-shadow: 0 0 0 2px rgba(111, 180, 153, 0.6); opacity: 1; transform: scale(1); }
+  100% { box-shadow: 0 0 0 14px rgba(111, 180, 153, 0); opacity: 0; transform: scale(1.9); }
+}
+.meet-pulse.meet-flash {
+  animation: meet-bloom 0.7s ease-out forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .meet-pulse.meet-flash { animation: none; opacity: 0; }
+}
+
+/* the footer egg: the sedan crosses the giant wordmark once and fades
+   at the kerb. Pure transform + opacity; runs only when summoned. */
+@keyframes egg-drive {
+  0%   { transform: translateX(-40px); opacity: 0; }
+  6%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { transform: translateX(min(92vw, 1100px)); opacity: 0; }
+}
+.egg-drive { animation: egg-drive 2.6s cubic-bezier(0.45, 0, 0.3, 1) forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .egg-drive { animation: none; opacity: 0; }
+}
+
 /* ── Section bridges ──────────────────────────────────────────
    Dark sections meeting cream ones used to cut hard. This sits at the
    bottom of the dark section and fades from fully transparent into
    cream, so the section's own gradient, grain and glow carry through
    and no seam can appear. */
 .bridge-to-cream {
+  /* starts hidden and is driven imperatively by the journey's scroll
+     handler. It must NOT be a React style prop: re-renders reset it. */
+  opacity: 0;
   position: absolute;
   inset-inline: 0;
   bottom: 0;
