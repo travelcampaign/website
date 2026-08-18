@@ -60,7 +60,7 @@ const PHASES = [
     // pays the driver) and repeated the ₹0 point. This adds what the
     // ledger cannot: that the zero is structural. We hold no wallet, so
     // there is no percentage anyone could quietly raise later.
-    sub: "The money never passes through us, so there is no cut to take.",
+    sub: "There is no wallet and no payout to wait for. You settle it between yourselves.",
     ember: false,
   },
 ];
@@ -606,9 +606,12 @@ export default function JourneyScroll() {
           </div>
 
           {/* phase copy */}
-          <div ref={copyRef} className="absolute inset-x-0 bottom-0 z-10">
-            <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-6 pb-16 sm:px-12 md:min-h-[184px] md:flex-row md:items-start md:justify-between">
-              <div key={phase} className="fade-up min-h-[168px] md:h-[184px]">
+          <div
+            ref={copyRef}
+            className="absolute inset-x-0 bottom-0 z-10 min-h-[424px] min-[390px]:min-h-[356px] md:min-h-0"
+          >
+            <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-6 pb-16 sm:px-12 md:min-h-[200px] md:flex-row md:items-start md:justify-between md:pb-12">
+              <div key={phase} className="fade-up md:h-[200px]">
                 <p
                   className={`font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.22em] ${
                     ph.ember ? "text-ember" : "text-sage"
@@ -643,7 +646,7 @@ export default function JourneyScroll() {
               <div className="flex items-end gap-8 md:self-end">
                 {/* min-h holds three lines so a two-line phase does not
                     shorten the column and shift the block. */}
-                <p key={`s-${phase}`} className="fade-up max-w-[34ch] text-right text-[15.5px] leading-[1.65] text-dusk-dim min-h-[102px] md:min-h-[77px]">
+                <p key={`s-${phase}`} className="fade-up max-w-[34ch] text-right text-[15.5px] leading-[1.65] text-dusk-dim md:min-h-[77px]">
                   {ph.sub}
                 </p>
                 <span
