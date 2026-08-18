@@ -229,8 +229,12 @@ body {
 
 /* ── Selection ─────────────────────────────────────────────── */
 ::selection {
-  background-color: rgba(111, 180, 153, 0.35);
-  color: var(--color-night-0);
+  /* Opaque on purpose. At 35% alpha the rectangles of two adjacent lines
+     overlapped and painted a visibly lighter band between them, and dark
+     text under a translucent wash read as muddy. A solid fill cannot
+     double-paint, and night-on-sage is a strong, legible pair. */
+  background-color: #6FB499;
+  color: #101918;
 }
 
 /* ── Membership card hover (cream section) ────────────────── */
