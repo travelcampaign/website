@@ -100,7 +100,7 @@ export default function Membership() {
               commission, <span className="text-sage-deep">ever.</span>
             </p>
             <p className="mt-3 max-w-[46ch] text-[15px] leading-[1.7] text-ink-soft">
-              Riders pay each other for fuel directly. Nexstopp never touches
+              Riders pay the driver directly for fuel. Nexstopp never touches
               that money and never takes a percentage. Membership is our only
               income.
             </p>
