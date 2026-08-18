@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     template: "%s | Nexstopp",
   },
   description:
-    "Share your daily commute with verified neighbours in Hyderabad. Split fuel costs directly, pay zero commission, and someone you trust watches over every ride.",
+    "Share your daily commute with verified commuters going your way in Hyderabad. Split fuel costs directly, pay zero commission, and let someone you trust follow the ride live.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",

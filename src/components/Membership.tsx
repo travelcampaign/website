@@ -33,10 +33,10 @@ export default function Membership() {
             </div>
             <ul className="mt-7 flex flex-col gap-3.5">
               {[
-                "Post your daily route or join someone else's",
-                "Get matched with verified riders going your way",
+                "3 rides a month",
+                "Host 1 route at a time",
+                "3 matches per search",
                 "Every safety feature: live GPS, guardians, SOS",
-                "Fair fuel-cost splitting",
               ].map((f) => (
                 <li key={f} className="flex items-start gap-3 text-[15px] leading-snug text-ink">
                   <Check className="mt-0.5 h-4 w-4 flex-none text-sage-deep" />
@@ -63,10 +63,10 @@ export default function Membership() {
             </div>
             <ul className="mt-7 flex flex-col gap-3.5">
               {[
-                "Everything in Community",
-                "More ride matches every day",
-                "Find rides from farther away",
-                "Priority support",
+                "8 rides a month instead of 3",
+                "8 matches per search instead of 3",
+                "Host 2 routes at once, and save 3",
+                "Filter by vehicle, gender preference and rating",
               ].map((f) => (
                 <li key={f} className="flex items-start gap-3 text-[15px] leading-snug text-ink">
                   <Check className="mt-0.5 h-4 w-4 flex-none text-sage-deep" />
@@ -83,8 +83,8 @@ export default function Membership() {
               Join the waitlist
             </a>
             <p className="mt-5 text-[13px] leading-relaxed text-ink-soft">
-              The maths: one shared 20&nbsp;km commute usually saves more than the
-              fee. If it doesn&apos;t pay for itself, stay on the free plan.
+              Everything about safety stays the same on both plans. Plus only
+              raises the limits above, so take it if you ride most days.
             </p>
           </div>
         </div>

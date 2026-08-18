@@ -54,7 +54,7 @@ const PHASES = [
     at: 0.82,
     eyebrow: "04 · The value",
     title: "We take",
-    accent: "nothing.",
+    accent: "no commission.",
     // The ledger beside this already states the flow and the zero. Saying
     // "riders pay each other" here contradicted it (the ledger says rider
     // pays the driver) and repeated the ₹0 point. This adds what the

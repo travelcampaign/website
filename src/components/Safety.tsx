@@ -46,7 +46,7 @@ export default function Safety() {
                 <strong className="font-semibold">Every protection here is free, for every rider.</strong>
               </p>
               <p className="mt-2 max-w-[42ch] text-[15.5px] leading-[1.65] text-dusk-dim">
-                None of this costs money, because keeping people safe is the reason Nexstopp exists.
+                Safety is the reason Nexstopp exists, so it never moves behind a plan.
               </p>
 
               {/* guardian motif — framed, not floating */}

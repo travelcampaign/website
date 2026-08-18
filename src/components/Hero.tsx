@@ -31,9 +31,9 @@ export default function Hero() {
           className="hero-enter mt-7 max-w-[47ch] text-lg leading-[1.65] text-dusk-dim"
           style={{ "--enter-delay": "280ms" } as React.CSSProperties}
         >
-          Share your daily commute with verified neighbours. Split the fuel
-          cost, pay no commission, and someone you trust watches every
-          kilometre until you say you&apos;re home.
+          Share your daily commute with verified commuters going your way.
+          Split the fuel cost, pay no commission, and let someone you trust
+          follow the ride live until half an hour after you arrive.
         </p>
 
         {/* CTAs */}

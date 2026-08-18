@@ -20,7 +20,7 @@ const LAYERS = [
   },
   {
     title: "Guardians you choose",
-    body: "Pick the people who watch over you: a parent, a partner, a close friend. During a ride they can open your live location and follow the car on the map, like they are sitting beside you.",
+    body: "Pick the people who watch over you: a parent, a partner, a close friend. During a ride they can open your live location and follow the car on the map for the whole trip.",
   },
   {
     title: "Check-ins when something looks off",
@@ -92,10 +92,6 @@ export default function SafetyPage() {
               <h2 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-dusk-text">
                 What we don&apos;t promise
               </h2>
-              <p className="mt-3 max-w-[58ch] text-[15px] leading-[1.7] text-dusk-dim">
-                A safety page you can trust has to say what the product does
-                not do, in the same voice it uses for what it does.
-              </p>
               <ul className="mt-6 flex flex-col gap-4">
                 {LIMITS.map((l) => (
                   <li
