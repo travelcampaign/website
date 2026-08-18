@@ -29,7 +29,7 @@ export default function Membership() {
             </p>
             <div className="mt-4 flex items-baseline gap-2">
               <span className="font-[family-name:var(--font-display)] text-[52px] font-normal leading-none text-ink">₹0</span>
-              <span className="text-[15px] text-ink-soft">forever</span>
+              <span className="text-[15px] text-ink-soft">/ month</span>
             </div>
             <ul className="mt-7 flex flex-col gap-3.5">
               {[
@@ -97,7 +97,7 @@ export default function Membership() {
           </p>
           <div>
             <p className="font-[family-name:var(--font-display)] text-[24px] leading-snug text-ink">
-              commission, <span className="text-sage-deep">ever.</span>
+              commission <span className="text-sage-deep">on rides.</span>
             </p>
             <p className="mt-3 max-w-[46ch] text-[15px] leading-[1.7] text-ink-soft">
               Riders pay the driver directly for fuel. Nexstopp never touches
