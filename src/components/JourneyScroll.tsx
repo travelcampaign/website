@@ -28,7 +28,7 @@ const ROUTE = {
 const PHASES = [
   {
     at: 0,
-    eyebrow: "The start",
+    eyebrow: "01 · The route",
     title: "Post your",
     accent: "route.",
     sub: "Where you start from, where you're going, and when you leave. Post it once, or for every weekday.",
@@ -36,26 +36,31 @@ const PHASES = [
   },
   {
     at: 0.26,
-    eyebrow: "The match",
-    title: "Matched along",
-    accent: "the way.",
-    sub: "Verified commuters already driving your way. Pickup points sit on the route the driver was taking anyway, so nobody drives extra.",
+    eyebrow: "02 · The match",
+    title: "Find your",
+    accent: "people.",
+    sub: "Two commuters are already heading the same way. Their pickup points sit on the route the driver was taking anyway, so nobody drives extra.",
     ember: false,
   },
   {
     at: 0.55,
-    eyebrow: "The watch",
-    title: "Watched the",
-    accent: "whole way.",
-    sub: "The people you trust can watch your ride live, and the app checks on you the moment anything goes quiet.",
+    eyebrow: "03 · The watch",
+    title: "Know your",
+    accent: "ride.",
+    sub: "You see who is driving before you confirm. While you ride, the people you trust follow the car live, and the app checks on you if anything goes quiet.",
     ember: true,
   },
   {
     at: 0.82,
-    eyebrow: "Zero commission",
+    eyebrow: "04 · The value",
     title: "₹0 cut.",
     accent: "Always.",
-    sub: "Riders pay each other for fuel directly, and none of it ever comes to Nexstopp.",
+    // The ledger beside this already states the flow and the zero. Saying
+    // "riders pay each other" here contradicted it (the ledger says rider
+    // pays the driver) and repeated the ₹0 point. This adds what the
+    // ledger cannot: that the zero is structural. We hold no wallet, so
+    // there is no percentage anyone could quietly raise later.
+    sub: "The money never passes through us, so there is no cut to take.",
     ember: false,
   },
 ];
@@ -66,16 +71,52 @@ export default function JourneyScroll() {
   const [phase, setPhase] = useState(0);
   const [started, setStarted] = useState(false);
   const progressRef = useRef(0);
+  const bridgeRef = useRef<HTMLDivElement>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
+
+  /* The dusk-to-dawn handoff. Kept in a ref so both the scroll listener and
+     the after-render effect below drive the exact same maths: a phase change
+     re-renders mid-scroll, and without the second caller the gradient snapped
+     back to its mounted state part-way through the transition. */
+  const paintHandoff = useRef<() => void>(() => {});
+  paintHandoff.current = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    const total = track.offsetHeight - window.innerHeight;
+    const p =
+      total > 0
+        ? Math.min(1, Math.max(0, -track.getBoundingClientRect().top / total))
+        : 0;
+    progressRef.current = p;
+    // the night map dissolves into the cream world at the very end of
+    // the story, so the section change reads as dawn, not a cut
+    if (bridgeRef.current) {
+      bridgeRef.current.style.opacity = String(
+        Math.min(1, Math.max(0, (p - 0.9) / 0.09))
+      );
+    }
+    // The copy leaves first, finishing just as the bridge reaches half
+    // strength. Otherwise the ledger sits half-swallowed by the gradient
+    // for anyone who stops scrolling mid-transition.
+    if (copyRef.current) {
+      copyRef.current.style.opacity = String(
+        1 - Math.min(1, Math.max(0, (p - 0.88) / 0.06))
+      );
+    }
+  };
+
+  // no dependency array on purpose: re-assert the handoff after every render
+  useEffect(() => {
+    paintHandoff.current();
+  });
 
   /* scroll → progress + phase */
   useEffect(() => {
     const onScroll = () => {
       const track = trackRef.current;
       if (!track) return;
-      const rect = track.getBoundingClientRect();
-      const total = track.offsetHeight - window.innerHeight;
-      const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
-      progressRef.current = p;
+      paintHandoff.current();
+      const p = progressRef.current;
       if (p > 0.02 && !started) setStarted(true);
       let idx = 0;
       for (let i = 0; i < PHASES.length; i++) if (p >= PHASES[i].at) idx = i;
@@ -200,17 +241,32 @@ export default function JourneyScroll() {
             `<svg viewBox="0 0 24 24" width="13" height="13" fill="${tint}" aria-hidden="true">` +
             `<circle cx="12" cy="7.2" r="3.4"/>` +
             `<path d="M5.5 20.5c0-3.7 2.9-6.3 6.5-6.3s6.5 2.6 6.5 6.3z"/></svg>`;
-          const riderEls = FEEDER_TRACKS.map((_, i) => {
+          const personDisc = (tint: string, ring: string, size = 24) => {
             const el = document.createElement("span");
             el.style.cssText =
               "display:flex;align-items:center;justify-content:center;" +
-              "width:24px;height:24px;border-radius:9999px;" +
+              `width:${size}px;height:${size}px;border-radius:9999px;` +
               "background:rgba(16,25,24,0.92);" +
-              `box-shadow:0 0 0 2px ${i === 0 ? "rgba(111,180,153,0.55)" : "rgba(242,238,229,0.45)"}, 0 3px 10px rgba(0,0,0,0.5);` +
+              `box-shadow:0 0 0 2px ${ring}, 0 3px 10px rgba(0,0,0,0.5);` +
               "opacity:0;transition:opacity 0.4s ease;";
-            el.innerHTML = personSvg(i === 0 ? "#6FB499" : "#F2EEE5");
+            el.innerHTML = personSvg(tint);
             return el;
-          });
+          };
+          // the cast: sage is the driver's colour; the riders wear cream
+          // and mist so three different people read at a glance
+          const riderEls = [
+            personDisc("#F2EEE5", "rgba(242,238,229,0.5)"),
+            personDisc("#C4CDC8", "rgba(196,205,200,0.45)"),
+          ];
+
+          // the driver is a person before they are a car. They stand at
+          // the origin until the match is made, then take the wheel: the
+          // car fades in exactly where and when this figure fades out.
+          const driverEl = personDisc("#6FB499", "rgba(111,180,153,0.6)");
+          const driverMarker = new ml.Marker({ element: driverEl })
+            .setLngLat(ROUTE.coords[0])
+            .addTo(map);
+          void driverMarker;
           const riders = riderEls.map((el, i) =>
             new ml.Marker({ element: el })
               .setLngLat(FEEDER_TRACKS[i].track.coords[0])
@@ -237,25 +293,29 @@ export default function JourneyScroll() {
           // human, Hyderabad-plain. Each bubble follows its speaker.
           type Beat = {
             from: number; to: number;
-            speaker: "a" | "b" | "car" | "meet0" | "meet1";
-            text: string; dy: number;
+            speaker: "a" | "b" | "d" | "car" | "meet0" | "meet1";
+            text: string; dy: number; tint: string;
           };
+          // Windows are wide on purpose: the earlier cut timed each line
+          // to a sliver of scroll, and at natural thumb speed the whole
+          // conversation blinked past unseen. A story you can miss by
+          // scrolling normally is not being told.
           const BEATS: Beat[] = [
-            { from: 0.11, to: 0.17, speaker: "a", text: "Madhapur side?", dy: -30 },
-            { from: 0.175, to: 0.235, speaker: "b", text: "Haan. Leaving at 8:30.", dy: -30 },
-            { from: 0.24, to: 0.30, speaker: "a", text: "Same route. See you at the pickup.", dy: -30 },
-            { from: 0.40, to: 0.475, speaker: "meet0", text: "Ready?", dy: -26 },
-            { from: 0.58, to: 0.66, speaker: "car", text: "Thanks for sharing the ride.", dy: -34 },
+            { from: 0.09, to: 0.195, speaker: "a", text: "Madhapur side?", dy: -30, tint: "#F2EEE5" },
+            { from: 0.205, to: 0.31, speaker: "d", text: "Haan. Leaving at 8:30.", dy: -30, tint: "#6FB499" },
+            { from: 0.32, to: 0.42, speaker: "a", text: "Same route. Same ride.", dy: -30, tint: "#F2EEE5" },
+            { from: 0.44, to: 0.52, speaker: "meet0", text: "Ready?", dy: -26, tint: "#F2EEE5" },
+            { from: 0.73, to: 0.84, speaker: "car", text: "Thanks for sharing the ride.", dy: -34, tint: "#F2EEE5" },
           ];
-          // MapLibre positions the marker element itself via an inline
-          // transform, and a CSS animation on transform OVERRIDES inline
-          // styles, so the float must live on an inner child or every
-          // bubble snaps to the pane origin. Learned the hard way.
           const beatEls = BEATS.map((b) => {
             const el = document.createElement("span");
             el.className = "map-bubble";
-            el.textContent = b.text;
             el.style.opacity = "0";
+            const dot = document.createElement("span");
+            dot.className = "map-bubble-dot";
+            dot.style.background = b.tint;
+            el.appendChild(dot);
+            el.appendChild(document.createTextNode(b.text));
             return el;
           });
           const beatMarkers = beatEls.map((el, i) => {
@@ -281,6 +341,54 @@ export default function JourneyScroll() {
           });
           let netShown = false;
 
+          // the match made visible: when the conversation lands, the
+          // stretch of road they will share glows faintly ahead of any
+          // driving. The solid route then draws over it.
+          map.addSource("match-preview", {
+            type: "geojson",
+            data: {
+              type: "Feature", properties: {},
+              geometry: { type: "LineString", coordinates: MAIN_TRACK.coords.slice(36) },
+            },
+          });
+          map.addLayer({
+            id: "match-preview", type: "line", source: "match-preview",
+            layout: { "line-cap": "round", "line-join": "round" },
+            paint: { "line-color": "#6FB499", "line-width": 3, "line-opacity": 0, "line-dasharray": [0.1, 2] },
+          });
+          let lastPreviewOp = -1;
+
+          // the network is people, not just lines: a small figure at each
+          // end of every other shared journey
+          // MapLibre manages the marker element's own opacity, so the
+          // visible disc lives one level down where only we touch it
+          const netPeopleEls: HTMLElement[] = [];
+          NETWORK_ROUTES.forEach((coords) => {
+            [coords[0], coords[coords.length - 1]].forEach((pt) => {
+              const el = personDisc("#C4CDC8", "rgba(196,205,200,0.4)", 18);
+              const holder = document.createElement("div");
+              holder.appendChild(el);
+              netPeopleEls.push(el);
+              new ml.Marker({ element: holder }).setLngLat(pt as [number, number]).addTo(map);
+            });
+          });
+
+          // trust chip over the car during the watch phase: identity is
+          // the mechanism, so it appears where the ride actually is
+          const chipEl = document.createElement("span");
+          chipEl.className = "map-chip";
+          chipEl.style.opacity = "0";
+          chipEl.innerHTML =
+            '<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#6FB499" stroke-width="2.4" aria-hidden="true">' +
+            '<path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>' +
+            '<span class="map-chip-strong">Verified driver</span>' +
+            '<span class="map-chip-note">live on the map</span>';
+          const chipHolder = document.createElement("div");
+          chipHolder.appendChild(chipEl);
+          const chipMarker = new ml.Marker({ element: chipHolder, anchor: "bottom", offset: [0, -34] })
+            .setLngLat(ROUTE.coords[0])
+            .addTo(map);
+
           const carEl = document.createElement("img");
           carEl.src = "/car-marker.png";
           carEl.alt = "";
@@ -300,6 +408,7 @@ export default function JourneyScroll() {
           let shownBearing = trackBearingAt(MAIN_TRACK, 0);
           let lastWalkT = -1;
           const lastFeederOpacity = FEEDER_TRACKS.map(() => -1);
+          const wasBoarded = FEEDER_TRACKS.map(() => false);
           const tick = () => {
             // the car may not move until the people have met their route:
             // journeys exist first, the shared drive is the consequence
@@ -311,9 +420,24 @@ export default function JourneyScroll() {
               geometry: { type: "LineString", coordinates: trackSliceTo(MAIN_TRACK, carP) },
             });
             car.setLngLat(trackPointAt(MAIN_TRACK, carP));
-            // no taxi waiting at the kerb: the car exists only once the
-            // riders are on their way to the route
+            // the handoff: the driver stands at the origin as a person and
+            // becomes the car in place. Same spot, same moment, so the car
+            // reads as this person's car and never as a taxi arriving.
             carEl.style.opacity = progressRef.current > 0.3 ? "1" : "0";
+            driverEl.style.opacity =
+              progressRef.current > 0.05 && progressRef.current <= 0.3 ? "1" : "0";
+
+            // the discovered overlap glows before anyone drives, and hands
+            // over to the solid route once the wheels are moving
+            {
+              const inRamp = Math.min(1, Math.max(0, (progressRef.current - 0.15) / 0.05));
+              const outRamp = Math.min(1, Math.max(0, (progressRef.current - 0.32) / 0.08));
+              const op = 0.45 * inRamp * (1 - outRamp);
+              if (Math.abs(op - lastPreviewOp) > 0.02) {
+                map.setPaintProperty("match-preview", "line-opacity", op);
+                lastPreviewOp = op;
+              }
+            }
             // face the direction of travel, both ways. Without the flip a
             // backward scroll made the car reverse down the corridor.
             const forward = target >= carP - 0.0005;
@@ -351,6 +475,21 @@ export default function JourneyScroll() {
             });
             lastWalkT = walkT;
 
+            // the trust chip rides with the car through the watch phase,
+            // stepping aside while the thanks bubble has the floor
+            {
+              // Phase 3 ("Know your ride") runs 0.55 to 0.82. The chip used
+              // to fire at 0.52-0.56, so the trust badge appeared during the
+              // MATCH beat and was mid-fade the whole time. It now sits
+              // squarely inside the watch phase, and holds long enough to
+              // be read rather than glimpsed.
+              const chipOn = p > 0.575 && p < 0.70;
+              chipEl.style.opacity = chipOn ? "1" : "0";
+              // tracked every frame, so scrolling back never fades it in at
+              // a stale position
+              chipMarker.setLngLat(car.getLngLat());
+            }
+
             // conversation beats follow their speakers
             BEATS.forEach((b, i) => {
               const on = p >= b.from && p <= b.to;
@@ -359,6 +498,7 @@ export default function JourneyScroll() {
               const pos =
                 b.speaker === "a" ? riders[0].getLngLat()
                 : b.speaker === "b" ? riders[1].getLngLat()
+                : b.speaker === "d" ? driverMarker.getLngLat()
                 : b.speaker === "car" ? car.getLngLat()
                 : meets[b.speaker === "meet0" ? 0 : 1].getLngLat();
               beatMarkers[i].setLngLat(pos);
@@ -370,11 +510,13 @@ export default function JourneyScroll() {
               NETWORK_ROUTES.forEach((_, i) =>
                 map.setPaintProperty(`net${i}`, "line-opacity", 0.35)
               );
+              netPeopleEls.forEach((el) => (el.style.opacity = "1"));
             } else if (p <= 0.78 && netShown) {
               netShown = false;
               NETWORK_ROUTES.forEach((_, i) =>
                 map.setPaintProperty(`net${i}`, "line-opacity", 0)
               );
+              netPeopleEls.forEach((el) => (el.style.opacity = "0"));
             }
             raf = requestAnimationFrame(tick);
           };
@@ -464,9 +606,9 @@ export default function JourneyScroll() {
           </div>
 
           {/* phase copy */}
-          <div className="absolute inset-x-0 bottom-0 z-10">
-            <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-6 pb-16 sm:px-12 md:flex-row md:items-end md:justify-between">
-              <div key={phase} className="fade-up">
+          <div ref={copyRef} className="absolute inset-x-0 bottom-0 z-10">
+            <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-6 pb-16 sm:px-12 md:min-h-[184px] md:flex-row md:items-start md:justify-between">
+              <div key={phase} className="fade-up min-h-[168px] md:h-[184px]">
                 <p
                   className={`font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.22em] ${
                     ph.ember ? "text-ember" : "text-sage"
@@ -478,9 +620,30 @@ export default function JourneyScroll() {
                   {ph.title}{" "}
                   <em className={`italic ${ph.ember ? "text-ember" : "text-sage"}`}>{ph.accent}</em>
                 </h3>
+                {/* the money flow, stated as a ledger. No example amounts:
+                    an invented ₹120 would be the first fake number on the
+                    page, and the zero is the entire point anyway. */}
+                {phase === 3 && (
+                  <dl className="mt-5 flex flex-col gap-1.5 font-[family-name:var(--font-mono)] text-[12.5px] tracking-[0.02em]">
+                    <div className="flex items-baseline gap-3">
+                      <dt className="text-dusk-mute">Rider pays the fuel share</dt>
+                      <dd className="text-dusk-text">→ driver</dd>
+                    </div>
+                    <div className="flex items-baseline gap-3">
+                      <dt className="text-dusk-mute">Driver receives</dt>
+                      <dd className="text-dusk-text">all of it</dd>
+                    </div>
+                    <div className="flex items-baseline gap-3">
+                      <dt className="text-dusk-mute">Nexstopp keeps</dt>
+                      <dd className="font-semibold text-sage">₹0</dd>
+                    </div>
+                  </dl>
+                )}
               </div>
-              <div className="flex items-end gap-8">
-                <p key={`s-${phase}`} className="fade-up max-w-[34ch] text-right text-[15.5px] leading-[1.65] text-dusk-dim md:pb-2">
+              <div className="flex items-end gap-8 md:self-end">
+                {/* min-h holds three lines so a two-line phase does not
+                    shorten the column and shift the block. */}
+                <p key={`s-${phase}`} className="fade-up max-w-[34ch] text-right text-[15.5px] leading-[1.65] text-dusk-dim min-h-[102px] md:min-h-[77px]">
                   {ph.sub}
                 </p>
                 <span
@@ -506,6 +669,15 @@ export default function JourneyScroll() {
               <path d="M6 9l6 6 6-6" />
             </svg>
           </div>
+
+          {/* the handover to the light world: the night dissolves toward
+              cream in the last tenth of the story, so the next section
+              arrives like morning rather than a hard cut */}
+          <div
+            ref={bridgeRef}
+            className="bridge-to-cream"
+            aria-hidden="true"
+          />
         </div>
       </div>
     </section>

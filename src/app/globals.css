@@ -24,7 +24,13 @@
 
   /* accents */
   --color-sage:       #6FB499;
-  --color-sage-deep:  #568F7A;
+  /* Darkened from #568F7A after a Lighthouse contrast audit. The old
+     value measured 3.32:1 for small text on cream and 3.75:1 for white
+     text on it, so every mono eyebrow and every filled sage button was
+     failing AA. This clears 4.5:1 in all three directions (4.67 on cream,
+     5.26 on white, 5.26 for white on it) and reads as the same colour,
+     just more authoritative. */
+  --color-sage-deep:  #467564;
   --color-ember:      #F97316;   /* guardian / safety moments ONLY */
 
   /* legacy aliases still referenced by the admin panel + legal shell */
@@ -52,7 +58,7 @@ body {
 }
 
 /* ── Keyboard focus ───────────────────────────────────────────
-   sage-deep reads on both grounds: ~4:1 on night, strong on cream.
+   sage-deep reads on both grounds and clears AA on cream and white.
    Mouse users never see it; keyboard users always do. */
 :focus-visible {
   outline: 2px solid var(--color-sage-deep);
@@ -312,6 +318,55 @@ details[open]::details-content { height: auto; }
   .meet-pulse { animation: none; }
 }
 
+/* the trust chip that rides with the car: a badge, not a bubble */
+.map-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  /* Sage at 0.35 alpha is dimmer than the bubbles' cream hairline, so the
+     one badge that asserts verification read as the faintest thing on the
+     map. It now sits on a lighter sage-biased ground with a brighter edge
+     and a soft halo: distinctly a badge, not a whisper. */
+  border: 1px solid rgba(111, 180, 153, 0.62);
+  background: rgba(31, 48, 43, 0.97);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  box-shadow:
+    0 0 0 4px rgba(111, 180, 153, 0.09),
+    0 10px 30px rgba(0, 0, 0, 0.6);
+  transition: opacity 0.45s ease;
+}
+/* the claim carries the accent; the location note stays secondary */
+.map-chip-strong { color: #8FCBB1; }
+.map-chip-note   { color: #A9B5B0; font-weight: 500; }
+
+/* the speaker's colour inside their bubble, so voice and person
+   visibly belong to each other */
+.map-bubble-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 9999px;
+  vertical-align: 1px;
+}
+
+/* the instant of meeting: the waiting ring blooms once and lets go */
+@keyframes meet-bloom {
+  0%   { box-shadow: 0 0 0 2px rgba(111, 180, 153, 0.6); opacity: 1; transform: scale(1); }
+  100% { box-shadow: 0 0 0 14px rgba(111, 180, 153, 0); opacity: 0; transform: scale(1.9); }
+}
+.meet-pulse.meet-flash {
+  animation: meet-bloom 0.7s ease-out forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .meet-pulse.meet-flash { animation: none; opacity: 0; }
+}
+
 /* the footer egg: the sedan crosses the giant wordmark once and fades
    at the kerb. Pure transform + opacity; runs only when summoned. */
 @keyframes egg-drive {
@@ -331,6 +386,9 @@ details[open]::details-content { height: auto; }
    cream, so the section's own gradient, grain and glow carry through
    and no seam can appear. */
 .bridge-to-cream {
+  /* starts hidden and is driven imperatively by the journey's scroll
+     handler. It must NOT be a React style prop: re-renders reset it. */
+  opacity: 0;
   position: absolute;
   inset-inline: 0;
   bottom: 0;
