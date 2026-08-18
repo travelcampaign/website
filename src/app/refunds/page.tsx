@@ -79,7 +79,7 @@ export default function RefundsPage() {
       intro={
         <p>
           The short version: membership is the only thing we bill, you can
-          cancel it anytime, and a wrong charge gets refunded in full. The
+          cancel it at any time, and a wrong charge gets refunded in full. The
           detail is below.
         </p>
       }

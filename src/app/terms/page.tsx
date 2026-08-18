@@ -75,7 +75,7 @@ const sections: LegalSection[] = [
           optional membership plan that adds convenience features.
         </li>
         <li>
-          Membership is billed for the plan you choose. You can cancel anytime;
+          Membership is billed for the plan you choose. You can cancel at any time;
           cancellation stops future renewals.
         </li>
         <li>

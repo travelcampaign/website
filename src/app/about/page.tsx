@@ -30,7 +30,7 @@ const STANCES = [
   },
   {
     title: "Your data is not the business",
-    body: "Location is shared only during a ride, only with your co-riders and the people you chose. We do not sell data. The business has to survive on membership alone, and that is deliberate: it keeps us needing your trust more than your data.",
+    body: "Location is shared only during a ride, only with your co-riders and the people you chose. We do not sell data. The business has to survive on membership alone, and that is deliberate: it means we depend on your trust, not your data.",
     tone: "tinted" as const,
   },
   {

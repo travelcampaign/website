@@ -5,15 +5,15 @@
 export const QA: { q: string; a: string }[] = [
   {
     q: "How do I know who I'm riding with?",
-    a: "Everyone on Nexstopp signs up with a verified phone number, and the Verified badge appears only after we review their identity documents. You are only matched with commuters whose route genuinely overlaps yours. Drivers see who is asking to join, riders see who is driving, and nobody is confirmed until both say yes.",
+    a: "Everyone on Nexstopp signs up with a verified phone number, and the Verified badge appears only after we review their identity documents. You are matched only with commuters whose route genuinely overlaps yours. Drivers see who is asking to join, riders see who is driving, and nobody is confirmed until both say yes.",
   },
   {
     q: "Who watches over my ride?",
-    a: "Your own people do. Amma, your partner, your best friend, whoever you choose. While you ride, they can open your live location like they're sitting beside you. If you press SOS, or you go quiet and miss a check-in, they instantly get your exact location and ride details, and the app helps you call 112. We never claim to call the police for you. What we do is make sure the people who love you find out immediately.",
+    a: "Your own people do. Amma, your partner, your best friend, whoever you choose. They can follow your live location for the whole ride. Press SOS, or go quiet and miss a check-in, and they get your location and ride details straight away, with 112 one tap from the same screen. We do not call the police for you. We make sure the people who love you know first.",
   },
   {
     q: "Why zero commission? What's the catch?",
-    a: "There isn't one. Riders pay the driver directly for their share of the fuel, and Nexstopp never touches that money, so there is nothing to take a cut of. Our only income will be the optional membership plan, and safety is never something you pay for.",
+    a: "There isn't one. Riders pay the driver directly for their share of the fuel, and Nexstopp never touches that money, so there is nothing to take a cut of. Our only income is the optional membership plan, and safety is never something you pay for.",
   },
   {
     q: "Is my location data shared or sold?",

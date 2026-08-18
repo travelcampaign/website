@@ -12,7 +12,7 @@ const RIDING = [
 
 const DRIVING = [
   "Post your route once, or for every weekday",
-  "Approve who joins. Every rider is verified, and no is always allowed",
+  "Approve who joins. Every rider is verified, and saying no is always allowed",
   "Pickups sit on the route you were taking anyway",
   "Your empty seats cover your fuel, and Nexstopp takes none of it",
 ];
@@ -27,7 +27,7 @@ export default function TwoSides() {
             <span className="text-sage-deep">one person.</span>
           </h2>
           <p className="mt-6 text-[16.5px] leading-[1.7] text-ink-soft">
-            Nexstopp is peer to peer: riders and drivers deal with each
+            Nexstopp is peer-to-peer: riders and drivers deal with each
             other directly, and the same ride solves two problems at once.
             Whichever seat you&apos;re in, here is what it looks like.
           </p>
