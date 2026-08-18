@@ -632,15 +632,42 @@ export default function JourneyScroll() {
             </span>
           </div>
 
-          {/* progress dots */}
-          <div className="absolute right-6 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-3 sm:right-10">
-            {PHASES.map((p, i) => (
-              <span
-                key={p.eyebrow}
-                className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
-                  i === phase ? "scale-150 bg-sage" : "bg-[rgba(242,238,229,0.25)]"
-                }`}
-              />
+          {/* progress dots. They look like a read-out and are also a
+              control: press one to travel to that phase. Nothing says so,
+              which is the point. */}
+          <div className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1 sm:right-8">
+            {PHASES.map((ph, i) => (
+              <button
+                key={ph.eyebrow}
+                type="button"
+                aria-label={`Go to ${ph.eyebrow}`}
+                onClick={() => {
+                  const track = trackRef.current;
+                  if (!track) return;
+                  const total = track.offsetHeight - window.innerHeight;
+                  // land just inside the phase so its beats have room to play
+                  const target =
+                    track.getBoundingClientRect().top +
+                    window.scrollY +
+                    total * Math.min(0.98, PHASES[i].at + 0.04);
+                  window.scrollTo({
+                    top: target,
+                    behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+                      .matches
+                      ? "auto"
+                      : "smooth",
+                  });
+                }}
+                className="group flex h-6 w-6 cursor-pointer items-center justify-center"
+              >
+                <span
+                  className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                    i === phase
+                      ? "scale-150 bg-sage"
+                      : "bg-[rgba(242,238,229,0.25)] group-hover:bg-[rgba(242,238,229,0.6)]"
+                  }`}
+                />
+              </button>
             ))}
           </div>
 

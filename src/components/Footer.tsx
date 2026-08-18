@@ -3,6 +3,7 @@
    per honest-or-hidden — they return when the destinations exist. */
 
 import FooterEgg from "./FooterEgg";
+import HyderabadStamp from "./HyderabadStamp";
 
 const COLUMNS = [
   {
@@ -73,9 +74,7 @@ export default function Footer() {
         <FooterEgg />
 
         <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-[rgba(242,238,229,0.08)] pt-8">
-          <p className="text-[13px] text-dusk-mute">
-            © 2026 Nexstopp. Built in Hyderabad.
-          </p>
+          <HyderabadStamp />
           <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-dusk-mute">
             The city goes home together
           </p>
