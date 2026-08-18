@@ -14,7 +14,7 @@ const DRIVING = [
   "Post your route once, or for every weekday",
   "Approve who joins. Every rider is verified, and saying no is always allowed",
   "Pickups sit on the route you were taking anyway",
-  "Your empty seats cover your fuel, and Nexstopp takes none of it",
+  "Your empty seats recover part of your fuel cost, and Nexstopp takes none of it",
 ];
 
 export default function TwoSides() {
