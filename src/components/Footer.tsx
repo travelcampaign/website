@@ -57,7 +57,7 @@ export default function Footer() {
                     <li key={l.label}>
                       <a
                         href={l.href}
-                        className="break-all text-[14px] text-dusk-dim transition-colors hover:text-dusk-text"
+                        className="break-words text-[14px] text-dusk-dim transition-colors hover:text-dusk-text"
                       >
                         {l.label}
                       </a>
