@@ -76,8 +76,7 @@ export default function Pact() {
               Four promises we are built on.
             </h2>
             <p className="mt-6 max-w-[36ch] text-[15.5px] leading-[1.7] text-dusk-dim">
-              Shaped by 268 commuters who told us what shared travel in India
-              should feel like, and written down so you can hold us to it.
+              Written down, in plain words, so you can hold us to them.
             </p>
             <p className="mt-8 font-[family-name:var(--font-display)] text-[22px] italic text-sage">
               Nexstopp

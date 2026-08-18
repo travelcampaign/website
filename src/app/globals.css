@@ -228,6 +228,26 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--color-sage-deep); border-radius: 2px; }
 
 /* ── Selection ─────────────────────────────────────────────── */
+/* ── Text selection ────────────────────────────────────────────
+   Selection is off across the marketing pages: dragging over the
+   pinned journey selected type mid-animation and looked broken.
+   It stays ON for legal copy, because people genuinely need to
+   copy clauses out of Terms and Privacy, and for form fields,
+   where losing selection would break editing outright. */
+body {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+.legal-copy,
+.legal-copy *,
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 ::selection {
   /* Opaque on purpose. At 35% alpha the rectangles of two adjacent lines
      overlapped and painted a visibly lighter band between them, and dark

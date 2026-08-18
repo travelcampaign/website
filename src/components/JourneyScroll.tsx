@@ -177,7 +177,10 @@ export default function JourneyScroll() {
                 [Math.min(...lngs), Math.min(...lats)],
                 [Math.max(...lngs), Math.max(...lats)],
               ],
-              { padding: { top: 170, bottom: 300, left: 90, right: 90 } }
+              // bottom padding reserves the copy band. The route and the
+              // rider markers compose above it instead of running through
+              // the headline, which no amount of scrim fully hides.
+              { padding: { top: 150, bottom: 400, left: 90, right: 90 } }
             );
             if (cam) map.jumpTo(cam);
           };
@@ -508,9 +511,19 @@ export default function JourneyScroll() {
             if (p > 0.8 && !netShown) {
               netShown = true;
               NETWORK_ROUTES.forEach((_, i) =>
-                map.setPaintProperty(`net${i}`, "line-opacity", 0.35)
+                map.setPaintProperty(`net${i}`, "line-opacity", 0.22)
               );
-              netPeopleEls.forEach((el) => (el.style.opacity = "1"));
+              // Any rider that lands in the copy band stays hidden. The
+              // scrim darkens the map but a marker is a solid shape, and
+              // one sitting behind the headline reads as a defect rather
+              // than as part of the city.
+              const copyTop = copyRef.current
+                ? copyRef.current.getBoundingClientRect().top
+                : Infinity;
+              netPeopleEls.forEach((el) => {
+                const r = el.getBoundingClientRect();
+                el.style.opacity = r.bottom > copyTop ? "0" : "1";
+              });
             } else if (p <= 0.78 && netShown) {
               netShown = false;
               NETWORK_ROUTES.forEach((_, i) =>
@@ -562,7 +575,7 @@ export default function JourneyScroll() {
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(16,25,24,0.85) 0%, rgba(16,25,24,0) 26%), linear-gradient(0deg, rgba(16,25,24,0.92) 0%, rgba(16,25,24,0) 44%)",
+                "linear-gradient(180deg, rgba(16,25,24,0.85) 0%, rgba(16,25,24,0) 26%), linear-gradient(0deg, rgba(16,25,24,0.96) 0%, rgba(16,25,24,0.90) 24%, rgba(16,25,24,0.58) 42%, rgba(16,25,24,0) 60%)",
             }}
           />
 

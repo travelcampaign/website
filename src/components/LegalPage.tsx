@@ -51,7 +51,7 @@ export default function LegalPage({
         {/* Body */}
         <div style={{ background: "#F5F1E8" }}>
           <div
-            className="mx-auto max-w-3xl px-6 py-14"
+            className="legal-copy mx-auto max-w-3xl px-6 py-14"
             style={{ fontFamily: "var(--font-dm-sans)", color: "#3D4F4F" }}
           >
             <div className="text-[15px] leading-relaxed space-y-4">{intro}</div>
