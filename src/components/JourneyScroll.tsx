@@ -53,8 +53,8 @@ const PHASES = [
   {
     at: 0.82,
     eyebrow: "04 · The value",
-    title: "₹0 cut.",
-    accent: "Always.",
+    title: "We take",
+    accent: "nothing.",
     // The ledger beside this already states the flow and the zero. Saying
     // "riders pay each other" here contradicted it (the ledger says rider
     // pays the driver) and repeated the ₹0 point. This adds what the
@@ -343,6 +343,35 @@ export default function JourneyScroll() {
             });
           });
           let netShown = false;
+          // Scrubbing backwards drives the car in reverse. Most beats are
+          // moments in a conversation and replay fine either way, but the
+          // closing thank-you is an ending: seeing it while rewinding reads
+          // as a glitch. The small deadzone keeps jitter from flipping it.
+          let lastBeatP = 0;
+          let beatDir = 1;
+          let netFrame = 0;
+
+          // Keeps the map clear of the copy band. Cheap enough at this
+          // cadence, and it has to repeat: evaluating once as the network
+          // appears reads stale positions if the camera is still settling.
+          const yieldToCopy = () => {
+            const bandTop = copyRef.current
+              ? copyRef.current.getBoundingClientRect().top
+              : Infinity;
+            const mapTop = mapContRef.current
+              ? mapContRef.current.getBoundingClientRect().top
+              : 0;
+            netPeopleEls.forEach((el) => {
+              el.style.opacity =
+                el.getBoundingClientRect().bottom > bandTop ? "0" : "1";
+            });
+            NETWORK_ROUTES.forEach((coords, i) => {
+              const dips = coords.some(
+                (c) => map.project(c as [number, number]).y + mapTop > bandTop
+              );
+              map.setPaintProperty(`net${i}`, "line-opacity", dips ? 0 : 0.22);
+            });
+          };
 
           // the match made visible: when the conversation lands, the
           // stretch of road they will share glows faintly ahead of any
@@ -494,8 +523,14 @@ export default function JourneyScroll() {
             }
 
             // conversation beats follow their speakers
+            const dp = p - lastBeatP;
+            if (Math.abs(dp) > 0.0004) {
+              beatDir = dp > 0 ? 1 : -1;
+              lastBeatP = p;
+            }
             BEATS.forEach((b, i) => {
-              const on = p >= b.from && p <= b.to;
+              const on =
+                p >= b.from && p <= b.to && (b.speaker !== "car" || beatDir > 0);
               beatEls[i].style.opacity = on ? "1" : "0";
               if (!on) return;
               const pos =
@@ -510,21 +545,12 @@ export default function JourneyScroll() {
             // the wider city: other shared rides fade in for the last beat
             if (p > 0.8 && !netShown) {
               netShown = true;
-              NETWORK_ROUTES.forEach((_, i) =>
-                map.setPaintProperty(`net${i}`, "line-opacity", 0.22)
-              );
-              // Any rider that lands in the copy band stays hidden. The
-              // scrim darkens the map but a marker is a solid shape, and
-              // one sitting behind the headline reads as a defect rather
-              // than as part of the city.
-              const copyTop = copyRef.current
-                ? copyRef.current.getBoundingClientRect().top
-                : Infinity;
-              netPeopleEls.forEach((el) => {
-                const r = el.getBoundingClientRect();
-                el.style.opacity = r.bottom > copyTop ? "0" : "1";
-              });
-            } else if (p <= 0.78 && netShown) {
+              yieldToCopy();
+
+            } else if (netShown && netFrame++ % 12 === 0) {
+              yieldToCopy();
+            }
+            if (p <= 0.78 && netShown) {
               netShown = false;
               NETWORK_ROUTES.forEach((_, i) =>
                 map.setPaintProperty(`net${i}`, "line-opacity", 0)
