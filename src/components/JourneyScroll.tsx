@@ -169,6 +169,17 @@ export default function JourneyScroll() {
           return;
         }
         try {
+          const framePadding = () => {
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            return {
+              top: Math.round(Math.min(150, Math.max(64, vh * 0.15))),
+              bottom: Math.round(Math.min(400, Math.max(200, vh * 0.42))),
+              left: Math.round(Math.min(90, Math.max(28, vw * 0.09))),
+              right: Math.round(Math.min(90, Math.max(28, vw * 0.09))),
+            };
+          };
+
           const frame = () => {
             const lngs = ROUTE.coords.map((c) => c[0]);
             const lats = ROUTE.coords.map((c) => c[1]);
@@ -177,10 +188,13 @@ export default function JourneyScroll() {
                 [Math.min(...lngs), Math.min(...lats)],
                 [Math.max(...lngs), Math.max(...lats)],
               ],
-              // bottom padding reserves the copy band. The route and the
-              // rider markers compose above it instead of running through
-              // the headline, which no amount of scrim fully hides.
-              { padding: { top: 150, bottom: 400, left: 90, right: 90 } }
+              // Padding scales with the viewport. Fixed pixels were fine on
+              // a laptop and ruinous on a phone: 90px of side padding on a
+              // 320px screen left the route 140px to draw in, and 400px at
+              // the bottom left it 140px of height, so the whole corridor
+              // shrank into a corner. The bottom share still reserves the
+              // copy band; the scrim and the yield rule cover the rest.
+              { padding: framePadding() }
             );
             if (cam) map.jumpTo(cam);
           };
@@ -674,7 +688,7 @@ export default function JourneyScroll() {
           {/* phase copy */}
           <div
             ref={copyRef}
-            className="absolute inset-x-0 bottom-0 z-10 min-h-[424px] min-[390px]:min-h-[356px] md:min-h-0"
+            className="absolute inset-x-0 bottom-0 z-10"
           >
             <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-6 pb-16 sm:px-12 md:min-h-[200px] md:flex-row md:items-start md:justify-between md:pb-12">
               <div key={phase} className="fade-up md:h-[200px]">

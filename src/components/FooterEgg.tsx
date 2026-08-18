@@ -57,7 +57,7 @@ export default function FooterEgg() {
     <p
       id="nexstopp-wordmark"
       aria-hidden="true"
-      className="pointer-events-none relative mt-20 select-none overflow-hidden whitespace-nowrap font-[family-name:var(--font-display)] text-[clamp(88px,14vw,190px)] leading-[0.85] tracking-[-0.03em] text-[rgba(242,238,229,0.045)]"
+      className="pointer-events-none relative mt-20 select-none overflow-hidden whitespace-nowrap font-[family-name:var(--font-display)] text-[clamp(44px,17vw,190px)] leading-[0.85] tracking-[-0.03em] text-[rgba(242,238,229,0.045)]"
     >
       nexstopp
       <button
