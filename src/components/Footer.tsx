@@ -81,7 +81,10 @@ export default function Footer() {
           </p>
         </div>
         {/* map licenses require this credit; kept as quiet as legally sensible */}
-        <p className="mt-4 text-[10.5px] leading-relaxed text-[rgba(126,143,137,0.55)]">
+        {/* The OSM/CARTO credit is a licence requirement, so it has to be
+            readable. At rgba(126,143,137,0.55) it measured 2.49:1; the
+            solid token measures 5.53:1 and still reads as a whisper. */}
+        <p className="mt-4 text-[11px] leading-relaxed text-dusk-mute">
           Maps:{" "}
           <a href="https://www.openstreetmap.org/copyright" className="hover:text-dusk-mute" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a>
           {" "}·{" "}

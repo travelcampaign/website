@@ -28,12 +28,13 @@ export default function FooterEgg() {
 
   return (
     <p
+      aria-hidden="true"
       className="pointer-events-none relative mt-20 select-none overflow-hidden whitespace-nowrap font-[family-name:var(--font-display)] text-[clamp(88px,14vw,190px)] leading-[0.85] tracking-[-0.03em] text-[rgba(242,238,229,0.045)]"
     >
       nexstopp
       <button
         type="button"
-        aria-label="A small surprise"
+        tabIndex={-1}
         onClick={() => setTrips((t) => t + 1)}
         className="pointer-events-auto cursor-pointer text-[rgba(111,180,153,0.10)] transition-colors hover:text-[rgba(111,180,153,0.22)] focus-visible:text-[rgba(111,180,153,0.22)]"
       >
