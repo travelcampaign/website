@@ -75,7 +75,7 @@ export default function LaunchCountdown({ launchAt }: { launchAt: string }) {
           key={`k-${launched}`}
           className={`font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.22em] text-sage ${launched ? "launch-pop" : ""}`}
         >
-          {launched ? "We are live" : showClock ? "Counting down" : "Opening soon"}
+          {launched ? "Hyderabad is open" : showClock ? "Counting down" : "Early access soon"}
         </p>
 
         <h1
@@ -85,29 +85,28 @@ export default function LaunchCountdown({ launchAt }: { launchAt: string }) {
         >
           {launched ? (
             <>
-              Hyderabad, <em className="italic text-sage">start sharing.</em>
+              Hyderabad, <em className="italic text-sage">share the ride.</em>
             </>
           ) : (
             <>
-              The city goes home{" "}
-              <em className="italic text-sage">together, soon.</em>
+              Early access opens{" "}
+              <em className="italic text-sage">route by route.</em>
             </>
           )}
         </h1>
 
         {launched ? (
           <p className="mt-7 max-w-[52ch] text-[17px] leading-[1.7] text-dusk-dim">
-            Nexstopp is open in Hyderabad. Post your route, find the people
-            already going your way, and split the fuel between you.
+            Nexstopp is open in Hyderabad. Post your route, match with verified
+            commuters, and split fuel directly.
           </p>
         ) : (
           <p className="mt-7 max-w-[52ch] text-[17px] leading-[1.7] text-dusk-dim">
-            We open on a handful of busy routes first, so that rides actually
-            fill instead of being spread thin across the city. The waitlist
-            goes first.
+            We are opening busy Hyderabad corridors first so matches are useful
+            from day one. Waitlist members get the first invites.
             {!showClock && (
-              <> The date is not fixed yet. Join the waitlist and you will
-              hear it from us before anyone else.</>
+              <> The date is not fixed yet. Join the waitlist and we will tell
+              you when your route is opening.</>
             )}
           </p>
         )}
@@ -161,7 +160,7 @@ export default function LaunchCountdown({ launchAt }: { launchAt: string }) {
             href="/#how"
             className="press rounded-full border border-[rgba(242,238,229,0.18)] px-8 py-4 text-[15.5px] font-semibold text-dusk-text transition-colors hover:border-sage hover:text-sage"
           >
-            See how it works
+            How it works
           </a>
         </div>
       </div>

@@ -4,17 +4,17 @@
    the driver is the one opening their car to strangers. */
 
 const RIDING = [
-  "Post where you're going and when you leave",
-  "Get matched with a verified driver already going that way",
-  "See who is driving before you confirm, and they see you",
-  "Pay your share of the fuel directly to the driver, nothing on top",
+  "Find drivers already taking your office route",
+  "Check the driver profile before accepting",
+  "Share live trip status with trusted contacts",
+  "Pay only your fuel share, directly to the driver",
 ];
 
 const DRIVING = [
-  "Post your route once, or for every weekday",
-  "Approve who joins. Every rider is verified, and saying no is always allowed",
-  "Pickups sit on the route you were taking anyway",
-  "Your empty seats recover part of your fuel cost, and Nexstopp takes none of it",
+  "Turn empty seats into fuel savings",
+  "Approve every rider before they join",
+  "Keep pickups close to your existing route",
+  "Receive fuel contributions directly, with no commission",
 ];
 
 export default function TwoSides() {
@@ -27,9 +27,8 @@ export default function TwoSides() {
             <span className="text-sage-deep">one person.</span>
           </h2>
           <p className="mt-6 text-[16.5px] leading-[1.7] text-ink-soft">
-            Nexstopp is peer-to-peer: riders and drivers deal with each
-            other directly, and the same ride solves two problems at once.
-            Whichever seat you&apos;re in, here is what it looks like.
+            Riders reduce commute costs. Drivers recover part of their fuel.
+            Nexstopp connects both sides without taking a cut from the ride.
           </p>
         </div>
 
@@ -66,9 +65,8 @@ export default function TwoSides() {
         </div>
 
         <p className="mt-10 max-w-[58ch] text-[15px] leading-[1.7] text-ink-soft">
-          The two sides feed each other. Every driver who posts a route makes
-          the next rider&apos;s match better, and every rider makes the next
-          empty seat worth posting.
+          The first Hyderabad invites go corridor by corridor, so early users
+          see real matches instead of an empty app.
         </p>
       </div>
     </section>

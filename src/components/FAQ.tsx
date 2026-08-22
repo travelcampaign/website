@@ -5,23 +5,23 @@
 export const QA: { q: string; a: string }[] = [
   {
     q: "How do I know who I'm riding with?",
-    a: "Everyone on Nexstopp signs up with a verified phone number, and the Verified badge appears only after we review their identity documents. You are matched only with commuters whose route genuinely overlaps yours. Drivers see who is asking to join, riders see who is driving, and nobody is confirmed until both say yes.",
+    a: "Everyone signs up with a verified phone number. The Verified badge appears only after identity review. Drivers see who wants to join, riders see who is driving, and the ride is confirmed only when both sides accept.",
   },
   {
     q: "Who watches over my ride?",
-    a: "Your own people do. Amma, your partner, your best friend, whoever you choose. They can follow your live location for the whole ride. Press SOS, or go quiet and miss a check-in, and they get your location and ride details straight away, with 112 one tap from the same screen. We do not call the police for you. We make sure the people who love you know first.",
+    a: "The people you choose. Add a parent, partner or friend as a trusted contact. They can follow your live ride location. If you press SOS or miss a safety check-in, they get your location and ride details quickly. You can call 112 from the same screen.",
   },
   {
     q: "Why zero commission? What's the catch?",
-    a: "There isn't one. Riders pay the driver directly for their share of the fuel, and Nexstopp never touches that money, so there is nothing to take a cut of. Our only income is the optional membership plan, and safety is never something you pay for.",
+    a: "There is no ride commission because Nexstopp does not process ride payments. Riders pay the driver directly for fuel. Our income comes from optional membership plans, and safety is free on every plan.",
   },
   {
     q: "Is my location data shared or sold?",
-    a: "Your live location is shared only during a ride, and only with the co-riders on it and the guardians you chose. We do not sell data, to advertisers or anyone else. You can delete your account and personal data from inside the app.",
+    a: "Your live location is shared only during a ride, with your co-riders and the trusted contacts you chose. We do not sell personal data. You can delete your account and personal data from inside the app.",
   },
   {
     q: "When can I actually use it?",
-    a: "We are starting in Hyderabad. The first invites go to a small group from the waitlist, so that rides fill up properly on a few busy routes instead of being spread thin across the city. Join the waitlist and you will hear from us first.",
+    a: "We are starting in Hyderabad. The first invites go to people on a few busy routes, so matches are useful from day one. Join the waitlist and we will contact you when your route opens.",
   },
 ];
 
@@ -30,7 +30,7 @@ export default function FAQ() {
     <section id="faq" className="relative z-[4] -mt-[3px] bg-cream">
       <div className="mx-auto max-w-[840px] px-6 py-28 sm:px-12">
         <p className="font-[family-name:var(--font-mono)] text-[12px] uppercase tracking-[0.22em] text-sage-deep">
-          Fair questions
+          Questions people ask
         </p>
         <h2 className="mt-5 font-[family-name:var(--font-display)] text-[clamp(34px,4.2vw,50px)] font-normal leading-[1.1] tracking-[-0.01em] text-ink">
           Common <span className="text-sage-deep">questions.</span>

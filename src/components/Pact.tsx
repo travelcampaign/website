@@ -13,7 +13,7 @@ const PROMISES = [
     pre: "We take",
     accent: "zero commission",
     post: "on rides.",
-    sub: "Riders split fuel costs between themselves, and we never touch that money.",
+    sub: "Riders pay drivers directly for fuel. Nexstopp does not hold or cut that payment.",
     ember: false,
   },
   {
@@ -21,7 +21,7 @@ const PROMISES = [
     pre: "Your data is",
     accent: "not for sale.",
     post: "",
-    sub: "We never sell it to advertisers, and we never share it with anyone else.",
+    sub: "We do not sell personal data to advertisers or data brokers.",
     ember: false,
   },
   {
@@ -29,7 +29,7 @@ const PROMISES = [
     pre: "Safety is",
     accent: "free for everyone.",
     post: "",
-    sub: "It will never become a paid extra.",
+    sub: "Live location sharing, trusted contacts and SOS stay free.",
     ember: true,
   },
   {
@@ -37,7 +37,7 @@ const PROMISES = [
     pre: "We profit only when",
     accent: "you profit more.",
     post: "",
-    sub: "We earn from membership, never from your rides.",
+    sub: "Ride money stays between riders and drivers.",
     ember: false,
   },
 ];
@@ -76,7 +76,7 @@ export default function Pact() {
               Four promises we are built on.
             </h2>
             <p className="mt-6 max-w-[36ch] text-[15.5px] leading-[1.7] text-dusk-dim">
-              Written down, in plain words, so you can hold us to them.
+              Clear rules make it easier to trust a new way to commute.
             </p>
             <p className="mt-8 font-[family-name:var(--font-display)] text-[22px] italic text-sage">
               Nexstopp

@@ -46,7 +46,7 @@ export default function FooterEgg() {
   useEffect(() => {
     // eslint-disable-next-line no-console
     console.log(
-      "%cnexstopp%c.\n%cYou looked under the hood. The city goes home together,\nand so does this codebase. Try typing: ghar\nSay hello: hello@nexstopp.com",
+      "%cnexstopp%c.\n%cYou looked under the hood. Verified shared commutes, zero ride commission.\nTry typing: ghar\nSay hello: hello@nexstopp.com",
       "font-size:24px;font-weight:bold;color:#F2EEE5;background:#101918;padding:8px 2px 8px 12px;",
       "font-size:24px;font-weight:bold;color:#6FB499;background:#101918;padding:8px 12px 8px 0;",
       "color:#7E8F89;font-size:12px;line-height:1.6;"

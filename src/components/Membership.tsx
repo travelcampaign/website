@@ -15,9 +15,9 @@ export default function Membership() {
             Safety is <span className="text-sage-deep">free. Always.</span>
           </h2>
           <p className="mt-6 text-[16.5px] leading-[1.7] text-ink-soft">
-            Every protection, from live GPS to guardians to SOS, is free on
-            every plan, forever. Membership only changes how many ride matches you
-            get. And we never take a cut of the ride.
+            Every rider gets live location sharing, trusted contacts and SOS.
+            Paid membership only raises ride and match limits. Nexstopp never
+            takes a commission from rides.
           </p>
         </div>
 
@@ -45,7 +45,7 @@ export default function Membership() {
               ))}
             </ul>
             <p className="mt-8 text-[13.5px] leading-relaxed text-ink-soft">
-              This is the default. Nobody is nudged off it.
+              Start sharing rides without paying for a plan.
             </p>
           </div>
 
@@ -83,8 +83,8 @@ export default function Membership() {
               Join the waitlist
             </a>
             <p className="mt-5 text-[13px] leading-relaxed text-ink-soft">
-              Everything about safety stays the same on both plans. Plus only
-              raises the limits above, so take it if you ride most days.
+              Choose Plus when you commute often and want more matches. Safety
+              stays the same on both plans.
             </p>
           </div>
         </div>
@@ -100,9 +100,8 @@ export default function Membership() {
               commission <span className="text-sage-deep">on rides.</span>
             </p>
             <p className="mt-3 max-w-[46ch] text-[15px] leading-[1.7] text-ink-soft">
-              Riders pay the driver directly for fuel. Nexstopp never touches
-              that money and never takes a percentage. Membership is our only
-              income.
+              Riders pay the driver directly for fuel. Nexstopp does not hold
+              that money or take a percentage. Membership is our only income.
             </p>
           </div>
         </div>

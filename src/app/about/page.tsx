@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "About",
   alternates: { canonical: "/about" },
   description:
-    "Why Nexstopp exists: community-run ride sharing for India where the platform only does well when riders do. Zero commission, safety free for everyone, starting in Hyderabad.",
+    "Nexstopp helps Hyderabad commuters share regular routes with verified riders, live safety sharing, and zero ride commission.",
 };
 
 /* Every sentence here is a commitment the product already keeps. No team
@@ -20,22 +20,22 @@ export const metadata: Metadata = {
 const STANCES = [
   {
     title: "We never touch the ride money",
-    body: "Riders split fuel costs with each other, directly. Nexstopp takes no commission and holds no wallet, so there is no percentage to quietly raise later. Membership is our only income, and it stays optional.",
+    body: "Riders pay drivers directly for fuel. Nexstopp takes no ride commission and does not hold a platform wallet. Membership is our only income, and it stays optional.",
     tone: "paper" as const,
   },
   {
     title: "Safety is never the paid tier",
-    body: "Live GPS for the people you trust, check-ins when something looks wrong, SOS with your exact location. All of it free, for every rider, always. A safety feature you have to pay for is a ransom, not a feature.",
+    body: "Live GPS for trusted contacts, safety check-ins and SOS are free for every rider. Paid plans can raise limits, but they do not unlock safety.",
     tone: "night" as const,
   },
   {
     title: "Your data is not the business",
-    body: "Location is shared only during a ride, only with your co-riders and the people you chose. We do not sell data. The business has to survive on membership alone, and that is deliberate: it means we depend on your trust, not your data.",
+    body: "Location is shared only during a ride, with your co-riders and the trusted contacts you choose. We do not sell personal data.",
     tone: "tinted" as const,
   },
   {
-    title: "One city, done properly",
-    body: "We are starting in Hyderabad, on a handful of busy routes, so that rides actually fill. A ride app with no one on your route is a brochure. Depth first, then the next city.",
+    title: "Hyderabad first",
+    body: "We are opening route by route in Hyderabad so early users find real matches. A shared commute app works best when people on the same corridor join together.",
     tone: "paper" as const,
   },
 ];
@@ -52,14 +52,14 @@ export default function AboutPage() {
               About Nexstopp
             </p>
             <h1 className="mt-6 max-w-[16ch] font-[family-name:var(--font-display)] text-[clamp(40px,5.6vw,68px)] font-normal leading-[1.08] tracking-[-0.015em] text-dusk-text">
-              Built so the city can{" "}
-              <em className="italic text-sage">trust its own people.</em>
+              Built for India&apos;s{" "}
+              <em className="italic text-sage">everyday commute.</em>
             </h1>
             <p className="mt-7 max-w-[52ch] text-[17px] leading-[1.7] text-dusk-dim">
-              Every evening, thousands of cars leave the same offices for the
-              same neighbourhoods, one person in each. Nexstopp exists to let
-              those people ride together without a middleman taking the money
-              or owning the trust.
+              The same office routes repeat every morning and evening.
+              Nexstopp helps verified riders and drivers on those routes find
+              each other, share the ride, and split fuel without paying a ride
+              commission.
             </p>
           </div>
           <div className="bridge-to-cream" aria-hidden="true" />
@@ -104,11 +104,10 @@ export default function AboutPage() {
                 Where we are <span className="text-sage-deep">right now.</span>
               </h2>
               <p className="mt-5 text-[16px] leading-[1.75] text-ink-soft">
-                Nexstopp is being built in Hyderabad, for Hyderabad first. The
-                app exists, the safety system exists, and the first riders come
-                from the waitlist. We would rather tell you that plainly than
-                pretend to be bigger than we are. The people who join now
-                shape what this becomes.
+                Nexstopp is being built for Hyderabad first. The first invites
+                go to waitlist members on routes where we can create useful
+                matches. Join now, tell us your commute, and help us open the
+                right corridors first.
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
                 <a

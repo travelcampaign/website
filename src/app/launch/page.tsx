@@ -7,7 +7,7 @@ import { LAUNCH_AT, LAUNCH_LABEL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Launch",
   alternates: { canonical: "/launch" },
-  description: `Nexstopp opens in Hyderabad on ${LAUNCH_LABEL}. Shared rides with zero commission and safety features that are free for every rider.`,
+  description: `Nexstopp early access opens in Hyderabad on ${LAUNCH_LABEL}. Match with verified commuters, split fuel directly, and pay zero ride commission.`,
 };
 
 export default function LaunchPage() {

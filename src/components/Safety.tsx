@@ -7,23 +7,23 @@
    stops escalates from sage to ember the way a real evening can. */
 const STOPS = [
   {
-    title: "Your own people, not a call centre",
-    body: "You choose who watches over you: a parent, a partner, a close friend. They can see your ride live, and they are the first to know if something feels off.",
+    title: "Live trip sharing for trusted contacts",
+    body: "Add a parent, partner or friend. During a ride, they can follow your location on the map.",
     ember: false,
   },
   {
-    title: "Live GPS on every ride",
-    body: "During a ride, the people you chose can see the car's live position on the map, not just the last place it was seen.",
+    title: "Safety check-ins when something looks unusual",
+    body: "If the ride stops for too long or moves far from the route, Nexstopp asks if you are okay.",
     ember: false,
   },
   {
-    title: "If you go quiet, we ask",
-    body: "If the car stays still for too long, or goes far off the planned route, the app asks if you are okay. If you don't reply, your guardians are alerted and can see exactly where you are.",
+    title: "Missed check-ins alert your contacts",
+    body: "If you do not reply, your trusted contacts receive your location and ride details.",
     ember: true,
   },
   {
-    title: "Emergency, one tap away",
-    body: "One tap on SOS shares your exact location with your guardians and keeps updating it. The app also helps you call 112 straight away.",
+    title: "SOS with location sharing",
+    body: "Tap SOS to share your live location with trusted contacts and call 112 from the same screen.",
     ember: true,
   },
 ];
@@ -46,7 +46,8 @@ export default function Safety() {
                 <strong className="font-semibold">Every protection here is free, for every rider.</strong>
               </p>
               <p className="mt-2 max-w-[42ch] text-[15.5px] leading-[1.65] text-dusk-dim">
-                Safety is the reason Nexstopp exists, so it never moves behind a plan.
+                The features people depend on most are never locked behind a
+                paid plan.
               </p>
 
               {/* guardian motif — framed, not floating */}
@@ -59,7 +60,7 @@ export default function Safety() {
                 <div>
                   <p className="text-[14.5px] font-semibold text-dusk-text">The 30-minute rule</p>
                   <p className="text-[13px] text-dusk-dim">
-                    Guardians stay connected until after you&apos;ve arrived.
+                    Contacts stay connected after arrival.
                   </p>
                 </div>
               </div>

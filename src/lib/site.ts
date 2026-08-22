@@ -10,7 +10,7 @@ export const WAITLIST_URL =
 
 export const CONTACT_EMAIL = "hello@nexstopp.com";
 
-export const TAGLINE = "The city goes home together";
+export const TAGLINE = "Verified shared commutes. Zero ride commission.";
 
 /* The launch moment, in one place, as an ISO instant with the IST offset
    spelled out so it means the same thing on every machine that reads it.

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Safety",
   alternates: { canonical: "/safety" },
   description:
-    "How Nexstopp keeps riders safe: guardians you choose watching live GPS, check-ins when something looks off, one-tap SOS, and help reaching 112. All of it free, for every rider.",
+    "Nexstopp safety includes verified riders, live location sharing with trusted contacts, safety check-ins, SOS, and quick access to 112.",
 };
 
 /* The safety page states exactly what the product does, then states what it
@@ -15,31 +15,31 @@ export const metadata: Metadata = {
 
 const LAYERS = [
   {
-    title: "Verified people, matched by route",
-    body: "Everyone signs up with a verified phone number, and the Verified badge appears only after identity documents are reviewed. You ride with commuters whose route genuinely overlaps yours, and nobody joins a ride until both sides say yes.",
+    title: "Verified people on relevant routes",
+    body: "Everyone signs up with a verified phone number. The Verified badge appears only after identity review. You match with commuters whose route overlaps yours.",
   },
   {
-    title: "Guardians you choose",
-    body: "Pick the people who watch over you: a parent, a partner, a close friend. During a ride they can open your live location and follow the car on the map for the whole trip.",
+    title: "Live sharing with trusted contacts",
+    body: "Add a parent, partner or friend. During a ride they can open your live location and follow the trip on the map.",
   },
   {
-    title: "Check-ins when something looks off",
-    body: "If the car stays still too long, or drifts far from the planned route, the app asks if you are okay. No reply, and your guardians are alerted with your exact position.",
+    title: "Check-ins for unusual ride activity",
+    body: "If the ride stays still too long or moves far from the planned route, the app asks if you are okay. If you do not reply, your trusted contacts get your position.",
   },
   {
     title: "SOS, one tap",
-    body: "One tap shares your live location with your guardians and keeps updating it while they watch. The app also helps you call 112 immediately.",
+    body: "Tap SOS to share your live location with your trusted contacts. The same screen helps you call 112.",
   },
   {
-    title: "The 30-minute rule",
-    body: "Guardians stay connected for half an hour after your ride ends, because arriving at the drop point is not the same as being home.",
+    title: "30 minutes after the ride",
+    body: "Trusted contacts stay connected for half an hour after the ride ends, so the safety window does not stop at the drop point.",
   },
 ];
 
 const LIMITS = [
-  "We do not call the police for you. We help you call 112 and make sure the people who love you know exactly where you are, immediately.",
-  "We do not watch you between rides. Location is shared during a ride only, and only with your co-riders and the guardians you chose.",
-  "We do not charge for any of this. Safety features never appear on a pricing page, and never will.",
+  "We do not call the police for you. We help you call 112 and share your location with the people you selected.",
+  "We do not watch you between rides. Location sharing runs during an active ride only.",
+  "We do not charge for safety. These features are free on every plan.",
 ];
 
 export default function SafetyPage() {
@@ -53,13 +53,13 @@ export default function SafetyPage() {
               Safety
             </p>
             <h1 className="mt-6 max-w-[15ch] font-[family-name:var(--font-display)] text-[clamp(40px,5.6vw,68px)] font-normal leading-[1.08] tracking-[-0.015em] text-dusk-text">
-              Someone always knows{" "}
-              <em className="italic text-sage">you&apos;re moving.</em>
+              Safety features designed for{" "}
+              <em className="italic text-sage">shared rides.</em>
             </h1>
             <p className="mt-7 max-w-[50ch] text-[17px] leading-[1.7] text-dusk-dim">
-              Every protection on this page is free, for every rider, on every
-              ride. This is the reason Nexstopp exists, so it is the one part
-              of the product that money can never touch.
+              Share live location with trusted contacts, get check-ins when a
+              ride looks unusual, and use SOS when something feels wrong. Every
+              safety feature here is free.
             </p>
           </div>
         </header>
@@ -90,7 +90,7 @@ export default function SafetyPage() {
           <div className="relative z-[2] mx-auto max-w-[900px] px-6 pb-24 sm:px-12">
             <div className="rounded-[18px] border border-[rgba(249,115,22,0.25)] bg-[rgba(249,115,22,0.06)] p-8">
               <h2 className="font-[family-name:var(--font-display)] text-[26px] font-normal text-dusk-text">
-                What we don&apos;t promise
+                What Nexstopp does not do
               </h2>
               <ul className="mt-6 flex flex-col gap-4">
                 {LIMITS.map((l) => (

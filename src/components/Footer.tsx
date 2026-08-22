@@ -42,8 +42,8 @@ export default function Footer() {
               nexstopp<span className="italic text-sage">.</span>
             </p>
             <p className="mt-4 max-w-[34ch] text-[14.5px] leading-[1.7] text-dusk-mute">
-              Community-run ride sharing for India, with safety built in and
-              zero commission.
+              Verified shared commutes for India, with live safety sharing and
+              zero ride commission.
             </p>
           </div>
 

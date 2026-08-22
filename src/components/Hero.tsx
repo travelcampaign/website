@@ -15,7 +15,7 @@ export default function Hero() {
           className="hero-enter font-[family-name:var(--font-mono)] text-[12px] tracking-[0.06em] text-sage"
           style={{ "--enter-delay": "50ms" } as React.CSSProperties}
         >
-          Shared rides for India · Starting in Hyderabad
+          Verified shared commutes · Starting in Hyderabad
         </p>
 
         {/* headline */}
@@ -31,9 +31,9 @@ export default function Hero() {
           className="hero-enter mt-7 max-w-[47ch] text-lg leading-[1.65] text-dusk-dim"
           style={{ "--enter-delay": "280ms" } as React.CSSProperties}
         >
-          Share your daily commute with verified commuters going your way.
-          Split the fuel cost, pay no commission, and let someone you trust
-          follow the ride live until half an hour after you arrive.
+          Nexstopp matches riders and drivers already taking the same route.
+          Split fuel directly, pay zero ride commission, and share live trip
+          status with people you trust.
         </p>
 
         {/* CTAs */}
@@ -53,7 +53,7 @@ export default function Hero() {
             href="#how-it-works"
             className="press hairline rounded-full border px-7 py-4 text-base text-dusk-text transition-colors hover:border-[rgba(242,238,229,0.28)]"
           >
-            See how it works
+            How it works
           </a>
         </div>
 

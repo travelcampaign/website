@@ -55,22 +55,22 @@ export const metadata: Metadata = {
     template: "%s | Nexstopp",
   },
   description:
-    "Share your daily commute with verified commuters going your way in Hyderabad. Split fuel costs directly, pay zero commission, and let someone you trust follow the ride live.",
+    "Nexstopp matches verified riders and drivers on daily routes in Hyderabad. Split fuel directly, pay zero ride commission, and share live trip status with trusted contacts.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: SITE_URL,
     siteName: SITE_NAME,
     locale: "en_IN",
-    title: "Nexstopp | The city goes home together",
+    title: "Nexstopp | Verified shared commutes. Zero ride commission.",
     description:
-      "Shared rides for India with safety built in. Riders split fuel costs directly and Nexstopp takes no commission.",
+      "Match with verified commuters on your daily route in Hyderabad. Split fuel directly and keep safety sharing on every ride.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nexstopp | The city goes home together",
+    title: "Nexstopp | Verified shared commutes. Zero ride commission.",
     description:
-      "Shared rides for India with safety built in. Zero commission, and someone you trust watches over the ride.",
+      "Daily route matching for Hyderabad commuters, with verified riders, live safety sharing, and zero ride commission.",
   },
   robots: {
     index: true,
@@ -96,7 +96,7 @@ const ORG_JSONLD = {
       url: SITE_URL,
       email: CONTACT_EMAIL,
       description:
-        "Community-run ride sharing for India with safety built in and zero commission.",
+        "Verified shared commutes for India with safety sharing and zero ride commission.",
       foundingLocation: { "@type": "Place", name: "Hyderabad, India" },
       logo: `${SITE_URL}/apple-touch-icon.svg`,
     },

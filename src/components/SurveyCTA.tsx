@@ -9,12 +9,12 @@ export default function SurveyCTA() {
       <div className="relative z-[2] mx-auto max-w-[900px] px-6 py-32 text-center sm:px-12">
         <div>
           <h2 className="mx-auto max-w-[18ch] font-[family-name:var(--font-display)] text-[clamp(38px,5.4vw,62px)] font-normal leading-[1.08] tracking-[-0.01em] text-dusk-text">
-            Be there when the city starts{" "}
-            <em className="italic text-sage">sharing.</em>
+            Be first on your{" "}
+            <em className="italic text-sage">Hyderabad route.</em>
           </h2>
           <p className="mx-auto mt-6 max-w-[44ch] text-[16.5px] leading-[1.7] text-dusk-dim">
-            We are launching in Hyderabad, and the people who join early get a
-            real say in how it works.
+            Join the waitlist and tell us where you commute. We will invite
+            the first users by route, not randomly.
           </p>
           <div className="mt-10">
             <a

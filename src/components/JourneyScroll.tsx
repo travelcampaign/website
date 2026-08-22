@@ -31,7 +31,7 @@ const PHASES = [
     eyebrow: "01 · The route",
     title: "Post your",
     accent: "route.",
-    sub: "Where you start from, where you're going, and when you leave. Post it once, or for every weekday.",
+    sub: "Add your pickup, destination and leaving time. Save regular office routes once and reuse them.",
     ember: false,
   },
   {
@@ -39,7 +39,7 @@ const PHASES = [
     eyebrow: "02 · The match",
     title: "Find your",
     accent: "people.",
-    sub: "Two commuters are already heading the same way. Their pickup points sit on the route the driver was taking anyway, so nobody drives extra.",
+    sub: "Get matched with verified commuters whose route overlaps yours. A ride starts only after both sides accept.",
     ember: false,
   },
   {
@@ -47,7 +47,7 @@ const PHASES = [
     eyebrow: "03 · The watch",
     title: "Know your",
     accent: "ride.",
-    sub: "You see who is driving before you confirm. While you ride, the people you trust follow the car live, and the app checks on you if anything goes quiet.",
+    sub: "See the driver before you confirm. During the ride, trusted contacts can follow your live location.",
     ember: true,
   },
   {
@@ -60,7 +60,7 @@ const PHASES = [
     // pays the driver) and repeated the ₹0 point. This adds what the
     // ledger cannot: that the zero is structural. We hold no wallet, so
     // there is no percentage anyone could quietly raise later.
-    sub: "There is no wallet and no payout to wait for. You settle it between yourselves.",
+    sub: "Riders pay the driver directly for fuel. Nexstopp takes zero commission from the ride.",
     ember: false,
   },
 ];
